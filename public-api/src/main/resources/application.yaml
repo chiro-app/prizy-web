@@ -1,0 +1,8 @@
+graphql:
+  packages:
+    - io.prizy.publicapi
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
