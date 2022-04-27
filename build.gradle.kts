@@ -1,20 +1,22 @@
 plugins {
-  kotlin("jvm") apply false
-  kotlin("kapt") apply false
-  kotlin("plugin.jpa") apply false
-  kotlin("plugin.spring") apply false
-  kotlin("plugin.allopen") apply false
+  java
   id("io.spring.dependency-management")
 }
 
 version = file("version.txt").readText().trim()
 group = "io.prizy"
 
+java {
+  sourceCompatibility = JavaVersion.VERSION_17
+  targetCompatibility = JavaVersion.VERSION_17
+}
+
 subprojects {
   version = rootProject.version
   group = rootProject.group
 
   apply {
+    plugin("java")
     plugin("io.spring.dependency-management")
   }
 
@@ -37,5 +39,9 @@ subprojects {
       }
 
     }
+  }
+
+  tasks.withType(JavaCompile::class.java) {
+    options.compilerArgs.add("--enable-preview")
   }
 }

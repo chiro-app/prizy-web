@@ -1,9 +1,13 @@
-plugins {
-  kotlin("jvm")
-}
-
 dependencies {
   implementation(project(":toolbox"))
-  implementation(kotlin("stdlib"))
-  implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core")
+
+  implementation("org.springframework:spring-tx")
+
+  implementation("org.slf4j:slf4j-api")
+
+  compileOnly("org.projectlombok:lombok")
+  annotationProcessor("org.projectlombok:lombok")
+
+  testCompileOnly("org.projectlombok:lombok")
+  testAnnotationProcessor("org.projectlombok:lombok")
 }

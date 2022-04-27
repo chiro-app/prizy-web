@@ -1,7 +1,7 @@
 package io.prizy.publicapi.port.contest.mapper
 
-import io.prizy.domain.referral.model.Referral
-import io.prizy.publicapi.port.contest.graphql.dto.ReferralDto
+import io.prizy.domain.referral.model.ReferralNode
+import io.prizy.publicapi.port.contest.graphql.dto.ReferralNodeDto
 
 /**
  *  @author Nidhal Dogga
@@ -10,6 +10,11 @@ import io.prizy.publicapi.port.contest.graphql.dto.ReferralDto
 
 object ReferralDtoMapper {
 
-  fun map(referral: Referral): ReferralDto = ReferralDto(referral.id)
+  fun map(referralNode: ReferralNode): ReferralNodeDto = ReferralNodeDto(
+    referralNode.userId,
+    referralNode.code,
+    referralNode.confirmed,
+    referralNode.referrerId.orElse(null)
+  )
 
 }

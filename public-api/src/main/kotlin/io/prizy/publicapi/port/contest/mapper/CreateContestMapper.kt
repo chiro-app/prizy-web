@@ -4,6 +4,7 @@ import io.prizy.domain.contest.command.CreateContest
 import io.prizy.domain.contest.model.ContestCategory
 import io.prizy.publicapi.port.contest.graphql.dto.ContestCategoryDto
 import io.prizy.publicapi.port.contest.graphql.dto.CreateContestDto
+import java.util.Optional
 
 /**
  *  @author Nidhal Dogga
@@ -13,22 +14,22 @@ import io.prizy.publicapi.port.contest.graphql.dto.CreateContestDto
 object CreateContestMapper {
 
   fun map(dto: CreateContestDto): CreateContest = CreateContest(
-    name = dto.name,
-    description = dto.description,
-    category = map(dto.category),
-    fromDate = dto.fromDate,
-    toDate = dto.toDate,
-    mediaIds = dto.mediaIds,
-    coverMediaId = dto.coverMediaId,
-    packs = dto.packs.map(CreatePackMapper::map),
-    cost = dto.cost,
-    facebookPage = dto.facebookPage,
-    instagramPage = dto.instagramPage,
-    website = dto.website,
-    newsletterSubscription = dto.newsletterSubscription,
-    adultOnly = dto.adultOnly,
-    merchant = MerchantDtoMapper.map(dto.merchant),
-    boardId = dto.boardId,
+    dto.name,
+    dto.description,
+    map(dto.category),
+    dto.fromDate,
+    dto.toDate,
+    dto.mediaIds,
+    dto.coverMediaId,
+    dto.packs.map(CreatePackMapper::map),
+    dto.cost,
+    Optional.ofNullable(dto.facebookPage),
+    Optional.ofNullable(dto.instagramPage),
+    Optional.ofNullable(dto.website),
+    dto.newsletterSubscription,
+    dto.adultOnly,
+    MerchantDtoMapper.map(dto.merchant),
+    dto.boardId,
   )
 
   fun map(dto: ContestCategoryDto): ContestCategory = ContestCategory.valueOf(dto.name)

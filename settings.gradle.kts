@@ -30,5 +30,5 @@ rootProject.name = "prizy-web"
 
 include("domain")
 include("toolbox")
-include("jpa-adapter")
+include("adapter")
 include("public-api")

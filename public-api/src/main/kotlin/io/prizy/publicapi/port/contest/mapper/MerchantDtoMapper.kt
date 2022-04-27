@@ -12,11 +12,11 @@ object MerchantDtoMapper {
 
   fun map(dto: MerchantDto): Merchant {
     return Merchant(
-      name = dto.name,
-      address = dto.address,
-      siren = dto.siren,
-      logoMediaId = dto.logoMediaId,
-      capital = dto.capital,
+      dto.name,
+      dto.siren,
+      dto.capital,
+      dto.address,
+      dto.logoMediaId,
     )
   }
 

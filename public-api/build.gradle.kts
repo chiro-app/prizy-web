@@ -25,8 +25,8 @@ repositories {
 
 dependencies {
   implementation(project(":domain"))
+  implementation(project(":adapter"))
   implementation(project(":toolbox"))
-  implementation(project(":jpa-adapter"))
 
   implementation(kotlin("reflect"))
 

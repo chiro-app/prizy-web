@@ -4,7 +4,7 @@ import com.expediagroup.graphql.server.operations.Query
 import io.prizy.domain.contest.service.ContestService
 import io.prizy.domain.contest.service.ContestSubscriptionService
 import io.prizy.publicapi.port.contest.graphql.dto.ContestDto
-import io.prizy.publicapi.port.contest.graphql.dto.ReferralDto
+import io.prizy.publicapi.port.contest.graphql.dto.ReferralNodeDto
 import io.prizy.publicapi.port.contest.mapper.ContestDtoMapper
 import io.prizy.publicapi.port.contest.mapper.ReferralDtoMapper
 import org.springframework.stereotype.Component
@@ -24,6 +24,7 @@ class ContestQuery(
   suspend fun contestById(id: UUID): ContestDto? {
     return contestService
       .contestById(id)
+      .orElse(null)
       ?.let(ContestDtoMapper::map)
   }
 
@@ -43,7 +44,7 @@ class ContestQuery(
     return contestSubscriptionService.isUserSubscribed(contestId, userId)
   }
 
-  suspend fun subscribedReferrals(contestId: UUID): List<ReferralDto> {
+  suspend fun subscribedReferrals(contestId: UUID): List<ReferralNodeDto> {
     val userId = UUID.randomUUID()
     return contestSubscriptionService
       .subscribedReferrals(userId, contestId)

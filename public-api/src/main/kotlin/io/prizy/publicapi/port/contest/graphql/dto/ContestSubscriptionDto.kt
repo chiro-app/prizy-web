@@ -14,5 +14,5 @@ data class ContestSubscriptionDto(
   val id: UUID,
   val userId: UUID,
   val contestId: UUID,
-  val subscriptionDateTime: Instant
+  val dateTime: Instant
 )
