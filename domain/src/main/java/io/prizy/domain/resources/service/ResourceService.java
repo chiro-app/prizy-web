@@ -1,15 +1,15 @@
 package io.prizy.domain.resources.service;
 
+import java.util.UUID;
+
 import io.prizy.domain.contest.ports.ContestRepository;
 import io.prizy.domain.resources.ports.ResourceRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-import java.util.UUID;
-
 /**
- *  @author Nidhal Dogga
- *  @created 4/24/2022 12:34 AM
+ * @author Nidhal Dogga
+ * @created 4/24/2022 12:34 AM
  */
 
 @Slf4j

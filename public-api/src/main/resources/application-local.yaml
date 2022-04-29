@@ -7,3 +7,31 @@ spring:
 graphql:
   playground:
     enabled: true
+
+prizy:
+  security:
+    issuer: prizy-local
+    algorithm: RS256
+    public-key: |
+      -----BEGIN PUBLIC KEY-----
+      MIGeMA0GCSqGSIb3DQEBAQUAA4GMADCBiAKBgFZ5h4oOvSxfBqHHZSmOiPpYcGt2
+      i7+CBynaH5a0KCvMEn05+trRcLzzNrqgJz7CzoK/BIzhu3q1vBAnvDCSow5fXhNY
+      kKlDWJ5ljWnDaAIlMrceQRwtcTWpQorJGKWcfoOn4Qf1AEqiLu3KhlUQPsNl2ep5
+      ch9YdGZArtrVG2WBAgMBAAE=
+      -----END PUBLIC KEY-----
+    private-key: |
+      -----BEGIN RSA PRIVATE KEY-----
+      MIICWgIBAAKBgFZ5h4oOvSxfBqHHZSmOiPpYcGt2i7+CBynaH5a0KCvMEn05+trR
+      cLzzNrqgJz7CzoK/BIzhu3q1vBAnvDCSow5fXhNYkKlDWJ5ljWnDaAIlMrceQRwt
+      cTWpQorJGKWcfoOn4Qf1AEqiLu3KhlUQPsNl2ep5ch9YdGZArtrVG2WBAgMBAAEC
+      gYBJo4pBjdWYsH9USxmhruiEz8VELhpJhjAVetNFobtHuKvSCgrORmaL8U2c1X82
+      GeyEOKhmVGAz2gkBdOT0NBs3xUcMQmnKEo/ZN3zBbzpHQ09c8b8S++P8fTK+heuD
+      ROlBrVmB0K2YBueJogNQACDzyVzQChwIoYYYFc1g8VECsQJBAKqM3hzUxLaWxtDJ
+      PQVihHy0nP0SHYfwJfAKix3cRXbCeDXgcg+j7Cfz871fo3V60cDfhSEwmZaWDlHP
+      FLp8z5UCQQCBzPU1nVTagipVwPkt1le4aoFCoxORfH2vGmnR5UHK9DXyRRCw6Qv6
+      Bg7M/yAn1PeJknp8p29IXOAINNZ0JnM9AkBxlQs/bDvt1hBmb/8hnPDbFHYQ3IWq
+      SLcbXAo2QsJIS08/olCUNflKyl8jWZRE4xzaNII3DmTbMugqd504bXLZAkAlwGvN
+      JS5JwzP27wJKH54xx+BCdlW5qcCQThla79fb5H1QMmAxZAaUuHBTlRxQGXPJcm3n
+      lXcbT8/k8yEwdQJtAkBoPoZJcqXSxHCpJbKM3QTzK5FF7s+ZWmbG2ilgpO15p16e
+      iJjNj73k9YvkJgWd5XFX7FVxCa2bw+ZpAnNqixwv
+      -----END RSA PRIVATE KEY-----

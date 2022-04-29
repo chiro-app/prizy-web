@@ -28,11 +28,14 @@ subprojects {
     dependencies {
 
       val graphqlKotlinVersion: String by project
+      val bouncyCastleVersion: String by project
       val springBootVersion: String by project
       val mustacheVersion: String by project
 
       dependency("com.expediagroup:graphql-kotlin-spring-server:$graphqlKotlinVersion")
       dependency("com.github.spullara.mustache.java:compiler:$mustacheVersion")
+      dependency("org.bouncycastle:bcprov-jdk15on:$bouncyCastleVersion")
+      dependency("org.bouncycastle:bcpkix-jdk15on:$bouncyCastleVersion")
 
       imports {
         mavenBom("org.springframework.boot:spring-boot-dependencies:$springBootVersion")

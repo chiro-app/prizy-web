@@ -12,9 +12,6 @@ object ReferralDtoMapper {
 
   fun map(referralNode: ReferralNode): ReferralNodeDto = ReferralNodeDto(
     referralNode.userId,
-    referralNode.code,
     referralNode.confirmed,
-    referralNode.referrerId.orElse(null)
   )
-
 }
