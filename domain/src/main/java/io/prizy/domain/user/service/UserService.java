@@ -1,9 +1,11 @@
 package io.prizy.domain.user.service;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import io.prizy.domain.auth.model.Roles;
 import io.prizy.domain.user.exception.UserExistsException;
 import io.prizy.domain.user.exception.UserNotFoundException;
 import io.prizy.domain.user.mapper.CreateUserMapper;
@@ -38,6 +40,7 @@ public class UserService {
     }
     var user = CreateUserMapper
       .map(create)
+      .withRoles(List.of(Roles.USER))
       .withPasswordHash(passwordHasher.hash(create.password()));
     return repository.save(user);
   }
@@ -51,6 +54,10 @@ public class UserService {
 
   public Optional<User> getUser(UUID id) {
     return repository.byId(id);
+  }
+
+  public Optional<User> getUserByEmailOrUsername(String emailOrUsername) {
+    return repository.byEmailOrUsername(emailOrUsername);
   }
 
   public Collection<User> listUsers() {

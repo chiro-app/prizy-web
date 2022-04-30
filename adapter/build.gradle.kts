@@ -19,6 +19,7 @@ dependencies {
   implementation("org.springframework.security:spring-security-crypto")
 
   implementation("org.flywaydb:flyway-core")
+  implementation("com.vladmihalcea:hibernate-types-55")
 
   runtimeOnly("org.postgresql:postgresql")
 

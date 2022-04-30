@@ -2,6 +2,7 @@ package io.prizy.domain.user.model;
 
 import java.time.Instant;
 import java.time.LocalDate;
+import java.util.Collection;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -28,6 +29,7 @@ public record User(
   Optional<String> avatarMediaId,
   Optional<String> mobilePhone,
   UserStatus status,
+  Collection<String> roles,
   Instant created,
   Optional<UUID> addressId
 ) {

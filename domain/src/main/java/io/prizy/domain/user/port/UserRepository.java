@@ -20,6 +20,8 @@ public interface UserRepository {
 
   Optional<User> byId(UUID id);
 
+  Optional<User> byEmailOrUsername(String emailOrUsername);
+
   Boolean existsById(UUID id);
 
   Boolean existsByEmailPhoneOrUsername(String email, @Nullable String username, String phone);

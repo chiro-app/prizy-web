@@ -24,6 +24,7 @@ public class UpdateUserMapper {
       .mobilePhone(update.mobilePhone())
       .birthDate(update.birthDate())
       .avatarMediaId(update.avatarMediaId())
+      .addressId(update.addressId())
       .build();
   }
 

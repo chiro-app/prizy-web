@@ -22,6 +22,7 @@ public record UpdateUser(
   Gender gender,
   LocalDate birthDate,
   Optional<String> avatarMediaId,
-  Optional<String> mobilePhone
+  Optional<String> mobilePhone,
+  Optional<UUID> addressId
 ) {
 }

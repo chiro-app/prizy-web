@@ -15,6 +15,8 @@ import graphql.introspection.Introspection.DirectiveLocation.FIELD_DEFINITION
   locations = [FIELD_DEFINITION]
 )
 annotation class AuthorizedDirective(
+  val resource: String = "",
+  val scope: String = "",
   vararg val roles: String = []
 ) {
 

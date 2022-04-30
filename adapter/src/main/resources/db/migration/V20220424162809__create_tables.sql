@@ -1,31 +1,31 @@
 CREATE TABLE merchants
 (
   id            UUID NOT NULL,
-  name          TEXT,
-  siren         TEXT,
-  capital       FLOAT,
-  address       TEXT,
-  logo_media_id TEXT,
+  name          TEXT NOT NULL,
+  siren         TEXT NOT NULL,
+  capital       FLOAT NOT NULL,
+  address       TEXT NOT NULL,
+  logo_media_id TEXT NOT NULL,
   CONSTRAINT pk_merchants PRIMARY KEY (id)
 );
 
 CREATE TABLE contests
 (
   id                      UUID NOT NULL,
-  name                    TEXT,
-  from_date               TIMESTAMPTZ,
-  to_date                 TIMESTAMPTZ,
-  description             TEXT,
-  category                TEXT,
-  cover_media_id          TEXT,
-  cost                    INTEGER,
+  name                    TEXT NOT NULL,
+  from_date               TIMESTAMPTZ NOT NULL,
+  to_date                 TIMESTAMPTZ NOT NULL,
+  description             TEXT NOT NULL,
+  category                TEXT NOT NULL,
+  cover_media_id          TEXT NOT NULL,
+  cost                    INTEGER NOT NULL,
   facebook_page           TEXT,
   instagram_page          TEXT,
   website                 TEXT,
-  newsletter_subscription BOOLEAN,
-  adult_only              BOOLEAN,
-  merchant_id             UUID,
-  board_id                UUID,
+  newsletter_subscription BOOLEAN NOT NULL,
+  adult_only              BOOLEAN NOT NULL,
+  merchant_id             UUID NOT NULL,
+  board_id                UUID NOT NULL,
   CONSTRAINT pk_contest PRIMARY KEY (id)
 );
 
@@ -44,11 +44,11 @@ ALTER TABLE contest_media_ids
 CREATE TABLE packs
 (
   id                    UUID NOT NULL,
-  dtype                 TEXT,
-  name                  TEXT,
-  first_winner_position INTEGER,
-  last_winner_position  INTEGER,
-  contest_id            UUID,
+  dtype                 TEXT NOT NULL,
+  name                  TEXT NOT NULL,
+  first_winner_position INTEGER NOT NULL,
+  last_winner_position  INTEGER NOT NULL,
+  contest_id            UUID NOT NULL,
   value                 FLOAT,
   media_id              TEXT,
   quantity              INTEGER,
@@ -63,10 +63,10 @@ ALTER TABLE packs
 CREATE TABLE addresses
 (
   id           UUID NOT NULL,
-  street       TEXT,
-  city         TEXT,
-  country      TEXT,
-  zipcode      TEXT,
+  street       TEXT NOT NULL,
+  city         TEXT NOT NULL,
+  country      TEXT NOT NULL,
+  zipcode      TEXT NOT NULL,
   extra_line_1 TEXT,
   extra_line_2 TEXT,
   CONSTRAINT pk_addresses PRIMARY KEY (id)
@@ -75,18 +75,19 @@ CREATE TABLE addresses
 CREATE TABLE users
 (
   id              UUID NOT NULL,
-  email           TEXT,
-  password_hash   TEXT,
-  username        TEXT,
-  birth_date      date,
-  first_name      TEXT,
-  last_name       TEXT,
+  email           TEXT NOT NULL UNIQUE,
+  password_hash   TEXT NOT NULL,
+  username        TEXT NOT NULL UNIQUE,
+  birth_date      date NOT NULL,
+  first_name      TEXT NOT NULL,
+  last_name       TEXT NOT NULL,
   avatar_media_id TEXT,
   mobile_phone    TEXT,
-  origin          TEXT,
-  gender          TEXT,
-  status          TEXT,
-  created         TIMESTAMPTZ,
+  origin          TEXT NOT NULL,
+  gender          TEXT NOT NULL,
+  status          TEXT NOT NULL,
+  roles           TEXT[] NOT NULL UNIQUE,
+  created         TIMESTAMPTZ NOT NULL UNIQUE,
   address_id      UUID,
   CONSTRAINT pk_users PRIMARY KEY (id)
 );
@@ -100,8 +101,8 @@ ALTER TABLE users
 CREATE TABLE confirmation_codes
 (
   id      UUID NOT NULL,
-  code    TEXT,
-  user_id UUID,
+  code    TEXT NOT NULL,
+  user_id UUID NOT NULL,
   created TIMESTAMP WITHOUT TIME ZONE,
   CONSTRAINT pk_confirmation_codes PRIMARY KEY (id)
 );
@@ -112,23 +113,34 @@ ALTER TABLE confirmation_codes
 CREATE TABLE devices
 (
   id        UUID NOT NULL,
-  device_id TEXT,
-  user_id   UUID,
+  device_id TEXT NOT NULL,
+  user_id   UUID NOT NULL,
   CONSTRAINT pk_devices PRIMARY KEY (id)
 );
 
 ALTER TABLE devices
   ADD CONSTRAINT FK_DEVICES_ON_USER FOREIGN KEY (user_id) REFERENCES users (id);
 
+CREATE TABLE refresh_tokens
+(
+  id      UUID NOT NULL,
+  token   TEXT NOT NULL UNIQUE,
+  user_id UUID NOT NULL,
+  CONSTRAINT pk_refresh_tokens PRIMARY KEY (id)
+);
+
+ALTER TABLE refresh_tokens
+  ADD CONSTRAINT FK_REFRESH_TOKENS_ON_USER FOREIGN KEY (user_id) REFERENCES users (id);
+
 CREATE TABLE resource_transactions
 (
   id         UUID NOT NULL,
-  dtype      TEXT,
-  currency   TEXT,
-  type       TEXT,
-  amount     BIGINT,
-  user_id    UUID,
-  date_time  TIMESTAMPTZ,
+  dtype      TEXT NOT NULL,
+  currency   TEXT NOT NULL,
+  type       TEXT NOT NULL,
+  amount     BIGINT NOT NULL,
+  user_id    UUID NOT NULL,
+  date_time  TIMESTAMPTZ NOT NULL,
   contest_id UUID,
   CONSTRAINT pk_resource_transactions PRIMARY KEY (id)
 );
@@ -142,9 +154,9 @@ ALTER TABLE resource_transactions
 CREATE TABLE contest_subscriptions
 (
   id         UUID NOT NULL,
-  contest_id UUID,
-  user_id    UUID,
-  date_time  TIMESTAMPTZ,
+  contest_id UUID NOT NULL,
+  user_id    UUID NOT NULL,
+  date_time  TIMESTAMPTZ NOT NULL,
   CONSTRAINT pk_contest_subscriptions PRIMARY KEY (id)
 );
 
@@ -157,10 +169,10 @@ ALTER TABLE contest_subscriptions
 CREATE TABLE referral_nodes
 (
   id          UUID NOT NULL,
-  user_id     UUID,
+  user_id     UUID NOT NULL,
   referrer_id UUID,
-  confirmed   BOOLEAN,
-  code        TEXT,
+  confirmed   BOOLEAN NOT NULL,
+  code        TEXT NOT NULL,
   CONSTRAINT pk_referral_nodes PRIMARY KEY (id)
 );
 

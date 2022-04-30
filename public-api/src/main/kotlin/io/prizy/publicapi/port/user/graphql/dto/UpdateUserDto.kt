@@ -2,6 +2,7 @@ package io.prizy.publicapi.port.user.graphql.dto
 
 import com.expediagroup.graphql.generator.annotations.GraphQLName
 import java.time.LocalDate
+import java.util.UUID
 
 /**
  *  @author Nidhal Dogga
@@ -17,5 +18,6 @@ data class UpdateUserDto(
   val gender: GenderDto,
   val birthDate: LocalDate,
   val avatarMediaId: String?,
-  val mobilePhone: String?
+  val mobilePhone: String?,
+  val addressId: UUID?
 )

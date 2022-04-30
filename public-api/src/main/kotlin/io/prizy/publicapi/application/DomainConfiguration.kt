@@ -1,6 +1,8 @@
 package io.prizy.publicapi.application
 
 import io.prizy.configuration.JpaAdapterConfiguration
+import io.prizy.domain.auth.port.RefreshTokenRepository
+import io.prizy.domain.auth.service.RefreshTokenService
 import io.prizy.domain.contest.ports.ContestPublisher
 import io.prizy.domain.contest.ports.ContestRepository
 import io.prizy.domain.contest.ports.ContestSubscriptionPublisher
@@ -37,6 +39,10 @@ import org.springframework.security.crypto.password.PasswordEncoder
 @Import(JpaAdapterConfiguration::class)
 @EnableConfigurationProperties(DomainConfiguration.ResourceProperties::class)
 class DomainConfiguration {
+
+  @Bean
+  fun refreshTokenService(refreshTokenRepository: RefreshTokenRepository): RefreshTokenService =
+    RefreshTokenService(refreshTokenRepository)
 
   @Bean
   fun passwordEncoder(): PasswordEncoder = BCryptPasswordEncoder()

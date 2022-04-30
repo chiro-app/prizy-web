@@ -22,4 +22,9 @@ public class BCryptPasswordHasher implements PasswordHasher {
     return passwordEncoder.encode(password);
   }
 
+  @Override
+  public boolean matches(String password, String hash) {
+    return passwordEncoder.matches(password, hash);
+  }
+
 }

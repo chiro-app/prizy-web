@@ -12,6 +12,7 @@ dependencies {
   implementation(kotlin("reflect"))
 
   implementation("com.expediagroup:graphql-kotlin-spring-server")
+  implementation("com.graphql-java:graphql-java-extended-validation")
 
   implementation("org.springframework.boot:spring-boot-starter-security")
   implementation("org.springframework.boot:spring-boot-starter-oauth2-resource-server")

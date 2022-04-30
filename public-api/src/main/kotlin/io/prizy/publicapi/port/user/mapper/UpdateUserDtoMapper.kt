@@ -23,5 +23,6 @@ object UpdateUserDtoMapper {
     .birthDate(dto.birthDate)
     .mobilePhone(Optional.ofNullable(dto.mobilePhone))
     .avatarMediaId(Optional.ofNullable(dto.avatarMediaId))
+    .addressId(Optional.ofNullable(dto.addressId))
     .build()
 }

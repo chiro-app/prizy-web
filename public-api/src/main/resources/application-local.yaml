@@ -10,28 +10,47 @@ graphql:
 
 prizy:
   security:
-    issuer: prizy-local
-    algorithm: RS256
-    public-key: |
-      -----BEGIN PUBLIC KEY-----
-      MIGeMA0GCSqGSIb3DQEBAQUAA4GMADCBiAKBgFZ5h4oOvSxfBqHHZSmOiPpYcGt2
-      i7+CBynaH5a0KCvMEn05+trRcLzzNrqgJz7CzoK/BIzhu3q1vBAnvDCSow5fXhNY
-      kKlDWJ5ljWnDaAIlMrceQRwtcTWpQorJGKWcfoOn4Qf1AEqiLu3KhlUQPsNl2ep5
-      ch9YdGZArtrVG2WBAgMBAAE=
-      -----END PUBLIC KEY-----
-    private-key: |
-      -----BEGIN RSA PRIVATE KEY-----
-      MIICWgIBAAKBgFZ5h4oOvSxfBqHHZSmOiPpYcGt2i7+CBynaH5a0KCvMEn05+trR
-      cLzzNrqgJz7CzoK/BIzhu3q1vBAnvDCSow5fXhNYkKlDWJ5ljWnDaAIlMrceQRwt
-      cTWpQorJGKWcfoOn4Qf1AEqiLu3KhlUQPsNl2ep5ch9YdGZArtrVG2WBAgMBAAEC
-      gYBJo4pBjdWYsH9USxmhruiEz8VELhpJhjAVetNFobtHuKvSCgrORmaL8U2c1X82
-      GeyEOKhmVGAz2gkBdOT0NBs3xUcMQmnKEo/ZN3zBbzpHQ09c8b8S++P8fTK+heuD
-      ROlBrVmB0K2YBueJogNQACDzyVzQChwIoYYYFc1g8VECsQJBAKqM3hzUxLaWxtDJ
-      PQVihHy0nP0SHYfwJfAKix3cRXbCeDXgcg+j7Cfz871fo3V60cDfhSEwmZaWDlHP
-      FLp8z5UCQQCBzPU1nVTagipVwPkt1le4aoFCoxORfH2vGmnR5UHK9DXyRRCw6Qv6
-      Bg7M/yAn1PeJknp8p29IXOAINNZ0JnM9AkBxlQs/bDvt1hBmb/8hnPDbFHYQ3IWq
-      SLcbXAo2QsJIS08/olCUNflKyl8jWZRE4xzaNII3DmTbMugqd504bXLZAkAlwGvN
-      JS5JwzP27wJKH54xx+BCdlW5qcCQThla79fb5H1QMmAxZAaUuHBTlRxQGXPJcm3n
-      lXcbT8/k8yEwdQJtAkBoPoZJcqXSxHCpJbKM3QTzK5FF7s+ZWmbG2ilgpO15p16e
-      iJjNj73k9YvkJgWd5XFX7FVxCa2bw+ZpAnNqixwv
-      -----END RSA PRIVATE KEY-----
+    jwt:
+      key-id: local
+      issuer: prizy-local
+      audience: prizy-public-api
+      algorithm: RS256
+      public-key: |
+        -----BEGIN PUBLIC KEY-----
+        MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAjUr97Kxod/pIthPWSaCZ
+        dPrQJv9oo1o++i4jxNd/BKla9T8jwV04hyCo26D/vSu5TngRfX95gbzfNVQEnWhF
+        HFIiICPd+krHPZBgNNJSmFDc7tNWln6UELzWCo7Ogts88WeWVKsYbX/SsELDQhuU
+        3do1nOxHiw4DEkZdL8K3x6Kv4crYFQkRska5jYgXDiO2P4Year307GtqzOYuETFP
+        OwlrPbCEDmNRYKcm5lbZo5BxQhhJ95SrsO/RldeSUuoz9Q5nAvM+sOXy+5u5rCZ+
+        HqQ8/PeQuO49+z2vmC9KRGeZnIqq6wglmnVGAjsz33ZR1tiQSQzvzrInlC8x7F14
+        8wIDAQAB
+        -----END PUBLIC KEY-----
+      private-key: |
+        -----BEGIN RSA PRIVATE KEY-----
+        MIIEowIBAAKCAQEAjUr97Kxod/pIthPWSaCZdPrQJv9oo1o++i4jxNd/BKla9T8j
+        wV04hyCo26D/vSu5TngRfX95gbzfNVQEnWhFHFIiICPd+krHPZBgNNJSmFDc7tNW
+        ln6UELzWCo7Ogts88WeWVKsYbX/SsELDQhuU3do1nOxHiw4DEkZdL8K3x6Kv4crY
+        FQkRska5jYgXDiO2P4Year307GtqzOYuETFPOwlrPbCEDmNRYKcm5lbZo5BxQhhJ
+        95SrsO/RldeSUuoz9Q5nAvM+sOXy+5u5rCZ+HqQ8/PeQuO49+z2vmC9KRGeZnIqq
+        6wglmnVGAjsz33ZR1tiQSQzvzrInlC8x7F148wIDAQABAoIBACDPExuMBU4mzg+J
+        l67NHhUt0Hvdvvx/jjQl1qR0rcf1U2uzV6gk72VhThSB1CCnMIZqFxWfLiXUJ7iI
+        Y/HxLmsfH1F7QqZGCvHevphFZmx8CnFina6ggd1JHCKjeoykQAiGV0Ad4rQ6hD/t
+        oM2O/ghuDRj9PLerb0clE6pteqNeZhRR9vsUllrJ81OUxy/QCkG6EaaoqfBC4u3M
+        Ecr89167kkUnUn/sjXAgxyDTNuPj05MsiXEbNmETHckZXlcv6XXhMH6py+L1U6D+
+        1MQ4OI/TT4nvvBP/KM2HRwrEqmyjRtKMDDinyn5Nd+lREUg+Lt5aXZfaxs8vKWEz
+        C5r1LDECgYEA+NDAEU8J2pwb4ocugdp8fseFrMt7GmHUUgKhoIGOKaOyGusubZuh
+        yuhChfHDnRw7I+tdYFDFJjw7oodlqMIM2vaVsNnM9WRpOuOJqMriGEalaUHf2xe4
+        ZjpYQDxSed+UVIe2bXXjVQr76fI+Y16qTSDR+sPfpk+2QoM/EkPa60UCgYEAkV9u
+        x377Hr0SaYUv/Ec2rNMBF/KXy7BKq6LjF5YM8811gnCxqqoVT3vjcmXzbjPqsS2u
+        n0UYrD41XRyoOUsu0spHNuL2ZrD2ZqK2FhPAMipKrBOoJP9CWFSpM7Tj9dFvL9rP
+        wKAKSJobOBVarBPuybkzgA0pRbHjbQRZDAKHetcCgYBVFLy4rnhGIp9+ZI9Io/dy
+        OrPBFItxyAYcTP4LroF4R5t9jPIBVPiMM8ObncIwFRk7/R2e87+WhX4242mlvUU8
+        Epm5MaDeQImjM289IrMRbgbd6UKs3n2Vp1nKDVZ+ii9kgEunPmqQCAOASe9/dz1w
+        xkpHH3d4nUVLlSmaC03uqQKBgFNRJ9Oswk4+vOO/Ut47DmoE0RahkkBKfLFcPN1S
+        wX+l3NhysFEJBAe3EIeLSPZ7SOJdNTzRRC/Lw5fnCb80iNSE3EXn1KLMf5wZW1TR
+        4xCdTojLB06VAbhQZV1eKlzDuP7rYLCcyOgNctY03u/KyMvSmmKkqGfqaVcc69BH
+        TtCnAoGBAPaMWcqDXUs0w42XPyQEZT76ZlU66/YwwMXcQ9jGy4V4dujlsBPN3P0L
+        EvbX4Nt2Ze4tv2o9DIbWVaUcjTvbpVVQKI9mImIeheAxsBRwZLBCtgjDYC9j0S5t
+        6tGWVyiaPH1DXAJcd1MjdWm60x58Llwy1Xkkeg7Fd/ASMnIPchxg
+        -----END RSA PRIVATE KEY-----
+

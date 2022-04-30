@@ -29,6 +29,7 @@ public class UserMapper {
       .mobilePhone(user.mobilePhone().orElse(null))
       .status(user.status())
       .created(user.created())
+      .roles(user.roles())
       .addressId(user.addressId().orElse(null))
       .build();
   }
@@ -47,7 +48,23 @@ public class UserMapper {
       .mobilePhone(Optional.ofNullable(entity.getMobilePhone()))
       .status(entity.getStatus())
       .created(entity.getCreated())
+      .roles(entity.getRoles())
       .addressId(Optional.ofNullable(entity.getAddressId()))
+      .build();
+  }
+
+  public UserEntity merge(UserEntity entity, User user) {
+    return entity.toBuilder()
+      .email(user.email())
+      .username(user.username())
+      .firstName(user.firstName())
+      .lastName(user.lastName())
+      .gender(user.gender())
+      .birthDate(user.birthDate())
+      .status(Optional.ofNullable(user.status()).orElse(entity.getStatus()))
+      .avatarMediaId(user.avatarMediaId().orElse(entity.getAvatarMediaId()))
+      .mobilePhone(user.mobilePhone().orElse(entity.getMobilePhone()))
+      .addressId(user.addressId().orElse(entity.getAddressId()))
       .build();
   }
 

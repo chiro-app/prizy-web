@@ -5,6 +5,8 @@ dependencies {
 
   implementation("org.slf4j:slf4j-api")
 
+  implementation("org.apache.commons:commons-lang3")
+
   compileOnly("org.projectlombok:lombok")
   annotationProcessor("org.projectlombok:lombok")
 

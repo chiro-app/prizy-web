@@ -1,9 +1,6 @@
 package io.prizy.publicapi.application
 
-import com.nimbusds.jose.jwk.RSAKey
-import io.prizy.publicapi.application.SecurityConfiguration.SecurityProperties
-import org.springframework.boot.context.properties.ConfigurationProperties
-import org.springframework.boot.context.properties.ConstructorBinding
+import io.prizy.publicapi.application.properties.JwtProperties
 import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -16,8 +13,6 @@ import org.springframework.security.oauth2.jwt.NimbusReactiveJwtDecoder
 import org.springframework.security.oauth2.jwt.ReactiveJwtDecoder
 import org.springframework.security.web.server.SecurityWebFilterChain
 import reactor.core.publisher.Mono
-import java.security.interfaces.RSAPrivateKey
-import java.security.interfaces.RSAPublicKey
 
 /**
  *  @author Nidhal Dogga
@@ -27,7 +22,7 @@ import java.security.interfaces.RSAPublicKey
 @Configuration
 @EnableWebFluxSecurity
 @EnableReactiveMethodSecurity
-@EnableConfigurationProperties(SecurityProperties::class)
+@EnableConfigurationProperties(JwtProperties::class)
 class SecurityConfiguration {
 
   @Bean
@@ -69,25 +64,8 @@ class SecurityConfiguration {
     .build()
 
   @Bean
-  internal fun jwtDecoder(properties: SecurityProperties): ReactiveJwtDecoder = NimbusReactiveJwtDecoder
+  internal fun jwtDecoder(properties: JwtProperties): ReactiveJwtDecoder = NimbusReactiveJwtDecoder
     .withPublicKey(properties.rsaPublicKey)
     .build()
     .apply { setJwtValidator(JwtValidators.createDefaultWithIssuer(properties.issuer)) }
-
-  @ConstructorBinding
-  @ConfigurationProperties("prizy.security")
-  data class SecurityProperties(
-    val issuer: String,
-    val algorithm: String,
-    val publicKey: String,
-    val privateKey: String
-  ) {
-
-    val rsaPublicKey: RSAPublicKey
-      get() = RSAKey.parseFromPEMEncodedObjects(publicKey).toRSAKey().toRSAPublicKey()
-
-    val rsaPrivateKey: RSAPrivateKey
-      get() = RSAKey.parseFromPEMEncodedObjects(privateKey).toRSAKey().toRSAPrivateKey()
-
-  }
 }
