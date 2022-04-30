@@ -1,8 +1,9 @@
-package io.prizy.publicapi.graphql
+package io.prizy.graphql.context
 
 import com.expediagroup.graphql.server.spring.execution.SpringGraphQLContext
+import io.prizy.graphql.auth.Principal
+import io.prizy.graphql.auth.Authorizations
 import org.springframework.web.reactive.function.server.ServerRequest
-import java.util.UUID
 
 sealed class GraphQLContext(request: ServerRequest) : SpringGraphQLContext(request) {
 
@@ -10,6 +11,7 @@ sealed class GraphQLContext(request: ServerRequest) : SpringGraphQLContext(reque
 
   data class Authenticated(
     val request: ServerRequest,
-    val userId: UUID,
+    val principal: Principal,
+    val authorizations: Authorizations
   ) : GraphQLContext(request)
 }

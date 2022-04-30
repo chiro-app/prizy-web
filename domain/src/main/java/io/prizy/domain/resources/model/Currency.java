@@ -1,5 +1,5 @@
 package io.prizy.domain.resources.model;
 
-public enum ResourceType {
+public enum Currency {
   KEYS
 }

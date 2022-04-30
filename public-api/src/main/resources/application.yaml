@@ -1,8 +1,14 @@
 graphql:
   packages:
     - io.prizy.publicapi
+
 management:
   endpoints:
     web:
       exposure:
         include: "*"
+
+prizy:
+  resources:
+    referral-key-bonus: 6
+    referrer-key-bonus: 6

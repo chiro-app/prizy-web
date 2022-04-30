@@ -7,7 +7,7 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public enum ResourceTransactionType {
+public enum TransactionType {
 
   WITHDRAW((lhs, rhs) -> lhs - rhs),
   DEPOSIT(Long::sum),

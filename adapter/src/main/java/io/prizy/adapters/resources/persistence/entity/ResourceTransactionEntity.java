@@ -17,8 +17,8 @@ import javax.persistence.Table;
 
 import io.prizy.adapters.contest.persistence.entity.ContestEntity;
 import io.prizy.adapters.user.persistence.entity.UserEntity;
-import io.prizy.domain.resources.model.ResourceTransactionType;
-import io.prizy.domain.resources.model.ResourceType;
+import io.prizy.domain.resources.model.TransactionType;
+import io.prizy.domain.resources.model.Currency;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -38,13 +38,15 @@ public sealed class ResourceTransactionEntity {
   @GeneratedValue
   private UUID id;
   @Enumerated(EnumType.STRING)
-  @Column(name = "resource_type")
-  private ResourceType resourceType;
+  @Column
+  private Currency currency;
   @Column
   @Enumerated(EnumType.STRING)
-  private ResourceTransactionType type;
+  private TransactionType type;
   @Column
   private Long amount;
+  @Column(name = "user_id", updatable = false, insertable = false)
+  private UUID userId;
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "user_id")
   private UserEntity user;
@@ -65,6 +67,8 @@ public sealed class ResourceTransactionEntity {
   @Entity(name = "ContestDependentResourceTransaction")
   public static non-sealed class ContestDependent extends ResourceTransactionEntity {
 
+    @Column(name = "contest_id", updatable = false, insertable = false)
+    private UUID contestId;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "contest_id")
     private ContestEntity contest;

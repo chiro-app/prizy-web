@@ -1,4 +1,4 @@
-package io.prizy.publicapi.graphql.scalars
+package io.prizy.graphql.scalars
 
 import graphql.language.StringValue
 import graphql.schema.Coercing

@@ -4,13 +4,10 @@ import org.springframework.boot.gradle.tasks.bundling.BootBuildImage
 plugins {
   kotlin("jvm")
   kotlin("kapt")
-  kotlin("plugin.jpa")
   kotlin("plugin.noarg")
   kotlin("plugin.spring")
-  kotlin("plugin.allopen")
   id("org.springframework.boot")
   id("io.spring.dependency-management")
-  id("org.springframework.experimental.aot")
 }
 
 configurations {
@@ -24,24 +21,19 @@ repositories {
 }
 
 dependencies {
-  implementation(project(":domain"))
-  implementation(project(":adapter"))
   implementation(project(":toolbox"))
-  implementation(project(":graphql-core"))
 
   implementation(kotlin("reflect"))
 
   implementation("com.expediagroup:graphql-kotlin-spring-server")
 
-  implementation("org.springframework.boot:spring-boot-starter-webflux")
-  implementation("org.springframework.boot:spring-boot-starter-actuator")
-  implementation("org.springframework.boot:spring-boot-starter-data-jpa")
   implementation("org.springframework.boot:spring-boot-starter-security")
-
   implementation("org.springframework.boot:spring-boot-starter-oauth2-resource-server")
   implementation("org.springframework.security:spring-security-oauth2-jose")
 
   implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
+
+  implementation("de.slub-dresden:urnlib:2.0.1")
 
   implementation("org.jetbrains.kotlin:kotlin-reflect")
   implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")

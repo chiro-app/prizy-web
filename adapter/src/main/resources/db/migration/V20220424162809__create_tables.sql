@@ -68,14 +68,14 @@ CREATE TABLE users
 
 CREATE TABLE resource_transactions
 (
-  id            UUID NOT NULL,
-  dtype         TEXT,
-  resource_type TEXT,
-  type          TEXT,
-  amount        BIGINT,
-  user_id       UUID,
-  date_time     TIMESTAMPTZ,
-  contest_id    UUID,
+  id         UUID NOT NULL,
+  dtype      TEXT,
+  currency   TEXT,
+  type       TEXT,
+  amount     BIGINT,
+  user_id    UUID,
+  date_time  TIMESTAMPTZ,
+  contest_id UUID,
   CONSTRAINT pk_resource_transactions PRIMARY KEY (id)
 );
 
