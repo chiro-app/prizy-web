@@ -1,5 +1,7 @@
 package io.prizy.domain.contest.model;
 
+import lombok.Builder;
+
 import java.time.Instant;
 import java.util.Collection;
 import java.util.Optional;
@@ -11,6 +13,7 @@ import java.util.UUID;
  */
 
 
+@Builder
 public record Contest(
   UUID id,
   String name,

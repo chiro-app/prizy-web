@@ -14,6 +14,9 @@ import io.prizy.domain.referral.ports.ReferralRepository
 import io.prizy.domain.referral.service.ReferralService
 import io.prizy.domain.resources.ports.ResourceRepository
 import io.prizy.domain.resources.service.ResourceService
+import io.prizy.domain.user.port.PasswordHasher
+import io.prizy.domain.user.port.UserRepository
+import io.prizy.domain.user.service.UserService
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.boot.context.properties.ConstructorBinding
 import org.springframework.boot.context.properties.EnableConfigurationProperties
@@ -21,6 +24,8 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.Import
 import org.springframework.scheduling.annotation.EnableAsync
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
+import org.springframework.security.crypto.password.PasswordEncoder
 
 /**
  *  @author Nidhal Dogga
@@ -32,6 +37,13 @@ import org.springframework.scheduling.annotation.EnableAsync
 @Import(JpaAdapterConfiguration::class)
 @EnableConfigurationProperties(DomainConfiguration.ResourceProperties::class)
 class DomainConfiguration {
+
+  @Bean
+  fun passwordEncoder(): PasswordEncoder = BCryptPasswordEncoder()
+
+  @Bean
+  fun userService(userRepository: UserRepository, passwordHasher: PasswordHasher): UserService =
+    UserService(userRepository, passwordHasher)
 
   @Bean
   fun referralService(

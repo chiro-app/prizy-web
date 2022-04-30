@@ -12,7 +12,7 @@ import io.prizy.publicapi.port.contest.graphql.dto.CreateContestDto
 import io.prizy.publicapi.port.contest.graphql.dto.UpdateContestDto
 import io.prizy.publicapi.port.contest.mapper.ContestDtoMapper
 import io.prizy.publicapi.port.contest.mapper.ContestSubscriptionDtoMapper
-import io.prizy.publicapi.port.contest.mapper.CreateContestMapper
+import io.prizy.publicapi.port.contest.mapper.CreateContestDtoMapper
 import io.prizy.publicapi.port.contest.mapper.UpdateContestMapper
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -31,17 +31,24 @@ class ContestMutation(
 ) : Mutation {
 
   @AuthorizedDirective(roles = [Roles.ADMIN])
-  suspend fun createContest(request: CreateContestDto): ContestDto =
-    withContext(Dispatchers.IO) { contestService.createContest(CreateContestMapper.map(request)) }
+  suspend fun createContest(request: CreateContestDto): ContestDto = withContext(Dispatchers.IO) {
+    contestService
+      .createContest(CreateContestDtoMapper.map(request))
       .let(ContestDtoMapper::map)
+  }
 
   @AuthorizedDirective(roles = [Roles.ADMIN])
-  suspend fun updateContest(request: UpdateContestDto): ContestDto =
-    withContext(Dispatchers.IO) { contestService.updateContest(UpdateContestMapper.map(request)) }
+  suspend fun updateContest(request: UpdateContestDto): ContestDto = withContext(Dispatchers.IO) {
+    contestService
+      .updateContest(UpdateContestMapper.map(request))
       .let(ContestDtoMapper::map)
+  }
 
   @AuthorizedDirective
   suspend fun createContestSubscription(ctx: GraphQLContext.Authenticated, contestId: UUID): ContestSubscriptionDto =
-    withContext(Dispatchers.IO) { contestSubscriptionService.createContestSubscription(contestId, UUID.randomUUID()) }
-      .let(ContestSubscriptionDtoMapper::map)
+    withContext(Dispatchers.IO) {
+      contestSubscriptionService
+        .createContestSubscription(contestId, UUID.randomUUID())
+        .let(ContestSubscriptionDtoMapper::map)
+    }
 }

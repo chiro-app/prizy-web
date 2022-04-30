@@ -10,7 +10,7 @@ import java.time.Instant
 object InstantScalar {
 
   val graphqlScalarType: GraphQLScalarType = GraphQLScalarType.newScalar()
-    .name("Instant")
+    .name("DateTime")
     .description("Timezoned date and time")
     .coercing(InstantCoercing)
     .build()

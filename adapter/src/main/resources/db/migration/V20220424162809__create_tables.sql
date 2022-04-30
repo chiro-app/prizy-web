@@ -60,11 +60,65 @@ CREATE TABLE packs
 ALTER TABLE packs
   ADD CONSTRAINT FK_PACKS_ON_CONTEST FOREIGN KEY (contest_id) REFERENCES contests (id);
 
+CREATE TABLE addresses
+(
+  id           UUID NOT NULL,
+  street       TEXT,
+  city         TEXT,
+  country      TEXT,
+  zipcode      TEXT,
+  extra_line_1 TEXT,
+  extra_line_2 TEXT,
+  CONSTRAINT pk_addresses PRIMARY KEY (id)
+);
+
 CREATE TABLE users
 (
-  id UUID NOT NULL,
+  id              UUID NOT NULL,
+  email           TEXT,
+  password_hash   TEXT,
+  username        TEXT,
+  birth_date      date,
+  first_name      TEXT,
+  last_name       TEXT,
+  avatar_media_id TEXT,
+  mobile_phone    TEXT,
+  origin          TEXT,
+  gender          TEXT,
+  status          TEXT,
+  created         TIMESTAMPTZ,
+  address_id      UUID,
   CONSTRAINT pk_users PRIMARY KEY (id)
 );
+
+ALTER TABLE users
+  ADD CONSTRAINT uc_users_email UNIQUE (email);
+
+ALTER TABLE users
+  ADD CONSTRAINT FK_USERS_ON_ADDRESS FOREIGN KEY (address_id) REFERENCES addresses (id);
+
+CREATE TABLE confirmation_codes
+(
+  id      UUID NOT NULL,
+  code    TEXT,
+  user_id UUID,
+  created TIMESTAMP WITHOUT TIME ZONE,
+  CONSTRAINT pk_confirmation_codes PRIMARY KEY (id)
+);
+
+ALTER TABLE confirmation_codes
+  ADD CONSTRAINT FK_CONFIRMATION_CODES_ON_USER FOREIGN KEY (user_id) REFERENCES users (id);
+
+CREATE TABLE devices
+(
+  id        UUID NOT NULL,
+  device_id TEXT,
+  user_id   UUID,
+  CONSTRAINT pk_devices PRIMARY KEY (id)
+);
+
+ALTER TABLE devices
+  ADD CONSTRAINT FK_DEVICES_ON_USER FOREIGN KEY (user_id) REFERENCES users (id);
 
 CREATE TABLE resource_transactions
 (

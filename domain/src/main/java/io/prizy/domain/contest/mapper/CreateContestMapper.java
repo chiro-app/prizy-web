@@ -8,26 +8,25 @@ import lombok.experimental.UtilityClass;
 @UtilityClass
 public class CreateContestMapper {
 
-  public Contest map(CreateContest command) {
-    return new Contest(
-      null,
-      command.name(),
-      command.description(),
-      command.category(),
-      command.fromDate(),
-      command.toDate(),
-      command.mediaIds(),
-      command.coverMediaId(),
-      command.packs().stream().map(CreatePackMapper::map).toList(),
-      command.cost(),
-      command.facebookPage(),
-      command.instagramPage(),
-      command.website(),
-      command.newsletterSubscription(),
-      command.adultOnly(),
-      command.merchant(),
-      command.boardId()
-    );
+  public Contest map(CreateContest create) {
+    return Contest.builder()
+      .name(create.name())
+      .description(create.description())
+      .category(create.category())
+      .fromDate(create.fromDate())
+      .toDate(create.toDate())
+      .mediaIds(create.mediaIds())
+      .coverMediaId(create.coverMediaId())
+      .packs(create.packs().stream().map(CreatePackMapper::map).toList())
+      .cost(create.cost())
+      .facebookPage(create.facebookPage())
+      .instagramPage(create.instagramPage())
+      .website(create.website())
+      .newsletterSubscription(create.newsletterSubscription())
+      .adultOnly(create.adultOnly())
+      .merchant(create.merchant())
+      .boardId(create.boardId())
+      .build();
   }
 
 }

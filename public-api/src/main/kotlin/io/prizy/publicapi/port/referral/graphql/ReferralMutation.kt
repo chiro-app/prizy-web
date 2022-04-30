@@ -16,10 +16,9 @@ class ReferralMutation(
 ) : Mutation {
 
   @AuthorizedDirective
-  suspend fun submitReferrer(ctx: GraphQLContext.Authenticated, code: String): Boolean =
-    withContext(Dispatchers.IO) {
-      referralService.submitReferralCode(UUID.randomUUID(), code)
-    }
+  suspend fun submitReferrer(ctx: GraphQLContext.Authenticated, code: String): Boolean = withContext(Dispatchers.IO) {
+    referralService.submitReferralCode(UUID.randomUUID(), code)
+  }
 
   @AuthorizedDirective
   suspend fun confirmReferral(ctx: GraphQLContext.Authenticated, referralId: UUID): Boolean =
@@ -28,15 +27,12 @@ class ReferralMutation(
     }
 
   @AuthorizedDirective(roles = [Roles.ADMIN])
-  suspend fun submitReferrerById(id: UUID, code: String): Boolean =
-    withContext(Dispatchers.IO) {
-      referralService.submitReferralCode(id, code)
-    }
+  suspend fun submitReferrerById(id: UUID, code: String): Boolean = withContext(Dispatchers.IO) {
+    referralService.submitReferralCode(id, code)
+  }
 
   @AuthorizedDirective(roles = [Roles.ADMIN])
-  suspend fun confirmReferralById(id: UUID, referralId: UUID): Boolean =
-    withContext(Dispatchers.IO) {
-      referralService.confirmReferralCode(id, referralId)
-    }
-
+  suspend fun confirmReferralById(id: UUID, referralId: UUID): Boolean = withContext(Dispatchers.IO) {
+    referralService.confirmReferralCode(id, referralId)
+  }
 }

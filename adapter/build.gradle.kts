@@ -1,6 +1,5 @@
 plugins {
   java
-  id("org.springframework.boot")
   id("io.spring.dependency-management")
 }
 
@@ -17,6 +16,7 @@ dependencies {
   implementation(kotlin("reflect"))
 
   implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+  implementation("org.springframework.security:spring-security-crypto")
 
   implementation("org.flywaydb:flyway-core")
 

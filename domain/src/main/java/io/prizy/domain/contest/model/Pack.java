@@ -3,6 +3,8 @@ package io.prizy.domain.contest.model;
 import java.time.Instant;
 import java.util.UUID;
 
+import lombok.Builder;
+
 public sealed interface Pack {
 
   UUID id();
@@ -13,6 +15,7 @@ public sealed interface Pack {
 
   Integer firstWinnerPosition();
 
+  @Builder
   record Product(
     UUID id,
     String name,
@@ -24,6 +27,7 @@ public sealed interface Pack {
   ) implements Pack {
   }
 
+  @Builder
   record Coupon(
     UUID id,
     String name,

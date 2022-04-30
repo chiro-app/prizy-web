@@ -1,23 +1,9 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-import org.springframework.boot.gradle.tasks.bundling.BootBuildImage
 
 plugins {
   kotlin("jvm")
   kotlin("kapt")
-  kotlin("plugin.noarg")
-  kotlin("plugin.spring")
-  id("org.springframework.boot")
   id("io.spring.dependency-management")
-}
-
-configurations {
-  compileOnly {
-    extendsFrom(configurations.annotationProcessor.get())
-  }
-}
-
-repositories {
-  maven { url = uri("https://repo.spring.io/release") }
 }
 
 dependencies {
@@ -59,9 +45,4 @@ tasks.withType<KotlinCompile> {
 
 tasks.withType<Test> {
   useJUnitPlatform()
-}
-
-tasks.withType<BootBuildImage> {
-  builder = "paketobuildpacks/builder:tiny"
-  environment = mapOf("BP_NATIVE_IMAGE" to "true")
 }

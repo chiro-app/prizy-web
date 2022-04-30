@@ -17,6 +17,7 @@ class CustomGraphQLContextFactory : SpringGraphQLContextFactory<GraphQLContext>(
     private val log = LoggerFactory.getLogger(CustomGraphQLContextFactory::class.java)
   }
 
+  @Deprecated("Use `getContext` instead")
   override suspend fun generateContext(request: ServerRequest): GraphQLContext {
     return when (val context = ReactiveSecurityContextHolder.getContext().awaitSingleOrNull()) {
       null -> GraphQLContext.Anonymous(request)

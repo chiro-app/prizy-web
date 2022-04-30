@@ -1,13 +1,16 @@
 package io.prizy.domain.contest.command;
 
-import io.prizy.domain.contest.model.ContestCategory;
-import io.prizy.domain.contest.model.Merchant;
 import java.time.Instant;
 import java.util.Collection;
 import java.util.Optional;
 import java.util.UUID;
 
+import io.prizy.domain.contest.model.ContestCategory;
+import io.prizy.domain.contest.model.Merchant;
+import lombok.Builder;
 
+
+@Builder
 public record UpdateContest(
   UUID id,
   String name,

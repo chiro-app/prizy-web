@@ -11,13 +11,13 @@ import io.prizy.publicapi.port.contest.graphql.dto.MerchantDto
 object MerchantDtoMapper {
 
   fun map(dto: MerchantDto): Merchant {
-    return Merchant(
-      dto.name,
-      dto.siren,
-      dto.capital,
-      dto.address,
-      dto.logoMediaId,
-    )
+    return Merchant.builder()
+      .name(dto.name)
+      .siren(dto.siren)
+      .capital(dto.capital)
+      .address(dto.address)
+      .logoMediaId(dto.logoMediaId)
+      .build()
   }
 
   fun map(dto: Merchant): MerchantDto {

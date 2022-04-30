@@ -17,6 +17,6 @@ class ReferralQuery(
 
   @AuthorizedDirective(roles = [Roles.ADMIN])
   suspend fun getUserReferrals(userId: UUID): List<ReferralNodeDto> = withContext(Dispatchers.IO) {
-    referralService.getReferrals(userId)
-  }.map { ReferralNodeDto(it.userId, it.confirmed) }
+    referralService.getReferrals(userId).map { ReferralNodeDto(it.userId, it.confirmed) }
+  }
 }

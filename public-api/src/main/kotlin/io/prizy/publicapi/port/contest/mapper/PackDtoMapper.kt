@@ -29,6 +29,7 @@ object PackDtoMapper {
         code = dto.code,
         expiration = dto.expiration
       )
+      else -> throw IllegalArgumentException("Unknown pack type ${dto::class.simpleName}")
     }
   }
 }

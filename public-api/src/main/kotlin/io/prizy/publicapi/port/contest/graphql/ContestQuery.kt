@@ -26,22 +26,22 @@ class ContestQuery(
 ) : Query {
 
   suspend fun contestById(id: UUID): ContestDto? = withContext(Dispatchers.IO) {
-    contestService.contestById(id)
-  }.orElse(null)?.let(ContestDtoMapper::map)
+    contestService.contestById(id).orElse(null)?.let(ContestDtoMapper::map)
+  }
 
   suspend fun contests(): List<ContestDto> = withContext(Dispatchers.IO) {
-    contestService.contests()
-  }.map(ContestDtoMapper::map)
+    contestService.contests().map(ContestDtoMapper::map)
+  }
 
   suspend fun listAllContests(): List<ContestDto> = withContext(Dispatchers.IO) {
-    contestService.listAllContests()
-  }.map(ContestDtoMapper::map)
+    contestService.listAllContests().map(ContestDtoMapper::map)
+  }
 
   @AuthorizedDirective
   suspend fun subscribedReferrals(
     ctx: GraphQLContext.Authenticated,
     contestId: UUID
   ): List<ReferralNodeDto> = withContext(Dispatchers.IO) {
-    contestSubscriptionService.subscribedReferrals(ctx.principal.id, contestId)
-  }.map(ReferralDtoMapper::map)
+    contestSubscriptionService.subscribedReferrals(ctx.principal.id, contestId).map(ReferralDtoMapper::map)
+  }
 }

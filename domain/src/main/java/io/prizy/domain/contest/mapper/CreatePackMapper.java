@@ -8,25 +8,23 @@ import lombok.experimental.UtilityClass;
 @UtilityClass
 public class CreatePackMapper {
 
-  public Pack map(CreatePack command) {
-    return switch (command) {
-      case CreatePack.Coupon coupon -> new Pack.Coupon(
-        null,
-        coupon.name(),
-        coupon.firstWinnerPosition(),
-        coupon.lastWinnerPosition(),
-        coupon.code(),
-        coupon.expiration()
-      );
-      case CreatePack.Product product -> new Pack.Product(
-        null,
-        product.name(),
-        product.firstWinnerPosition(),
-        product.lastWinnerPosition(),
-        product.quantity(),
-        product.value(),
-        product.mediaId()
-      );
+  public Pack map(CreatePack create) {
+    return switch (create) {
+      case CreatePack.Coupon coupon -> Pack.Coupon.builder()
+        .name(coupon.name())
+        .firstWinnerPosition(coupon.firstWinnerPosition())
+        .lastWinnerPosition(coupon.lastWinnerPosition())
+        .code(coupon.code())
+        .expiration(coupon.expiration())
+        .build();
+      case CreatePack.Product product -> Pack.Product.builder()
+        .name(product.name())
+        .firstWinnerPosition(product.firstWinnerPosition())
+        .lastWinnerPosition(product.lastWinnerPosition())
+        .quantity(product.quantity())
+        .value(product.value())
+        .mediaId(product.mediaId())
+        .build();
     };
   }
 
