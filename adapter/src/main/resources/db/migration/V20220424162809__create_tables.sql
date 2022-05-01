@@ -132,6 +132,29 @@ CREATE TABLE refresh_tokens
 ALTER TABLE refresh_tokens
   ADD CONSTRAINT FK_REFRESH_TOKENS_ON_USER FOREIGN KEY (user_id) REFERENCES users (id);
 
+CREATE TABLE reset_codes
+(
+  id      UUID NOT NULL,
+  code    TEXT NOT NULL UNIQUE,
+  user_id UUID NOT NULL,
+  created TIMESTAMPTZ,
+  CONSTRAINT pk_reset_codes PRIMARY KEY (id)
+);
+
+ALTER TABLE reset_codes
+  ADD CONSTRAINT FK_RESET_CODES_ON_USER FOREIGN KEY (user_id) REFERENCES users (id);
+
+CREATE TABLE reset_tokens
+(
+  id      UUID NOT NULL,
+  token   TEXT NOT NULL UNIQUE,
+  user_id UUID NOT NULL,
+  CONSTRAINT pk_reset_tokens PRIMARY KEY (id)
+);
+
+ALTER TABLE reset_tokens
+  ADD CONSTRAINT FK_RESET_TOKENS_ON_USER FOREIGN KEY (user_id) REFERENCES users (id);
+
 CREATE TABLE resource_transactions
 (
   id         UUID NOT NULL,

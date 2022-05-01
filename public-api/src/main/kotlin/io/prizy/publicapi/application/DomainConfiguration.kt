@@ -2,6 +2,9 @@ package io.prizy.publicapi.application
 
 import io.prizy.configuration.JpaAdapterConfiguration
 import io.prizy.domain.auth.port.RefreshTokenRepository
+import io.prizy.domain.auth.port.ResetCodeRepository
+import io.prizy.domain.auth.port.ResetTokenRepository
+import io.prizy.domain.auth.service.PasswordResetService
 import io.prizy.domain.auth.service.RefreshTokenService
 import io.prizy.domain.contest.ports.ContestPublisher
 import io.prizy.domain.contest.ports.ContestRepository
@@ -11,6 +14,7 @@ import io.prizy.domain.contest.ports.ContestTemplateCompiler
 import io.prizy.domain.contest.ports.PackRepository
 import io.prizy.domain.contest.service.ContestService
 import io.prizy.domain.contest.service.ContestSubscriptionService
+import io.prizy.domain.notification.publisher.NotificationPublisher
 import io.prizy.domain.referral.ports.ReferralPublisher
 import io.prizy.domain.referral.ports.ReferralRepository
 import io.prizy.domain.referral.service.ReferralService
@@ -39,6 +43,17 @@ import org.springframework.security.crypto.password.PasswordEncoder
 @Import(JpaAdapterConfiguration::class)
 @EnableConfigurationProperties(DomainConfiguration.ResourceProperties::class)
 class DomainConfiguration {
+
+  @Bean
+  fun passwordResetService(
+    userRepository: UserRepository,
+    passwordHasher: PasswordHasher,
+    resetTokenRepository: ResetTokenRepository,
+    resetCodeRepository: ResetCodeRepository,
+    notificationPublisher: NotificationPublisher
+  ): PasswordResetService = PasswordResetService(
+    userRepository, resetCodeRepository, resetTokenRepository, passwordHasher, notificationPublisher
+  )
 
   @Bean
   fun refreshTokenService(refreshTokenRepository: RefreshTokenRepository): RefreshTokenService =
