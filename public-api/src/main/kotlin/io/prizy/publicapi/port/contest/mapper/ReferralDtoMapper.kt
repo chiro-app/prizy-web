@@ -1,7 +1,7 @@
 package io.prizy.publicapi.port.contest.mapper
 
 import io.prizy.domain.referral.model.ReferralNode
-import io.prizy.publicapi.port.contest.graphql.dto.ReferralNodeDto
+import io.prizy.publicapi.port.referral.graphql.dto.ReferralNodeDto
 
 /**
  *  @author Nidhal Dogga

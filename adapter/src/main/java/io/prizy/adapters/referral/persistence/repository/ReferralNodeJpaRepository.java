@@ -9,6 +9,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ReferralNodeJpaRepository extends JpaRepository<ReferralNodeEntity, UUID> {
   Collection<ReferralNodeEntity> findAllByReferrerId(UUID referrerId);
+
   Optional<ReferralNodeEntity> findByCode(String code);
-  Optional<ReferralNodeEntity> findByUserId(UUID userId);
 }

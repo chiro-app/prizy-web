@@ -3,15 +3,14 @@ package io.prizy.domain.referral.service;
 import java.util.Collection;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.concurrent.ThreadLocalRandom;
-import java.util.stream.Collectors;
 
-import io.prizy.domain.referral.ports.ReferralRepository;
 import io.prizy.domain.referral.event.ReferralConfirmed;
 import io.prizy.domain.referral.event.ReferralCreated;
 import io.prizy.domain.referral.model.ReferralNode;
 import io.prizy.domain.referral.ports.ReferralPublisher;
+import io.prizy.domain.referral.ports.ReferralRepository;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 
@@ -20,7 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class ReferralService {
 
   private static final Integer REFERRAL_CODE_LENGTH = 6;
-  private static final String[] REFERRAL_CODE_CHAR_POOL = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789".split("");
+  private static final String REFERRAL_CODE_CHAR_POOL = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 
   private final ReferralRepository repository;
   private final ReferralPublisher publisher;
@@ -81,14 +80,12 @@ public class ReferralService {
   }
 
   private ReferralNode newReferralNode(UUID userId, UUID referrerId) {
-    return repository.save(new ReferralNode(userId, generateReferralCode(), false, Optional.ofNullable(referrerId)));
-  }
-
-  private static String generateReferralCode() {
-    return ThreadLocalRandom.current()
-      .ints(REFERRAL_CODE_LENGTH, 0, REFERRAL_CODE_CHAR_POOL.length)
-      .mapToObj(i -> REFERRAL_CODE_CHAR_POOL[i])
-      .collect(Collectors.joining());
+    return repository.save(new ReferralNode(
+      userId,
+      RandomStringUtils.random(REFERRAL_CODE_LENGTH, REFERRAL_CODE_CHAR_POOL),
+      false,
+      Optional.ofNullable(referrerId)
+    ));
   }
 
 }

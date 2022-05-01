@@ -6,9 +6,9 @@ import io.prizy.domain.contest.service.ContestSubscriptionService
 import io.prizy.graphql.context.GraphQLContext
 import io.prizy.graphql.directives.AuthorizedDirective
 import io.prizy.publicapi.port.contest.graphql.dto.ContestDto
-import io.prizy.publicapi.port.contest.graphql.dto.ReferralNodeDto
 import io.prizy.publicapi.port.contest.mapper.ContestDtoMapper
 import io.prizy.publicapi.port.contest.mapper.ReferralDtoMapper
+import io.prizy.publicapi.port.referral.graphql.dto.ReferralNodeDto
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.springframework.stereotype.Component
