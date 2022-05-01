@@ -2,6 +2,7 @@ package io.prizy.publicapi.port.auth.graphql
 
 import com.expediagroup.graphql.server.operations.Mutation
 import io.prizy.domain.auth.service.PasswordResetService
+import io.prizy.domain.user.service.EmailConfirmationService
 import io.prizy.graphql.context.GraphQLContext
 import io.prizy.graphql.directives.AuthorizedDirective
 import io.prizy.publicapi.auth.AuthProvider
@@ -22,7 +23,8 @@ import org.springframework.stereotype.Component
 @Component
 class AuthMutation(
   private val authProvider: AuthProvider,
-  private val passwordResetService: PasswordResetService
+  private val passwordResetService: PasswordResetService,
+  private val emailConfirmationService: EmailConfirmationService
 ) : Mutation {
 
   suspend fun login(request: LoginDto): AuthTokenDto = authProvider
@@ -51,5 +53,9 @@ class AuthMutation(
     request: EditPasswordDto
   ): Boolean = withContext(Dispatchers.IO) {
     passwordResetService.editPassword(ctx.principal.id, EditPasswordDtoMapper.map(request))
+  }
+
+  suspend fun confirmEmail(code: String): Boolean = withContext(Dispatchers.IO) {
+    emailConfirmationService.confirmEmail(code)
   }
 }

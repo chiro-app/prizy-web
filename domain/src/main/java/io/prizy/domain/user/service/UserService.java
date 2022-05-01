@@ -6,6 +6,8 @@ import java.util.Optional;
 import java.util.UUID;
 
 import io.prizy.domain.auth.model.Roles;
+import io.prizy.domain.user.event.UserCreated;
+import io.prizy.domain.user.event.UserUpdated;
 import io.prizy.domain.user.exception.UserExistsException;
 import io.prizy.domain.user.exception.UserNotFoundException;
 import io.prizy.domain.user.mapper.CreateUserMapper;
@@ -15,6 +17,7 @@ import io.prizy.domain.user.model.UpdateUser;
 import io.prizy.domain.user.model.User;
 import io.prizy.domain.user.model.UserStatus;
 import io.prizy.domain.user.port.PasswordHasher;
+import io.prizy.domain.user.port.UserPublisher;
 import io.prizy.domain.user.port.UserRepository;
 import lombok.RequiredArgsConstructor;
 
@@ -29,6 +32,7 @@ public class UserService {
 
   private final UserRepository repository;
   private final PasswordHasher passwordHasher;
+  private final UserPublisher userPublisher;
 
   public User createUser(CreateUser create) {
     var userExists = repository.existsByEmailPhoneOrUsername(
@@ -38,18 +42,22 @@ public class UserService {
     if (userExists) {
       throw new UserExistsException();
     }
-    var user = CreateUserMapper
+    var user = repository.save(CreateUserMapper
       .map(create)
       .withRoles(List.of(Roles.USER))
-      .withPasswordHash(passwordHasher.hash(create.password()));
-    return repository.save(user);
+      .withPasswordHash(passwordHasher.hash(create.password()))
+    );
+    userPublisher.publish(new UserCreated(user));
+    return user;
   }
 
   public User updateUser(UpdateUser update) {
     if (!repository.existsById(update.id())) {
       throw new UserNotFoundException(update.id());
     }
-    return repository.update(UpdateUserMapper.map(update));
+    var user = repository.update(UpdateUserMapper.map(update));
+    userPublisher.publish(new UserUpdated(user));
+    return user;
   }
 
   public Optional<User> getUser(UUID id) {

@@ -20,8 +20,11 @@ import io.prizy.domain.referral.ports.ReferralRepository
 import io.prizy.domain.referral.service.ReferralService
 import io.prizy.domain.resources.ports.ResourceRepository
 import io.prizy.domain.resources.service.ResourceService
+import io.prizy.domain.user.port.ConfirmationCodeRepository
 import io.prizy.domain.user.port.PasswordHasher
+import io.prizy.domain.user.port.UserPublisher
 import io.prizy.domain.user.port.UserRepository
+import io.prizy.domain.user.service.EmailConfirmationService
 import io.prizy.domain.user.service.UserService
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.boot.context.properties.ConstructorBinding
@@ -45,6 +48,14 @@ import org.springframework.security.crypto.password.PasswordEncoder
 class DomainConfiguration {
 
   @Bean
+  fun emaiConfirmationService(
+    userRepository: UserRepository,
+    notificationPublisher: NotificationPublisher,
+    confirmationCodeRepository: ConfirmationCodeRepository
+  ): EmailConfirmationService =
+    EmailConfirmationService(confirmationCodeRepository, userRepository, notificationPublisher)
+
+  @Bean
   fun passwordResetService(
     userRepository: UserRepository,
     passwordHasher: PasswordHasher,
@@ -63,13 +74,13 @@ class DomainConfiguration {
   fun passwordEncoder(): PasswordEncoder = BCryptPasswordEncoder()
 
   @Bean
-  fun userService(userRepository: UserRepository, passwordHasher: PasswordHasher): UserService =
-    UserService(userRepository, passwordHasher)
+  fun userService(
+    userRepository: UserRepository, passwordHasher: PasswordHasher, userPublisher: UserPublisher
+  ): UserService = UserService(userRepository, passwordHasher, userPublisher)
 
   @Bean
   fun referralService(
-    referralRepository: ReferralRepository,
-    referralPublisher: ReferralPublisher
+    referralRepository: ReferralRepository, referralPublisher: ReferralPublisher
   ): ReferralService {
     return ReferralService(referralRepository, referralPublisher)
   }
@@ -102,25 +113,19 @@ class DomainConfiguration {
     subscriptionRepository: ContestSubscriptionRepository
   ): ContestSubscriptionService {
     return ContestSubscriptionService(
-      resourceService,
-      contestRepository,
-      referralRepository,
-      subscriptionPublisher,
-      subscriptionRepository
+      resourceService, contestRepository, referralRepository, subscriptionPublisher, subscriptionRepository
     )
   }
 
   @ConstructorBinding
   @ConfigurationProperties("prizy.resources")
   data class ResourceProperties(
-    val referrerKeyBonus: Int,
-    val referralKeyBonus: Int
+    val referrerKeyBonus: Int, val referralKeyBonus: Int
   ) {
 
     val toDomain: io.prizy.domain.resources.properties.ResourceProperties
       get() = io.prizy.domain.resources.properties.ResourceProperties(
-        referrerKeyBonus,
-        referralKeyBonus
+        referrerKeyBonus, referralKeyBonus
       )
   }
 }

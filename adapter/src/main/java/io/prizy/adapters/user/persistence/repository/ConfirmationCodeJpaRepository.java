@@ -1,5 +1,6 @@
 package io.prizy.adapters.user.persistence.repository;
 
+import java.util.Optional;
 import java.util.UUID;
 
 import io.prizy.adapters.user.persistence.entity.ConfirmationCodeEntity;
@@ -12,4 +13,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 
 public interface ConfirmationCodeJpaRepository extends JpaRepository<ConfirmationCodeEntity, UUID> {
+  Optional<ConfirmationCodeEntity> findByCode(String confirmationCode);
+
+  void deleteByCode(String code);
 }
