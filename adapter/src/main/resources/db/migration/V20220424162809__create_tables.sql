@@ -203,3 +203,18 @@ ALTER TABLE referral_nodes
 
 ALTER TABLE referral_nodes
   ADD CONSTRAINT FK_REFERRAL_NODES_ON_USER FOREIGN KEY (user_id) REFERENCES users (id);
+
+CREATE TABLE ranking_rows
+(
+  id         UUID NOT NULL,
+  score      BIGINT NOT NULL,
+  contest_id UUID NOT NULL,
+  user_id    UUID NOT NULL,
+  CONSTRAINT pk_ranking_rows PRIMARY KEY (id)
+);
+
+ALTER TABLE ranking_rows
+  ADD CONSTRAINT FK_RANKING_ROWS_ON_CONTEST FOREIGN KEY (contest_id) REFERENCES contests (id);
+
+ALTER TABLE ranking_rows
+  ADD CONSTRAINT FK_RANKING_ROWS_ON_USER FOREIGN KEY (user_id) REFERENCES users (id);

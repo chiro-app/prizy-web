@@ -9,6 +9,7 @@ import io.prizy.graphql.directives.ResourceIdentifierDirective
 import io.prizy.graphql.directives.ResourceIdentifierSchemaDirectiveWiring
 import io.prizy.graphql.scalars.InstantScalar
 import io.prizy.graphql.scalars.LocalDateScalar
+import io.prizy.graphql.scalars.LongScalar
 import io.prizy.graphql.scalars.UUIDScalar
 import org.springframework.stereotype.Component
 import java.time.Instant
@@ -32,6 +33,7 @@ class CustomSchemaGeneratorHooks : SchemaGeneratorHooks {
     UUID::class -> UUIDScalar.graphqlScalarType
     Instant::class -> InstantScalar.graphqlScalarType
     LocalDate::class -> LocalDateScalar.graphqlScalarType
+    Long::class -> LongScalar.graphqlScalarType
     else -> super.willGenerateGraphQLType(type)
   }
 }

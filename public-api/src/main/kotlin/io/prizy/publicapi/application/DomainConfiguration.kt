@@ -15,6 +15,8 @@ import io.prizy.domain.contest.ports.PackRepository
 import io.prizy.domain.contest.service.ContestService
 import io.prizy.domain.contest.service.ContestSubscriptionService
 import io.prizy.domain.notification.publisher.NotificationPublisher
+import io.prizy.domain.ranking.port.RankingRowRepository
+import io.prizy.domain.ranking.service.RankingService
 import io.prizy.domain.referral.ports.ReferralPublisher
 import io.prizy.domain.referral.ports.ReferralRepository
 import io.prizy.domain.referral.service.ReferralService
@@ -46,6 +48,10 @@ import org.springframework.security.crypto.password.PasswordEncoder
 @Import(JpaAdapterConfiguration::class)
 @EnableConfigurationProperties(DomainConfiguration.ResourceProperties::class)
 class DomainConfiguration {
+
+  @Bean
+  fun rankingService(rankingRowRepository: RankingRowRepository, contestRepository: ContestRepository): RankingService =
+    RankingService(rankingRowRepository, contestRepository)
 
   @Bean
   fun emaiConfirmationService(
