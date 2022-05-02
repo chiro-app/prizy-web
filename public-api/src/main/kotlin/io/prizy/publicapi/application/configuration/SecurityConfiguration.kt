@@ -1,4 +1,4 @@
-package io.prizy.publicapi.application
+package io.prizy.publicapi.application.configuration
 
 import io.prizy.publicapi.application.properties.JwtProperties
 import org.springframework.boot.context.properties.EnableConfigurationProperties

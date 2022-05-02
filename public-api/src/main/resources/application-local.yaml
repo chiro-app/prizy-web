@@ -1,14 +1,21 @@
+graphql:
+  playground:
+    enabled: true
+
 spring:
   datasource:
     url: jdbc:postgresql://localhost:5433/prizy-web
     username: postgres
     password: mysecretpassword
 
-graphql:
-  playground:
-    enabled: true
-
 prizy:
+  storage:
+    endpoint: http://localhost:9000
+    region: local
+    bucket-name: prizy-local
+    server-url: http://localhost:8080
+    access-key: minioadmin
+    secret-key: minioadmin
   security:
     jwt:
       key-id: local

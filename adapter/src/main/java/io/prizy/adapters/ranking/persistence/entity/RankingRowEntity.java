@@ -1,5 +1,6 @@
 package io.prizy.adapters.ranking.persistence.entity;
 
+import java.time.Instant;
 import java.util.UUID;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -35,5 +36,7 @@ public class RankingRowEntity {
   private UUID contestId;
   @Column(name = "user_id")
   private UUID userId;
+  @Column(name = "created")
+  private Instant dateTime;
 
 }

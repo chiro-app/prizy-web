@@ -18,6 +18,7 @@ public class RankingRowMapper {
       .score(entity.getScore())
       .contestId(entity.getContestId())
       .userId(entity.getUserId())
+      .dateTime(entity.getDateTime())
       .build();
   }
 
@@ -26,6 +27,7 @@ public class RankingRowMapper {
       .score(row.score())
       .contestId(row.contestId())
       .userId(row.userId())
+      .dateTime(row.dateTime())
       .build();
   }
 

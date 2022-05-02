@@ -9,6 +9,12 @@ management:
         include: "*"
 
 prizy:
+  app.version:
+    latest-app-version: 1.3.0+30
+    minimum-app-version: 1.3.0+30
+    legal-notice-url: https://prizy-dev.s3.eu-west-3.amazonaws.com/static-content/legal-notice.html
+    privacy-policy-url: https://prizy-dev.s3.eu-west-3.amazonaws.com/static-content/privacy-policy.html
+    usage-conditions-url: https://prizy-dev.s3.eu-west-3.amazonaws.com/static-content/usage-conditions.html
   resources:
     referral-key-bonus: 6
     referrer-key-bonus: 6

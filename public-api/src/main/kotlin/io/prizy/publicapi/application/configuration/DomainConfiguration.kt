@@ -1,4 +1,4 @@
-package io.prizy.publicapi.application
+package io.prizy.publicapi.application.configuration
 
 import io.prizy.configuration.JpaAdapterConfiguration
 import io.prizy.domain.auth.port.RefreshTokenRepository

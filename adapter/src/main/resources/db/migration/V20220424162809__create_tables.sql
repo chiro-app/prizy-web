@@ -210,6 +210,7 @@ CREATE TABLE ranking_rows
   score      BIGINT NOT NULL,
   contest_id UUID NOT NULL,
   user_id    UUID NOT NULL,
+  created    TIMESTAMPTZ NOT NULL,
   CONSTRAINT pk_ranking_rows PRIMARY KEY (id)
 );
 

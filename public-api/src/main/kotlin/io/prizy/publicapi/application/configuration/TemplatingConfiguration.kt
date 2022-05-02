@@ -1,4 +1,4 @@
-package io.prizy.publicapi.application
+package io.prizy.publicapi.application.configuration
 
 import io.prizy.domain.contest.ports.ContestTemplateCompiler
 import io.prizy.toolbox.templating.MustacheTemplateCompiler
