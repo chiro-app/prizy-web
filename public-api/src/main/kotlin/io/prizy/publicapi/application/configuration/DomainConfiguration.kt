@@ -1,6 +1,9 @@
 package io.prizy.publicapi.application.configuration
 
-import io.prizy.configuration.JpaAdapterConfiguration
+import io.prizy.adapters.asset.MinioClientProperties
+import io.prizy.domain.asset.port.AssetRepository
+import io.prizy.domain.asset.port.StorageBackend
+import io.prizy.domain.asset.service.AssetService
 import io.prizy.domain.auth.port.RefreshTokenRepository
 import io.prizy.domain.auth.port.ResetCodeRepository
 import io.prizy.domain.auth.port.ResetTokenRepository
@@ -28,12 +31,12 @@ import io.prizy.domain.user.port.UserPublisher
 import io.prizy.domain.user.port.UserRepository
 import io.prizy.domain.user.service.EmailConfirmationService
 import io.prizy.domain.user.service.UserService
+import io.prizy.publicapi.application.properties.StorageProperties
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.boot.context.properties.ConstructorBinding
 import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import org.springframework.context.annotation.Import
 import org.springframework.scheduling.annotation.EnableAsync
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
@@ -45,9 +48,23 @@ import org.springframework.security.crypto.password.PasswordEncoder
 
 @EnableAsync
 @Configuration
-@Import(JpaAdapterConfiguration::class)
 @EnableConfigurationProperties(DomainConfiguration.ResourceProperties::class)
 class DomainConfiguration {
+
+  @Bean
+  fun minioClientProperties(storageProperties: StorageProperties) = MinioClientProperties(
+    storageProperties.endpoint,
+    storageProperties.accessKey,
+    storageProperties.secretKey,
+    storageProperties.bucketName,
+    storageProperties.region
+  )
+
+  @Bean
+  fun assetService(storageBackend: StorageBackend, assetRepository: AssetRepository) = AssetService(
+    storageBackend,
+    assetRepository
+  )
 
   @Bean
   fun rankingService(rankingRowRepository: RankingRowRepository, contestRepository: ContestRepository): RankingService =

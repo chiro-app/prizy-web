@@ -19,7 +19,7 @@ object CreateContestDtoMapper {
     .category(map(dto.category))
     .fromDate(dto.fromDate)
     .toDate(dto.toDate)
-    .mediaIds(dto.mediaIds)
+    .assetIds(dto.assetIds)
     .coverMediaId(dto.coverMediaId)
     .packs(dto.packs.map(CreatePackDtoMapper::map))
     .cost(dto.cost)

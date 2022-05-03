@@ -23,7 +23,7 @@ public sealed interface Pack {
     Integer firstWinnerPosition,
     Integer quantity,
     Float value,
-    String mediaId
+    String assetId
   ) implements Pack {
   }
 

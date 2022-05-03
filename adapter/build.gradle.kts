@@ -13,10 +13,11 @@ dependencies {
   implementation(project(":domain"))
   implementation(project(":toolbox"))
 
-  implementation(kotlin("reflect"))
-
-  implementation("org.springframework.boot:spring-boot-starter-data-jpa")
   implementation("org.springframework.security:spring-security-crypto")
+  implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+
+  implementation("io.minio:minio")
+  runtimeOnly("com.squareup.okhttp3:okhttp")
 
   implementation("org.flywaydb:flyway-core")
   implementation("com.vladmihalcea:hibernate-types-55")

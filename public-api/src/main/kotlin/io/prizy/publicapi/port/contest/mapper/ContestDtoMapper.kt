@@ -22,7 +22,7 @@ object ContestDtoMapper {
       adultOnly = contest.adultOnly,
       category = map(contest.category),
       coverMediaId = contest.coverMediaId,
-      mediaIds = contest.mediaIds.toList(),
+      assetIds = contest.assetIds.toList(),
       cost = contest.cost,
       facebookPage = contest.facebookPage.orElse(null),
       instagramPage = contest.instagramPage.orElse(null),

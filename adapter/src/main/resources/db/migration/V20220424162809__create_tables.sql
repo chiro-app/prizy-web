@@ -1,3 +1,13 @@
+CREATE TABLE assets
+(
+  id            TEXT NOT NULL,
+  original_name TEXT NOT NULL,
+  path          TEXT NOT NULL,
+  type          TEXT NOT NULL,
+  size          BIGINT NOT NULL,
+  CONSTRAINT pk_assets PRIMARY KEY (id)
+);
+
 CREATE TABLE merchants
 (
   id            UUID  NOT NULL,
@@ -5,9 +15,12 @@ CREATE TABLE merchants
   siren         TEXT  NOT NULL,
   capital       FLOAT NOT NULL,
   address       TEXT  NOT NULL,
-  logo_media_id TEXT  NOT NULL,
+  logo_asset_id TEXT  NOT NULL,
   CONSTRAINT pk_merchants PRIMARY KEY (id)
 );
+
+ALTER TABLE merchants
+  ADD CONSTRAINT FK_MERCHANT_ON_ASSET FOREIGN KEY (logo_asset_id) REFERENCES assets (id);
 
 CREATE TABLE contests
 (
@@ -17,7 +30,7 @@ CREATE TABLE contests
   to_date                 TIMESTAMPTZ NOT NULL,
   description             TEXT        NOT NULL,
   category                TEXT        NOT NULL,
-  cover_media_id          TEXT        NOT NULL,
+  cover_asset_id          TEXT        NOT NULL,
   cost                    INTEGER     NOT NULL,
   facebook_page           TEXT,
   instagram_page          TEXT,
@@ -30,16 +43,22 @@ CREATE TABLE contests
 );
 
 ALTER TABLE contests
+  ADD CONSTRAINT FK_CONTEST_COVER_ON_ASSET FOREIGN KEY (cover_asset_id) REFERENCES assets (id);
+
+ALTER TABLE contests
   ADD CONSTRAINT FK_CONTEST_ON_MERCHANT FOREIGN KEY (merchant_id) REFERENCES merchants (id);
 
-CREATE TABLE contest_media_ids
+CREATE TABLE contest_asset_ids
 (
   contest_id UUID NOT NULL,
-  media_ids  TEXT NOT NULL
+  asset_ids  TEXT NOT NULL
 );
 
-ALTER TABLE contest_media_ids
-  ADD CONSTRAINT FK_CONTEST_MEDIA_ID_ON_CONTEST FOREIGN KEY (contest_id) REFERENCES contests (id);
+ALTER TABLE contest_asset_ids
+  ADD CONSTRAINT FK_CONTEST_ASSET_ID_ON_CONTEST FOREIGN KEY (contest_id) REFERENCES contests (id);
+
+ALTER TABLE contest_asset_ids
+  ADD CONSTRAINT FK_CONTEST_ASSET_ID_ON_ASSET FOREIGN KEY (asset_ids) REFERENCES assets (id);
 
 CREATE TABLE packs
 (
@@ -50,12 +69,15 @@ CREATE TABLE packs
   last_winner_position  INTEGER NOT NULL,
   contest_id            UUID    NOT NULL,
   value                 FLOAT,
-  media_id              TEXT,
+  asset_id              TEXT,
   quantity              INTEGER,
   code                  TEXT,
   expiration_date       TIMESTAMPTZ,
   CONSTRAINT pk_packs PRIMARY KEY (id)
 );
+
+ALTER TABLE packs
+  ADD CONSTRAINT FK_PACKS_ON_ASSET FOREIGN KEY (asset_id) REFERENCES assets (id);
 
 ALTER TABLE packs
   ADD CONSTRAINT FK_PACKS_ON_CONTEST FOREIGN KEY (contest_id) REFERENCES contests (id);
@@ -81,7 +103,7 @@ CREATE TABLE users
   birth_date      date        NOT NULL,
   first_name      TEXT        NOT NULL,
   last_name       TEXT        NOT NULL,
-  avatar_media_id TEXT,
+  avatar_asset_id TEXT,
   mobile_phone    TEXT,
   origin          TEXT        NOT NULL,
   gender          TEXT        NOT NULL,
@@ -91,6 +113,9 @@ CREATE TABLE users
   address_id      UUID,
   CONSTRAINT pk_users PRIMARY KEY (id)
 );
+
+ALTER TABLE users
+  ADD CONSTRAINT FK_USERS_ON_ASSET FOREIGN KEY (avatar_asset_id) REFERENCES assets (id);
 
 ALTER TABLE users
   ADD CONSTRAINT uc_users_email UNIQUE (email);

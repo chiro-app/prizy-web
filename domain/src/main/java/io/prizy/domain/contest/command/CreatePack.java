@@ -24,7 +24,7 @@ public sealed interface CreatePack {
     Integer lastWinnerPosition,
     Integer quantity,
     Float value,
-    String mediaId
+    String assetId
   ) implements CreatePack {
   }
 

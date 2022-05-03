@@ -23,7 +23,7 @@ public class CreatePackMapper {
         .lastWinnerPosition(product.lastWinnerPosition())
         .quantity(product.quantity())
         .value(product.value())
-        .mediaId(product.mediaId())
+        .assetId(product.assetId())
         .build();
     };
   }

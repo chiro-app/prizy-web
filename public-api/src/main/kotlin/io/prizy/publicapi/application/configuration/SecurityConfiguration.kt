@@ -5,6 +5,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.HttpStatus
+import org.springframework.http.MediaType
 import org.springframework.security.config.annotation.method.configuration.EnableReactiveMethodSecurity
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity
 import org.springframework.security.config.web.server.ServerHttpSecurity
@@ -48,6 +49,7 @@ class SecurityConfiguration {
             {"errors":[{"extensions":{"errorCode":"FORBIDDEN"}}]}
           """.trimIndent().toByteArray(Charsets.UTF_8)
           val buffer = exchange.response.bufferFactory().wrap(bytes)
+          exchange.response.headers.contentType = MediaType.APPLICATION_JSON
           exchange.response.statusCode = HttpStatus.OK
           exchange.response.writeWith(Mono.just(buffer))
         }
@@ -57,6 +59,7 @@ class SecurityConfiguration {
             {"errors":[{"extensions":{"errorCode":"UNAUTHORIZED"}}]}
           """.trimIndent().toByteArray(Charsets.UTF_8)
           val buffer = exchange.response.bufferFactory().wrap(bytes)
+          exchange.response.headers.contentType = MediaType.APPLICATION_JSON
           exchange.response.statusCode = HttpStatus.OK
           exchange.response.writeWith(Mono.just(buffer))
         }

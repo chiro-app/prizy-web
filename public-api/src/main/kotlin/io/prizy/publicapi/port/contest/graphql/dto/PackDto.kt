@@ -25,7 +25,7 @@ sealed interface PackDto {
     override val firstWinnerPosition: Int,
     val quantity: Int,
     val value: Float,
-    val mediaId: String
+    val assetId: String
   ) : PackDto
 
   @GraphQLName("Coupon")

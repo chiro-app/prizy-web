@@ -50,8 +50,8 @@ public sealed class PackEntity {
 
     @Column
     private Float value;
-    @Column(name = "media_id")
-    private String mediaId;
+    @Column(name = "asset_id")
+    private String assetId;
     @Column
     private Integer quantity;
 

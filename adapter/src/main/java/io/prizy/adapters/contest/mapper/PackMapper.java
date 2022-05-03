@@ -5,8 +5,8 @@ import io.prizy.domain.contest.model.Pack;
 import lombok.experimental.UtilityClass;
 
 /**
- *  @author Nidhal Dogga
- *  @created 4/24/2022 1:30 PM
+ * @author Nidhal Dogga
+ * @created 4/24/2022 1:30 PM
  */
 
 @UtilityClass
@@ -21,7 +21,7 @@ public class PackMapper {
         product.getFirstWinnerPosition(),
         product.getQuantity(),
         product.getValue(),
-        product.getMediaId()
+        product.getAssetId()
       );
       case PackEntity.Coupon coupon -> new Pack.Coupon(
         coupon.getId(),

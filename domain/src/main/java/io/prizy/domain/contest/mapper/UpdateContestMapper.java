@@ -16,7 +16,7 @@ public class UpdateContestMapper {
       .category(create.category())
       .fromDate(create.fromDate())
       .toDate(create.toDate())
-      .mediaIds(create.mediaIds())
+      .assetIds(create.assetIds())
       .coverMediaId(create.coverMediaId())
       .packs(create.packs().stream().map(CreatePackMapper::map).toList())
       .cost(create.cost())

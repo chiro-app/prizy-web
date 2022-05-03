@@ -18,7 +18,7 @@ object CreatePackDtoMapper {
       .lastWinnerPosition(dto.product.lastWinnerPosition)
       .quantity(dto.product.quantity)
       .value(dto.product.value)
-      .mediaId(dto.product.mediaId)
+      .assetId(dto.product.assetId)
       .build()
     dto.coupon != null -> CreatePack.Coupon.builder()
       .name(dto.coupon.name)

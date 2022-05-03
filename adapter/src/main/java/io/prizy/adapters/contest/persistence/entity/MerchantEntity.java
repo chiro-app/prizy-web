@@ -13,8 +13,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 /**
- *  @author Nidhal Dogga
- *  @created 01/03/2021 21:21
+ * @author Nidhal Dogga
+ * @created 01/03/2021 21:21
  */
 
 @Getter
@@ -35,6 +35,6 @@ public class MerchantEntity {
   private Float capital;
   @Column
   private String address;
-  @Column(name = "logo_media_id")
+  @Column(name = "logo_asset_id")
   private String logoMediaId;
 }

@@ -53,9 +53,9 @@ public class ContestEntity {
   @Enumerated(EnumType.STRING)
   private ContestCategory category;
   @ElementCollection(fetch = FetchType.EAGER)
-  @Column(name = "media_ids")
-  private Collection<String> mediaIds;
-  @Column(name = "cover_media_id")
+  @Column(name = "asset_ids")
+  private Collection<String> assetIds;
+  @Column(name = "cover_asset_id")
   private String coverMediaId;
   @Column
   private Integer cost;

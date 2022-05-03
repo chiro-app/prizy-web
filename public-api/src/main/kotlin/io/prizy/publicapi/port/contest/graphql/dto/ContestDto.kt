@@ -21,7 +21,7 @@ import java.util.UUID
 data class ContestDto(
   val id: UUID,
   val name: String,
-  val mediaIds: List<String>,
+  val assetIds: List<String>,
   val coverMediaId: String,
   val description: String,
   val category: ContestCategoryDto,

@@ -1,15 +1,15 @@
 package io.prizy.domain.contest.model;
 
-import lombok.Builder;
-
 import java.time.Instant;
 import java.util.Collection;
 import java.util.Optional;
 import java.util.UUID;
 
+import lombok.Builder;
+
 /**
- *  @author Nidhal Dogga
- *  @created 4/24/2022 12:14 AM
+ * @author Nidhal Dogga
+ * @created 4/24/2022 12:14 AM
  */
 
 
@@ -21,7 +21,7 @@ public record Contest(
   ContestCategory category,
   Instant fromDate,
   Instant toDate,
-  Collection<String> mediaIds,
+  Collection<String> assetIds,
   String coverMediaId,
   Collection<Pack> packs,
   Integer cost,

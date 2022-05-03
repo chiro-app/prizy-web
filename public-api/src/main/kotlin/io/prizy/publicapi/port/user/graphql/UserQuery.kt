@@ -4,9 +4,9 @@ import com.expediagroup.graphql.server.operations.Query
 import io.prizy.domain.user.service.UserService
 import io.prizy.graphql.context.GraphQLContext
 import io.prizy.graphql.directives.AuthorizedDirective
-import io.prizy.graphql.exception.InternalServerException
 import io.prizy.publicapi.port.user.graphql.dto.UserDto
 import io.prizy.publicapi.port.user.mapper.UserDtoMapper
+import io.prizy.toolbox.exception.InternalServerException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.springframework.stereotype.Component

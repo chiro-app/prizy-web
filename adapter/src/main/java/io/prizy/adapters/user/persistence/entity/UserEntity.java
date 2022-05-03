@@ -58,7 +58,7 @@ public class UserEntity {
   private String firstName;
   @Column(name = "last_name")
   private String lastName;
-  @Column(name = "avatar_media_id")
+  @Column(name = "avatar_asset_id")
   private String avatarMediaId;
   @Column(name = "mobile_phone")
   private String mobilePhone;

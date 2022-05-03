@@ -8,8 +8,8 @@ import io.prizy.domain.contest.model.Contest;
 import lombok.experimental.UtilityClass;
 
 /**
- *  @author Nidhal Dogga
- *  @created 4/24/2022 1:16 PM
+ * @author Nidhal Dogga
+ * @created 4/24/2022 1:16 PM
  */
 
 @UtilityClass
@@ -23,7 +23,7 @@ public class ContestMapper {
       entity.getCategory(),
       entity.getFromDate(),
       entity.getToDate(),
-      entity.getMediaIds(),
+      entity.getAssetIds(),
       entity.getCoverMediaId(),
       entity.getPacks().stream().map(PackMapper::map).toList(),
       entity.getCost(),
@@ -47,7 +47,7 @@ public class ContestMapper {
       .adultOnly(contest.adultOnly())
       .category(contest.category())
       .coverMediaId(contest.coverMediaId())
-      .mediaIds(contest.mediaIds())
+      .assetIds(contest.assetIds())
       .cost(contest.cost())
       .facebookPage(contest.facebookPage().orElse(null))
       .instagramPage(contest.instagramPage().orElse(null))

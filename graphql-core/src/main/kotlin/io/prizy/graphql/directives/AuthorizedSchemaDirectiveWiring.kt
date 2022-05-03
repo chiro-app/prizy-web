@@ -8,12 +8,12 @@ import graphql.schema.DataFetchingEnvironment
 import graphql.schema.GraphQLFieldDefinition
 import graphql.schema.GraphQLInputObjectField
 import graphql.schema.GraphQLNonNull
-import io.prizy.graphql.exception.InsufficientCredentialsException
-import io.prizy.graphql.exception.InternalServerException
 import io.prizy.graphql.context.GraphQLContext
 import io.prizy.graphql.exception.AuthenticationRequiredException
 import io.prizy.graphql.exception.GraphQLException
+import io.prizy.graphql.exception.InsufficientCredentialsException
 import io.prizy.toolbox.exception.ErrorCode
+import io.prizy.toolbox.exception.InternalServerException
 import org.slf4j.LoggerFactory
 import kotlin.reflect.full.findAnnotation
 

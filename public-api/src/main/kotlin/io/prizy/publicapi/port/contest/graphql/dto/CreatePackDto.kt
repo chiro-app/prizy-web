@@ -21,7 +21,7 @@ data class CreatePackDto(
     val lastWinnerPosition: Int,
     val quantity: Int,
     val value: Float,
-    val mediaId: String,
+    val assetId: String,
   )
 
   @GraphQLName("CreateCoupon")

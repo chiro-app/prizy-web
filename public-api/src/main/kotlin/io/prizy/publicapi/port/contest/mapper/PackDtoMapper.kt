@@ -19,7 +19,7 @@ object PackDtoMapper {
         firstWinnerPosition = dto.firstWinnerPosition,
         quantity = dto.quantity,
         value = dto.value,
-        mediaId = dto.mediaId,
+        assetId = dto.assetId,
       )
       is Pack.Coupon -> PackDto.Coupon(
         id = dto.id,

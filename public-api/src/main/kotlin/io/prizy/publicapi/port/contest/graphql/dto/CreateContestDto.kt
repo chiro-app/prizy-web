@@ -16,7 +16,7 @@ data class CreateContestDto(
   val category: ContestCategoryDto,
   val fromDate: Instant,
   val toDate: Instant,
-  val mediaIds: List<String>,
+  val assetIds: List<String>,
   val coverMediaId: String,
   val packs: List<CreatePackDto>,
   val cost: Int,

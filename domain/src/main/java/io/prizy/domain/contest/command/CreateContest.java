@@ -16,7 +16,7 @@ public record CreateContest(
   ContestCategory category,
   Instant fromDate,
   Instant toDate,
-  Collection<String> mediaIds,
+  Collection<String> assetIds,
   String coverMediaId,
   Collection<CreatePack> packs,
   Integer cost,
