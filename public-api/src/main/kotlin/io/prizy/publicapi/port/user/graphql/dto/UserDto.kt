@@ -4,9 +4,11 @@ import com.expediagroup.graphql.generator.annotations.GraphQLIgnore
 import com.expediagroup.graphql.generator.annotations.GraphQLName
 import io.prizy.domain.referral.service.ReferralService
 import io.prizy.domain.user.service.AddressService
+import io.prizy.domain.user.service.UserPreferencesService
 import io.prizy.publicapi.port.contest.mapper.ReferralDtoMapper
 import io.prizy.publicapi.port.referral.graphql.dto.ReferralNodeDto
 import io.prizy.publicapi.port.user.mapper.AddressDtoMapper
+import io.prizy.publicapi.port.user.mapper.UserPreferencesDtoMapper
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.springframework.beans.factory.annotation.Autowired
@@ -34,6 +36,11 @@ data class UserDto(
   val created: Instant,
   @GraphQLIgnore val addressId: UUID?
 ) {
+
+  suspend fun preferences(@GraphQLIgnore @Autowired userPreferencesService: UserPreferencesService): UserPreferencesDto =
+    withContext(Dispatchers.IO) {
+      UserPreferencesDtoMapper.map(userPreferencesService.forUser(id))
+    }
 
   suspend fun address(@GraphQLIgnore @Autowired addressService: AddressService): AddressDto? =
     withContext(Dispatchers.IO) {

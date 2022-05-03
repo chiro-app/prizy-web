@@ -27,14 +27,14 @@ import io.prizy.domain.resources.ports.ResourceRepository
 import io.prizy.domain.resources.service.ResourceService
 import io.prizy.domain.user.port.ConfirmationCodeRepository
 import io.prizy.domain.user.port.PasswordHasher
+import io.prizy.domain.user.port.UserPreferencesRepository
 import io.prizy.domain.user.port.UserPublisher
 import io.prizy.domain.user.port.UserRepository
 import io.prizy.domain.user.service.EmailConfirmationService
+import io.prizy.domain.user.service.UserPreferencesService
 import io.prizy.domain.user.service.UserService
+import io.prizy.publicapi.application.properties.ResourceProperties
 import io.prizy.publicapi.application.properties.StorageProperties
-import org.springframework.boot.context.properties.ConfigurationProperties
-import org.springframework.boot.context.properties.ConstructorBinding
-import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.scheduling.annotation.EnableAsync
@@ -48,8 +48,10 @@ import org.springframework.security.crypto.password.PasswordEncoder
 
 @EnableAsync
 @Configuration
-@EnableConfigurationProperties(DomainConfiguration.ResourceProperties::class)
 class DomainConfiguration {
+
+  @Bean
+  fun userPreferencesService(repository: UserPreferencesRepository) = UserPreferencesService(repository)
 
   @Bean
   fun minioClientProperties(storageProperties: StorageProperties) = MinioClientProperties(
@@ -67,7 +69,7 @@ class DomainConfiguration {
   )
 
   @Bean
-  fun rankingService(rankingRowRepository: RankingRowRepository, contestRepository: ContestRepository): RankingService =
+  fun rankingService(rankingRowRepository: RankingRowRepository, contestRepository: ContestRepository) =
     RankingService(rankingRowRepository, contestRepository)
 
   @Bean
@@ -75,8 +77,7 @@ class DomainConfiguration {
     userRepository: UserRepository,
     notificationPublisher: NotificationPublisher,
     confirmationCodeRepository: ConfirmationCodeRepository
-  ): EmailConfirmationService =
-    EmailConfirmationService(confirmationCodeRepository, userRepository, notificationPublisher)
+  ) = EmailConfirmationService(confirmationCodeRepository, userRepository, notificationPublisher)
 
   @Bean
   fun passwordResetService(
@@ -85,13 +86,12 @@ class DomainConfiguration {
     resetTokenRepository: ResetTokenRepository,
     resetCodeRepository: ResetCodeRepository,
     notificationPublisher: NotificationPublisher
-  ): PasswordResetService = PasswordResetService(
+  ) = PasswordResetService(
     userRepository, resetCodeRepository, resetTokenRepository, passwordHasher, notificationPublisher
   )
 
   @Bean
-  fun refreshTokenService(refreshTokenRepository: RefreshTokenRepository): RefreshTokenService =
-    RefreshTokenService(refreshTokenRepository)
+  fun refreshTokenService(refreshTokenRepository: RefreshTokenRepository) = RefreshTokenService(refreshTokenRepository)
 
   @Bean
   fun passwordEncoder(): PasswordEncoder = BCryptPasswordEncoder()
@@ -99,23 +99,19 @@ class DomainConfiguration {
   @Bean
   fun userService(
     userRepository: UserRepository, passwordHasher: PasswordHasher, userPublisher: UserPublisher
-  ): UserService = UserService(userRepository, passwordHasher, userPublisher)
+  ) = UserService(userRepository, passwordHasher, userPublisher)
 
   @Bean
   fun referralService(
     referralRepository: ReferralRepository, referralPublisher: ReferralPublisher
-  ): ReferralService {
-    return ReferralService(referralRepository, referralPublisher)
-  }
+  ) = ReferralService(referralRepository, referralPublisher)
 
   @Bean
   fun resourceService(
     contestRepository: ContestRepository,
     transactionRepository: ResourceRepository,
     resourceProperties: ResourceProperties
-  ): ResourceService {
-    return ResourceService(contestRepository, transactionRepository, resourceProperties.toDomain)
-  }
+  ) = ResourceService(contestRepository, transactionRepository, resourceProperties.toDomain)
 
   @Bean
   fun contestService(
@@ -123,9 +119,7 @@ class DomainConfiguration {
     contestPublisher: ContestPublisher,
     contestRepository: ContestRepository,
     templateCompiler: ContestTemplateCompiler
-  ): ContestService {
-    return ContestService(contestRepository, contestPublisher, packRepository, templateCompiler)
-  }
+  ) = ContestService(contestRepository, contestPublisher, packRepository, templateCompiler)
 
   @Bean
   fun contestSubscriptionService(
@@ -134,21 +128,7 @@ class DomainConfiguration {
     referralRepository: ReferralRepository,
     subscriptionPublisher: ContestSubscriptionPublisher,
     subscriptionRepository: ContestSubscriptionRepository
-  ): ContestSubscriptionService {
-    return ContestSubscriptionService(
-      resourceService, contestRepository, referralRepository, subscriptionPublisher, subscriptionRepository
-    )
-  }
-
-  @ConstructorBinding
-  @ConfigurationProperties("prizy.resources")
-  data class ResourceProperties(
-    val referrerKeyBonus: Int, val referralKeyBonus: Int
-  ) {
-
-    val toDomain: io.prizy.domain.resources.properties.ResourceProperties
-      get() = io.prizy.domain.resources.properties.ResourceProperties(
-        referrerKeyBonus, referralKeyBonus
-      )
-  }
+  ) = ContestSubscriptionService(
+    resourceService, contestRepository, referralRepository, subscriptionPublisher, subscriptionRepository
+  )
 }

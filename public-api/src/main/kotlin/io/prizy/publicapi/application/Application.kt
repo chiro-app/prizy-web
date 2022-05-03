@@ -1,6 +1,7 @@
 package io.prizy.publicapi.application
 
 import io.prizy.publicapi.application.properties.AppConfigurationProperties
+import io.prizy.publicapi.application.properties.ResourceProperties
 import io.prizy.publicapi.application.properties.StorageProperties
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.context.properties.EnableConfigurationProperties
@@ -13,6 +14,7 @@ import org.springframework.scheduling.annotation.EnableAsync
 @ComponentScan(basePackages = ["io.prizy.publicapi"])
 @EnableConfigurationProperties(
   StorageProperties::class,
+  ResourceProperties::class,
   AppConfigurationProperties::class
 )
 class Application
