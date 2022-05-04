@@ -24,7 +24,7 @@ public class ContestMapper {
       entity.getFromDate(),
       entity.getToDate(),
       entity.getAssetIds(),
-      entity.getCoverMediaId(),
+      entity.getCoverAssetId(),
       entity.getPacks().stream().map(PackMapper::map).toList(),
       entity.getCost(),
       Optional.ofNullable(entity.getFacebookPage()),
@@ -46,7 +46,7 @@ public class ContestMapper {
       .toDate(contest.toDate())
       .adultOnly(contest.adultOnly())
       .category(contest.category())
-      .coverMediaId(contest.coverMediaId())
+      .coverAssetId(contest.coverAssetId())
       .assetIds(contest.assetIds())
       .cost(contest.cost())
       .facebookPage(contest.facebookPage().orElse(null))

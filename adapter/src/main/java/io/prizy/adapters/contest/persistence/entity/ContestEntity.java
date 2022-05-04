@@ -56,7 +56,7 @@ public class ContestEntity {
   @Column(name = "asset_ids")
   private Collection<String> assetIds;
   @Column(name = "cover_asset_id")
-  private String coverMediaId;
+  private String coverAssetId;
   @Column
   private Integer cost;
   @Column(name = "facebook_page")

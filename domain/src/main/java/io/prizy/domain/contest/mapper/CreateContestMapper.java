@@ -16,7 +16,7 @@ public class CreateContestMapper {
       .fromDate(create.fromDate())
       .toDate(create.toDate())
       .assetIds(create.assetIds())
-      .coverMediaId(create.coverMediaId())
+      .coverAssetId(create.coverAssetId())
       .packs(create.packs().stream().map(CreatePackMapper::map).toList())
       .cost(create.cost())
       .facebookPage(create.facebookPage())

@@ -21,7 +21,7 @@ object UpdateContestMapper {
     .fromDate(dto.fromDate)
     .toDate(dto.toDate)
     .assetIds(dto.assetIds)
-    .coverMediaId(dto.coverMediaId)
+    .coverAssetId(dto.coverAssetId)
     .packs(dto.packs.map(CreatePackDtoMapper::map))
     .cost(dto.cost)
     .facebookPage(Optional.ofNullable(dto.facebookPage))

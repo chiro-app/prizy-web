@@ -22,7 +22,7 @@ object UserDtoMapper {
     addressId = user.addressId.orElse(null),
     gender = GenderDto.valueOf(user.gender.name),
     birthDate = user.birthDate,
-    avatarMediaId = user.avatarMediaId.orElse(null),
+    avatarAssetId = user.avatarAssetId.orElse(null),
     status = UserStatusDto.valueOf(user.status.name),
     created = user.created
   )

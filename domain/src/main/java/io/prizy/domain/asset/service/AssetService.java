@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.time.Instant;
+import java.util.Collection;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -98,6 +99,10 @@ public class AssetService {
 
   public Optional<Asset> get(String id) {
     return assetRepository.byId(id);
+  }
+
+  public Collection<Asset> getMany(Collection<String> ids) {
+    return assetRepository.byIds(ids);
   }
 
   public Optional<String> getDownloadUrl(String assetId) {

@@ -69,4 +69,9 @@ public class ContestRepositoryImpl implements ContestRepository {
   public void delete(UUID contestId) {
     jpaRepository.deleteById(contestId);
   }
+
+  @Override
+  public Collection<Contest> byIds(Collection<UUID> ids) {
+    return jpaRepository.findAllById(ids).stream().map(ContestMapper::map).toList();
+  }
 }

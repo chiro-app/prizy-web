@@ -22,7 +22,7 @@ object UpdateUserDtoMapper {
     .gender(Gender.valueOf(dto.gender.name))
     .birthDate(dto.birthDate)
     .mobilePhone(Optional.ofNullable(dto.mobilePhone))
-    .avatarMediaId(Optional.ofNullable(dto.avatarMediaId))
+    .avatarAssetId(Optional.ofNullable(dto.avatarAssetId))
     .addressId(Optional.ofNullable(dto.addressId))
     .build()
 }

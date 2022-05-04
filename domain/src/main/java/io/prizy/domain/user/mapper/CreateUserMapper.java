@@ -28,7 +28,7 @@ public class CreateUserMapper {
       .status(UserStatus.PENDING)
       .created(Instant.now())
       .birthDate(create.birthDate())
-      .avatarMediaId(Optional.empty())
+      .avatarAssetId(Optional.empty())
       .addressId(Optional.empty())
       .build();
   }

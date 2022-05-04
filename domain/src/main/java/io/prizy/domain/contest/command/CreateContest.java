@@ -17,7 +17,7 @@ public record CreateContest(
   Instant fromDate,
   Instant toDate,
   Collection<String> assetIds,
-  String coverMediaId,
+  String coverAssetId,
   Collection<CreatePack> packs,
   Integer cost,
   Optional<String> facebookPage,

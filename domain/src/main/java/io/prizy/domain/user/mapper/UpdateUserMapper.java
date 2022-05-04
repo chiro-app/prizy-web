@@ -23,7 +23,7 @@ public class UpdateUserMapper {
       .gender(update.gender())
       .mobilePhone(update.mobilePhone())
       .birthDate(update.birthDate())
-      .avatarMediaId(update.avatarMediaId())
+      .avatarAssetId(update.avatarAssetId())
       .addressId(update.addressId())
       .build();
   }

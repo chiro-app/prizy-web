@@ -21,7 +21,7 @@ object ContestDtoMapper {
       toDate = contest.toDate,
       adultOnly = contest.adultOnly,
       category = map(contest.category),
-      coverMediaId = contest.coverMediaId,
+      coverAssetId = contest.coverAssetId,
       assetIds = contest.assetIds.toList(),
       cost = contest.cost,
       facebookPage = contest.facebookPage.orElse(null),

@@ -1,5 +1,6 @@
 package io.prizy.domain.asset.port;
 
+import java.util.Collection;
 import java.util.Optional;
 
 import io.prizy.domain.asset.model.Asset;
@@ -14,4 +15,6 @@ public interface AssetRepository {
   Asset save(Asset asset);
 
   Optional<Asset> byId(String id);
+
+  Collection<Asset> byIds(Collection<String> ids);
 }

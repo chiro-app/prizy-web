@@ -1,5 +1,6 @@
 package io.prizy.adapters.asset.persistence;
 
+import java.util.Collection;
 import java.util.Optional;
 
 import io.prizy.adapters.asset.mapper.AssetMapper;
@@ -30,6 +31,11 @@ public class AssetRepositoryImpl implements AssetRepository {
   @Override
   public Optional<Asset> byId(String id) {
     return jpaRepository.findById(id).map(AssetMapper::map);
+  }
+
+  @Override
+  public Collection<Asset> byIds(Collection<String> ids) {
+    return jpaRepository.findAllById(ids).stream().map(AssetMapper::map).toList();
   }
 
 }

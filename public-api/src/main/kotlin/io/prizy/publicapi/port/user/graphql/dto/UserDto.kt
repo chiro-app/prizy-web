@@ -2,8 +2,11 @@ package io.prizy.publicapi.port.user.graphql.dto
 
 import com.expediagroup.graphql.generator.annotations.GraphQLIgnore
 import com.expediagroup.graphql.generator.annotations.GraphQLName
+import io.prizy.domain.asset.service.AssetService
 import io.prizy.domain.referral.service.ReferralService
 import io.prizy.domain.user.service.AddressService
+import io.prizy.publicapi.port.asset.dto.AssetDto
+import io.prizy.publicapi.port.asset.mapper.AssetDtoMapper
 import io.prizy.domain.user.service.UserPreferencesService
 import io.prizy.publicapi.port.contest.mapper.ReferralDtoMapper
 import io.prizy.publicapi.port.referral.graphql.dto.ReferralNodeDto
@@ -30,17 +33,23 @@ data class UserDto(
   val lastName: String,
   val gender: GenderDto,
   val birthDate: LocalDate,
-  val avatarMediaId: String?,
+  @GraphQLIgnore
+  val avatarAssetId: String?,
   val mobilePhone: String?,
   val status: UserStatusDto,
   val created: Instant,
-  @GraphQLIgnore val addressId: UUID?
+  @GraphQLIgnore
+  val addressId: UUID?
 ) {
 
   suspend fun preferences(@GraphQLIgnore @Autowired userPreferencesService: UserPreferencesService): UserPreferencesDto =
     withContext(Dispatchers.IO) {
       UserPreferencesDtoMapper.map(userPreferencesService.forUser(id))
     }
+
+  suspend fun avatar(@GraphQLIgnore @Autowired assetService: AssetService): AssetDto? = withContext(Dispatchers.IO) {
+    avatarAssetId?.let(assetService::get)?.map(AssetDtoMapper::map)?.get()
+  }
 
   suspend fun address(@GraphQLIgnore @Autowired addressService: AddressService): AddressDto? =
     withContext(Dispatchers.IO) {

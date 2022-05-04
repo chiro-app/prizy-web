@@ -26,7 +26,7 @@ public record User(
   String lastName,
   Gender gender,
   LocalDate birthDate,
-  Optional<String> avatarMediaId,
+  Optional<String> avatarAssetId,
   Optional<String> mobilePhone,
   UserStatus status,
   Collection<String> roles,

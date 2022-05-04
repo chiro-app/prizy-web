@@ -17,7 +17,7 @@ data class CreateContestDto(
   val fromDate: Instant,
   val toDate: Instant,
   val assetIds: List<String>,
-  val coverMediaId: String,
+  val coverAssetId: String,
   val packs: List<CreatePackDto>,
   val cost: Int,
   val facebookPage: String?,

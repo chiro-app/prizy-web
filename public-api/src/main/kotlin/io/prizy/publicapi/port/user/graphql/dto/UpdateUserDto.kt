@@ -17,7 +17,7 @@ data class UpdateUserDto(
   val lastName: String,
   val gender: GenderDto,
   val birthDate: LocalDate,
-  val avatarMediaId: String?,
+  val avatarAssetId: String?,
   val mobilePhone: String?,
   val addressId: UUID?
 )

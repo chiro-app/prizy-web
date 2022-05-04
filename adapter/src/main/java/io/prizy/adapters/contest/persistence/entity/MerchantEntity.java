@@ -36,5 +36,5 @@ public class MerchantEntity {
   @Column
   private String address;
   @Column(name = "logo_asset_id")
-  private String logoMediaId;
+  private String logoAssetId;
 }

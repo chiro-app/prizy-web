@@ -13,6 +13,6 @@ public record Merchant(
   String siren,
   Float capital,
   String address,
-  String logoMediaId
+  String logoAssetId
 ) {
 }

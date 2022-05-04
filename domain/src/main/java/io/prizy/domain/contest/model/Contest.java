@@ -22,7 +22,7 @@ public record Contest(
   Instant fromDate,
   Instant toDate,
   Collection<String> assetIds,
-  String coverMediaId,
+  String coverAssetId,
   Collection<Pack> packs,
   Integer cost,
   Optional<String> facebookPage,

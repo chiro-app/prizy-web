@@ -59,7 +59,7 @@ public class UserEntity {
   @Column(name = "last_name")
   private String lastName;
   @Column(name = "avatar_asset_id")
-  private String avatarMediaId;
+  private String avatarAssetId;
   @Column(name = "mobile_phone")
   private String mobilePhone;
   @Builder.Default

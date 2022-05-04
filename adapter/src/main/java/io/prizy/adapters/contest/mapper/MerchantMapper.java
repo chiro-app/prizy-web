@@ -18,7 +18,7 @@ public class MerchantMapper {
       entity.getSiren(),
       entity.getCapital(),
       entity.getAddress(),
-      entity.getLogoMediaId()
+      entity.getLogoAssetId()
     );
   }
 
@@ -28,7 +28,7 @@ public class MerchantMapper {
       .siren(merchant.siren())
       .capital(merchant.capital())
       .address(merchant.address())
-      .logoMediaId(merchant.logoMediaId())
+      .logoAssetId(merchant.logoAssetId())
       .build();
   }
 
