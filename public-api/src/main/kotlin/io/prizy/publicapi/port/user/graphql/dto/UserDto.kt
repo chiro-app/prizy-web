@@ -4,12 +4,15 @@ import com.expediagroup.graphql.generator.annotations.GraphQLIgnore
 import com.expediagroup.graphql.generator.annotations.GraphQLName
 import io.prizy.domain.asset.service.AssetService
 import io.prizy.domain.referral.service.ReferralService
+import io.prizy.domain.reward.service.RewardService
 import io.prizy.domain.user.service.AddressService
+import io.prizy.domain.user.service.UserPreferencesService
 import io.prizy.publicapi.port.asset.dto.AssetDto
 import io.prizy.publicapi.port.asset.mapper.AssetDtoMapper
-import io.prizy.domain.user.service.UserPreferencesService
 import io.prizy.publicapi.port.contest.mapper.ReferralDtoMapper
 import io.prizy.publicapi.port.referral.graphql.dto.ReferralNodeDto
+import io.prizy.publicapi.port.reward.graphql.dto.RewardDto
+import io.prizy.publicapi.port.reward.mapper.RewardDtoMapper
 import io.prizy.publicapi.port.user.mapper.AddressDtoMapper
 import io.prizy.publicapi.port.user.mapper.UserPreferencesDtoMapper
 import kotlinx.coroutines.Dispatchers
@@ -41,6 +44,11 @@ data class UserDto(
   @GraphQLIgnore
   val addressId: UUID?
 ) {
+
+  suspend fun rewards(@GraphQLIgnore @Autowired rewardService: RewardService): List<RewardDto> =
+    withContext(Dispatchers.IO) {
+      rewardService.userRewards(id).map(RewardDtoMapper::map)
+    }
 
   suspend fun preferences(@GraphQLIgnore @Autowired userPreferencesService: UserPreferencesService): UserPreferencesDto =
     withContext(Dispatchers.IO) {

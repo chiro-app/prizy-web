@@ -26,7 +26,7 @@ class ContestQuery(
 ) : Query {
 
   suspend fun contestById(id: UUID): ContestDto? = withContext(Dispatchers.IO) {
-    contestService.get(id).map(ContestDtoMapper::map).orElse(null)
+    contestService.byId(id).map(ContestDtoMapper::map).orElse(null)
   }
 
   suspend fun contests(): List<ContestDto> = withContext(Dispatchers.IO) {

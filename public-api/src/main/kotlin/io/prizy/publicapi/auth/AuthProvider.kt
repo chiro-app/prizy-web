@@ -45,7 +45,7 @@ class AuthProvider(
     val user = refreshTokenService
       .findUserId(refreshToken)
       .orElseThrow { InvalidCredentialsException() }
-      .let { userId -> userService.getUser(userId).get() }
+      .let { userId -> userService.byId(userId).get() }
     return buildJwtToken(user)
   }
 

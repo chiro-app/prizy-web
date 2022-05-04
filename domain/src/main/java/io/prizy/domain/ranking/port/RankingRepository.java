@@ -11,7 +11,7 @@ import io.prizy.domain.ranking.model.RankingRow;
  */
 
 
-public interface RankingRowRepository {
+public interface RankingRepository {
   RankingRow save(RankingRow row);
 
   Collection<RankingRow> byContestId(UUID contestId);

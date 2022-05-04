@@ -255,3 +255,18 @@ alter table ranking_rows
 
 alter table ranking_rows
   add constraint fk_ranking_rows_on_user foreign key (user_id) references users (id);
+
+create table rewards
+(
+  id      uuid not null,
+  user_id uuid not null,
+  pack_id uuid not null,
+  created timestamptz not null,
+  constraint pk_rewards primary key (id)
+);
+
+alter table rewards
+  add constraint fk_rewards_on_pack foreign key (pack_id) references packs (id);
+
+alter table rewards
+  add constraint fk_rewards_on_user foreign key (user_id) references users (id);

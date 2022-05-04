@@ -1,12 +1,13 @@
 package io.prizy.adapters.ranking.persistence;
 
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.UUID;
 
 import io.prizy.adapters.ranking.mapper.RankingRowMapper;
 import io.prizy.adapters.ranking.persistence.repository.RankingRowJpaRepository;
 import io.prizy.domain.ranking.model.RankingRow;
-import io.prizy.domain.ranking.port.RankingRowRepository;
+import io.prizy.domain.ranking.port.RankingRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -18,7 +19,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class RankingRowRepositoryImpl implements RankingRowRepository {
+public class RankingRepositoryImpl implements RankingRepository {
 
   private final RankingRowJpaRepository jpaRepository;
 
@@ -34,6 +35,7 @@ public class RankingRowRepositoryImpl implements RankingRowRepository {
       .findAllByContestId(contestId)
       .stream()
       .map(RankingRowMapper::map)
+      .sorted(Comparator.comparingLong(RankingRow::score))
       .toList();
   }
 

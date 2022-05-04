@@ -60,7 +60,7 @@ public class UserService {
     return user;
   }
 
-  public Optional<User> getUser(UUID id) {
+  public Optional<User> byId(UUID id) {
     return repository.byId(id);
   }
 

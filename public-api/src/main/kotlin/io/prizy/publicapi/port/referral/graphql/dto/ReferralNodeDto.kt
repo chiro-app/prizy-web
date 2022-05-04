@@ -40,7 +40,7 @@ data class ReferralNodeDto(
   @GraphQLIgnore
   private suspend fun fetchUser(userService: UserService) = withContext(Dispatchers.IO) {
     user = userService
-      .getUser(id)
+      .byId(id)
       .map(UserDtoMapper::map)
       .get()
   }

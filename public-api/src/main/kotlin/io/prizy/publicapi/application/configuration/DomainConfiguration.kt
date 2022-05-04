@@ -18,13 +18,16 @@ import io.prizy.domain.contest.ports.PackRepository
 import io.prizy.domain.contest.service.ContestService
 import io.prizy.domain.contest.service.ContestSubscriptionService
 import io.prizy.domain.notification.publisher.NotificationPublisher
-import io.prizy.domain.ranking.port.RankingRowRepository
+import io.prizy.domain.ranking.port.RankingRepository
 import io.prizy.domain.ranking.service.RankingService
 import io.prizy.domain.referral.ports.ReferralPublisher
 import io.prizy.domain.referral.ports.ReferralRepository
 import io.prizy.domain.referral.service.ReferralService
 import io.prizy.domain.resources.ports.ResourceRepository
 import io.prizy.domain.resources.service.ResourceService
+import io.prizy.domain.reward.port.RewardPublisher
+import io.prizy.domain.reward.port.RewardRepository
+import io.prizy.domain.reward.service.RewardService
 import io.prizy.domain.user.port.ConfirmationCodeRepository
 import io.prizy.domain.user.port.PasswordHasher
 import io.prizy.domain.user.port.UserPreferencesRepository
@@ -51,6 +54,14 @@ import org.springframework.security.crypto.password.PasswordEncoder
 class DomainConfiguration {
 
   @Bean
+  fun rewardService(
+    publisher: RewardPublisher,
+    repository: RewardRepository,
+    contestRepository: ContestRepository,
+    rankingRepository: RankingRepository
+  ) = RewardService(publisher, repository, contestRepository, rankingRepository)
+
+  @Bean
   fun userPreferencesService(repository: UserPreferencesRepository) = UserPreferencesService(repository)
 
   @Bean
@@ -69,8 +80,8 @@ class DomainConfiguration {
   )
 
   @Bean
-  fun rankingService(rankingRowRepository: RankingRowRepository, contestRepository: ContestRepository) =
-    RankingService(rankingRowRepository, contestRepository)
+  fun rankingService(rankingRepository: RankingRepository, contestRepository: ContestRepository) =
+    RankingService(rankingRepository, contestRepository)
 
   @Bean
   fun emaiConfirmationService(

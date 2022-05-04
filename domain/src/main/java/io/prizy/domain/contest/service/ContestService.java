@@ -30,11 +30,15 @@ public class ContestService {
   private final PackRepository packRepository;
   private final ContestTemplateCompiler templateCompiler;
 
-  public Optional<Contest> get(UUID id) {
+  public Optional<Contest> byId(UUID id) {
     return contestRepository.byId(id);
   }
 
-  public Collection<Contest> get(Collection<UUID> ids) {
+  public Optional<Contest> byPackId(UUID packId) {
+    return contestRepository.byPackId(packId);
+  }
+
+  public Collection<Contest> byIds(Collection<UUID> ids) {
     return contestRepository.byIds(ids);
   }
 

@@ -1,5 +1,6 @@
 package io.prizy.adapters.contest.persistence;
 
+import java.time.Instant;
 import java.util.Collection;
 import java.util.Optional;
 import java.util.Set;
@@ -30,6 +31,11 @@ public class ContestRepositoryImpl implements ContestRepository {
     return jpaRepository
       .findById(contestId)
       .map(ContestMapper::map);
+  }
+
+  @Override
+  public Optional<Contest> byPackId(UUID packId) {
+    return jpaRepository.findByPackId(packId).map(ContestMapper::map);
   }
 
   @Override
@@ -73,5 +79,15 @@ public class ContestRepositoryImpl implements ContestRepository {
   @Override
   public Collection<Contest> byIds(Collection<UUID> ids) {
     return jpaRepository.findAllById(ids).stream().map(ContestMapper::map).toList();
+  }
+
+  @Override
+  public Collection<Contest> endedBetween(Instant from, Instant to) {
+    return jpaRepository.findAllByToDateBetween(from, to).stream().map(ContestMapper::map).toList();
+  }
+
+  @Override
+  public Collection<Contest> endedBefore(Instant instant) {
+    return jpaRepository.findAllByToDateBefore(instant).stream().map(ContestMapper::map).toList();
   }
 }

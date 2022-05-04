@@ -10,7 +10,7 @@ import io.prizy.domain.contest.exception.ContestNotFoundException;
 import io.prizy.domain.contest.ports.ContestRepository;
 import io.prizy.domain.ranking.model.RankingRow;
 import io.prizy.domain.ranking.model.RankingTable;
-import io.prizy.domain.ranking.port.RankingRowRepository;
+import io.prizy.domain.ranking.port.RankingRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,7 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class RankingService {
 
-  private final RankingRowRepository repository;
+  private final RankingRepository repository;
   private final ContestRepository contestRepository;
 
   public RankingTable getForContest(UUID contestId) {

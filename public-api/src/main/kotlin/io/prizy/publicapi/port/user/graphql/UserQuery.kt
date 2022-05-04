@@ -22,7 +22,7 @@ class UserQuery(private val userService: UserService) : Query {
   @AuthorizedDirective
   suspend fun me(ctx: GraphQLContext.Authenticated): UserDto = withContext(Dispatchers.IO) {
     userService
-      .getUser(ctx.principal.id)
+      .byId(ctx.principal.id)
       .map(UserDtoMapper::map)
       .orElseThrow { InternalServerException() }
   }

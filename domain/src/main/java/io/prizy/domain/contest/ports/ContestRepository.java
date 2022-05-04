@@ -1,5 +1,6 @@
 package io.prizy.domain.contest.ports;
 
+import java.time.Instant;
 import java.util.Collection;
 import java.util.Optional;
 import java.util.UUID;
@@ -14,6 +15,8 @@ import io.prizy.domain.contest.model.Contest;
 public interface ContestRepository {
   Optional<Contest> byId(UUID contestId);
 
+  Optional<Contest> byPackId(UUID packId);
+
   Boolean exists(UUID contestId);
 
   Collection<Contest> list();
@@ -25,4 +28,8 @@ public interface ContestRepository {
   void delete(UUID contestId);
 
   Collection<Contest> byIds(Collection<UUID> ids);
+
+  Collection<Contest> endedBetween(Instant from, Instant to);
+
+  Collection<Contest> endedBefore(Instant instant);
 }
