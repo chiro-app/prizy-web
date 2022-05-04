@@ -5,6 +5,7 @@ import com.expediagroup.graphql.generator.annotations.GraphQLName
 import io.prizy.domain.asset.service.AssetService
 import io.prizy.domain.contest.service.ContestService
 import io.prizy.domain.ranking.service.RankingService
+import io.prizy.graphql.directives.AuthorizedDirective
 import io.prizy.publicapi.port.asset.dto.AssetDto
 import io.prizy.publicapi.port.asset.mapper.AssetDtoMapper
 import io.prizy.publicapi.port.ranking.graphql.dto.RankingTableDto
@@ -40,6 +41,8 @@ data class ContestDto(
   val adultOnly: Boolean,
   val packs: List<PackDto>,
   val merchant: MerchantDto,
+  @AuthorizedDirective
+  val accessCode: String,
   val boardId: UUID
 ) {
 

@@ -4,6 +4,7 @@ import java.time.Instant;
 import java.util.Collection;
 import java.util.UUID;
 
+import io.prizy.domain.contest.exception.InvalidContestAccessCodeException;
 import io.prizy.domain.contest.model.Contest;
 import io.prizy.domain.contest.ports.ContestRepository;
 import io.prizy.domain.ranking.port.RankingRepository;
@@ -41,6 +42,13 @@ public class RewardService {
 
   public Collection<Reward> userRewards(UUID userId) {
     return repository.byUserId(userId);
+  }
+
+  public Collection<Reward> contestRewardsByAccessCode(String contestAccessCode) {
+    var contest = contestRepository
+      .byAccessCode(contestAccessCode)
+      .orElseThrow(InvalidContestAccessCodeException::new);
+    return repository.byContestId(contest.id());
   }
 
   private Collection<Reward> affectRewards(Contest contest) {

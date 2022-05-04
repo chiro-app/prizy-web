@@ -30,6 +30,7 @@ object ContestDtoMapper {
       newsletterSubscription = contest.newsletterSubscription,
       merchant = MerchantDtoMapper.map(contest.merchant),
       boardId = contest.boardId,
+      accessCode = contest.accessCode,
       packs = contest.packs.map(PackDtoMapper::map)
     )
   }

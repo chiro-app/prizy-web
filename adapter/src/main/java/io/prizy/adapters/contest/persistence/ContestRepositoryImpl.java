@@ -7,6 +7,7 @@ import java.util.Set;
 import java.util.UUID;
 
 import io.prizy.adapters.contest.mapper.ContestMapper;
+import io.prizy.adapters.contest.merger.ContestEntityMerger;
 import io.prizy.adapters.contest.persistence.repository.ContestJpaRepository;
 import io.prizy.adapters.contest.persistence.repository.PackJpaRepository;
 import io.prizy.domain.contest.model.Contest;
@@ -54,6 +55,7 @@ public class ContestRepositoryImpl implements ContestRepository {
   @Override
   public Contest update(Contest contest) {
     var contestEntity = ContestMapper.map(contest);
+    contestEntity = ContestEntityMerger.merge(contestEntity, contest);
     var packEntities = contestEntity.getPacks();
     contestEntity = jpaRepository.save(contestEntity.withPacks(Set.of()));
     final var finalContestEntity = contestEntity;
@@ -89,5 +91,10 @@ public class ContestRepositoryImpl implements ContestRepository {
   @Override
   public Collection<Contest> endedBefore(Instant instant) {
     return jpaRepository.findAllByToDateBefore(instant).stream().map(ContestMapper::map).toList();
+  }
+
+  @Override
+  public Optional<Contest> byAccessCode(String accessCode) {
+    return jpaRepository.findByAccessCode(accessCode).map(ContestMapper::map);
   }
 }

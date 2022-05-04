@@ -41,4 +41,9 @@ public class RewardRepositoryImpl implements RewardRepository {
     return jpaRepository.findAllByUserId(userId).stream().map(RewardMapper::map).toList();
   }
 
+  @Override
+  public Collection<Reward> byContestId(UUID contestId) {
+    return jpaRepository.findAllByContestId(contestId).stream().map(RewardMapper::map).toList();
+  }
+
 }

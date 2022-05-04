@@ -22,4 +22,8 @@ class RewardQuery(private val rewardService: RewardService) : Query {
   suspend fun rewards(ctx: GraphQLContext.Authenticated): List<RewardDto> = withContext(Dispatchers.IO) {
     rewardService.userRewards(ctx.principal.id).map(RewardDtoMapper::map)
   }
+
+  suspend fun rewardsByAccessCode(accessCode: String): List<RewardDto> = withContext(Dispatchers.IO) {
+    rewardService.contestRewardsByAccessCode(accessCode).map(RewardDtoMapper::map)
+  }
 }

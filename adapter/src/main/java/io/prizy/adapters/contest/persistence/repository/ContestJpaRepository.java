@@ -19,10 +19,12 @@ public interface ContestJpaRepository extends JpaRepository<ContestEntity, UUID>
 
   Collection<ContestEntity> findAllByToDateBefore(Instant to);
 
+  Optional<ContestEntity> findByAccessCode(String accessCode);
+
   @Query("""
       select c from Contest c
       inner join Pack p on p.contest = c
-      where p.id = :packId
+      where p.id = ?1
     """)
   Optional<ContestEntity> findByPackId(UUID packId);
 }

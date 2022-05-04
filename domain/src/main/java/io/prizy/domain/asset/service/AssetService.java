@@ -16,10 +16,7 @@ import io.prizy.domain.asset.port.StorageBackend;
 import io.prizy.toolbox.exception.InternalServerException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.io.FilenameUtils;
-import org.springframework.core.io.Resource;
 import org.springframework.http.codec.multipart.FilePart;
-import org.springframework.lang.Nullable;
 
 /**
  * @author Nidhal Dogga
@@ -62,37 +59,20 @@ public class AssetService {
       filePart.transferTo(temporaryFile).block();
 
       var fileId = UUID.randomUUID().toString();
+      var fs = new FileInputStream(temporaryFile);
       var asset = upload(
-        new FileInputStream(temporaryFile),
+        fs,
         fileId,
         filePart.filename(),
         temporaryFile.length()
       );
 
+      fs.close();
       Files.deleteIfExists(temporaryPath);
 
       return asset;
     } catch (IOException e) {
       log.error("Error while uploading file", e);
-      throw new InternalServerException();
-    }
-  }
-
-  public Asset upload(Resource resource) throws IOException {
-    return upload(resource, null);
-  }
-
-  public Asset upload(Resource resource, @Nullable String fileName) {
-    var resourceFileName = Optional.ofNullable(resource.getFilename());
-    try {
-      return upload(
-        resource.getInputStream(),
-        resourceFileName.map(FilenameUtils::removeExtension).orElseGet(UUID.randomUUID()::toString),
-        resourceFileName.orElseGet(UUID.randomUUID()::toString),
-        resource.contentLength()
-      );
-    } catch (IOException e) {
-      log.error("Error while uploading resource", e);
       throw new InternalServerException();
     }
   }

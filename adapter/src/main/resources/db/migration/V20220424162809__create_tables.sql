@@ -32,6 +32,7 @@ create table contests
   category                text        not null,
   cover_asset_id          text        not null,
   cost                    integer     not null,
+  access_code             text        not null,
   facebook_page           text,
   instagram_page          text,
   website                 text,
@@ -47,6 +48,9 @@ alter table contests
 
 alter table contests
   add constraint fk_contest_on_merchant foreign key (merchant_id) references merchants (id);
+
+alter table contests
+  add constraint uc_contest_access_code unique (access_code);
 
 create table contest_asset_ids
 (

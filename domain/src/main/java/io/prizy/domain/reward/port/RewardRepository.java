@@ -17,4 +17,6 @@ public interface RewardRepository {
   Optional<Reward> lastCreated();
 
   Collection<Reward> byUserId(UUID userId);
+
+  Collection<Reward> byContestId(UUID contestId);
 }

@@ -26,6 +26,6 @@ data class UpdateContestDto(
   val website: String?,
   val newsletterSubscription: Boolean,
   val adultOnly: Boolean,
-  val merchant: MerchantDto,
+  val merchant: CreateMerchantDto,
   val boardId: UUID
 )

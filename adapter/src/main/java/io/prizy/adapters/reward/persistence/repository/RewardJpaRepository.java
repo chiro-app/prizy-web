@@ -6,6 +6,7 @@ import java.util.UUID;
 
 import io.prizy.adapters.reward.persistence.entity.RewardEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 /**
  * @author Nidhal Dogga
@@ -16,4 +17,13 @@ public interface RewardJpaRepository extends JpaRepository<RewardEntity, UUID> {
   Optional<RewardEntity> findTop1ByOrderByCreatedDesc();
 
   Collection<RewardEntity> findAllByUserId(UUID userId);
+
+
+  @Query("""
+      select reward from Reward reward
+      join Pack pack on reward.packId = pack.id
+      join Contest contest on pack.contest.id = contest.id
+      where contest.id = ?1
+    """)
+  Collection<RewardEntity> findAllByContestId(UUID contestId);
 }

@@ -18,12 +18,16 @@ import io.prizy.domain.contest.ports.ContestRepository;
 import io.prizy.domain.contest.ports.ContestTemplateCompiler;
 import io.prizy.domain.contest.ports.PackRepository;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 
 @Transactional
 @RequiredArgsConstructor
 public class ContestService {
+
+  private static final Integer ACCESS_CODE_LENGTH = 6;
+  private static final String ACCESS_CODE_ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 
   private final ContestRepository contestRepository;
   private final ContestPublisher contestPublisher;
@@ -54,17 +58,20 @@ public class ContestService {
     return contestRepository.list();
   }
 
-  public Contest createContest(CreateContest command) {
-    var contest = contestRepository.create(CreateContestMapper.map(command));
+  public Contest createContest(CreateContest create) {
+    var contest = CreateContestMapper
+      .map(create)
+      .withAccessCode(RandomStringUtils.random(ACCESS_CODE_LENGTH, ACCESS_CODE_ALPHABET));
+    contest = contestRepository.create(contest);
     contestPublisher.publish(new ContestCreated(contest));
     return contest;
   }
 
-  public Contest updateContest(UpdateContest command) {
-    if (!contestRepository.exists(command.id())) {
-      throw new ContestNotFoundException(command.id());
+  public Contest updateContest(UpdateContest update) {
+    if (!contestRepository.exists(update.id())) {
+      throw new ContestNotFoundException(update.id());
     }
-    var contest = contestRepository.update(UpdateContestMapper.map(command));
+    var contest = contestRepository.update(UpdateContestMapper.map(update));
     contestPublisher.publish(new ContestUpdated(contest));
     return contest;
   }

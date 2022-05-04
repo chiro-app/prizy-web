@@ -33,6 +33,7 @@ public class ContestMapper {
       entity.getNewsletterSubscription(),
       entity.getAdultOnly(),
       MerchantMapper.map(entity.getMerchant()),
+      entity.getAccessCode(),
       entity.getBoardId()
     );
   }
@@ -56,6 +57,7 @@ public class ContestMapper {
       .merchant(MerchantMapper.map(contest.merchant()))
       .boardId(contest.boardId())
       .packs(contest.packs().stream().map(PackMapper::map).collect(Collectors.toSet()))
+      .accessCode(contest.accessCode())
       .build();
   }
 }

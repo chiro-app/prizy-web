@@ -29,7 +29,7 @@ object UpdateContestMapper {
     .website(Optional.ofNullable(dto.website))
     .newsletterSubscription(dto.newsletterSubscription)
     .adultOnly(dto.adultOnly)
-    .merchant(MerchantDtoMapper.map(dto.merchant))
+    .merchant(CreateMerchantDtoMapper.map(dto.merchant))
     .boardId(dto.boardId)
     .build()
 

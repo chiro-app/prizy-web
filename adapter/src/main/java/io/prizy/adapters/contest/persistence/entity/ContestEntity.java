@@ -31,11 +31,11 @@ import lombok.With;
 
 @With
 @Getter
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity(name = "Contest")
 @Table(name = "contests")
+@Builder(toBuilder = true)
 public class ContestEntity {
 
   @Id
@@ -74,6 +74,8 @@ public class ContestEntity {
     targetEntity = PackEntity.class, cascade = CascadeType.ALL
   )
   private Set<PackEntity> packs;
+  @Column(name = "access_code")
+  private String accessCode;
   @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
   private MerchantEntity merchant;
   @Column(name = "board_id")
