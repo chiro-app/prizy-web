@@ -4,15 +4,15 @@ import java.util.Collection;
 import java.util.Optional;
 import java.util.UUID;
 
-import io.prizy.domain.contest.command.CreateContest;
-import io.prizy.domain.contest.command.UpdateContest;
 import io.prizy.domain.contest.event.ContestCreated;
 import io.prizy.domain.contest.event.ContestUpdated;
 import io.prizy.domain.contest.exception.ContestNotFoundException;
 import io.prizy.domain.contest.mapper.CreateContestMapper;
 import io.prizy.domain.contest.mapper.UpdateContestMapper;
 import io.prizy.domain.contest.model.Contest;
+import io.prizy.domain.contest.model.CreateContest;
 import io.prizy.domain.contest.model.Pack;
+import io.prizy.domain.contest.model.UpdateContest;
 import io.prizy.domain.contest.ports.ContestPublisher;
 import io.prizy.domain.contest.ports.ContestRepository;
 import io.prizy.domain.contest.ports.ContestTemplateCompiler;

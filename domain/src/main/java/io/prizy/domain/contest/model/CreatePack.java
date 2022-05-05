@@ -1,4 +1,4 @@
-package io.prizy.domain.contest.command;
+package io.prizy.domain.contest.model;
 
 import java.time.Instant;
 

@@ -1,8 +1,8 @@
 package io.prizy.domain.contest.mapper;
 
 
-import io.prizy.domain.contest.command.UpdateContest;
 import io.prizy.domain.contest.model.Contest;
+import io.prizy.domain.contest.model.UpdateContest;
 import lombok.experimental.UtilityClass;
 
 @UtilityClass

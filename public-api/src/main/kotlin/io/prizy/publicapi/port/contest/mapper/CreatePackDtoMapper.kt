@@ -1,6 +1,6 @@
 package io.prizy.publicapi.port.contest.mapper
 
-import io.prizy.domain.contest.command.CreatePack
+import io.prizy.domain.contest.model.CreatePack
 import io.prizy.publicapi.port.contest.graphql.dto.CreatePackDto
 
 /**

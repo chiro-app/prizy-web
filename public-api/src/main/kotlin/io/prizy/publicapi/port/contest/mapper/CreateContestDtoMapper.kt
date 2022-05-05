@@ -1,7 +1,7 @@
 package io.prizy.publicapi.port.contest.mapper
 
-import io.prizy.domain.contest.command.CreateContest
 import io.prizy.domain.contest.model.ContestCategory
+import io.prizy.domain.contest.model.CreateContest
 import io.prizy.publicapi.port.contest.graphql.dto.ContestCategoryDto
 import io.prizy.publicapi.port.contest.graphql.dto.CreateContestDto
 import java.util.Optional

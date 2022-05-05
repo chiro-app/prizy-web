@@ -1,11 +1,20 @@
 create table assets
 (
-  id            text not null,
-  original_name text not null,
-  path          text not null,
-  type          text not null,
+  id            text   not null,
+  original_name text   not null,
+  path          text   not null,
+  type          text   not null,
   size          bigint not null,
   constraint pk_assets primary key (id)
+);
+
+create table game_boards
+(
+  id       uuid not null,
+  name     text,
+  cells    integer[],
+  row_size integer,
+  constraint pk_game_boards primary key (id)
 );
 
 create table merchants
@@ -48,6 +57,9 @@ alter table contests
 
 alter table contests
   add constraint fk_contest_on_merchant foreign key (merchant_id) references merchants (id);
+
+alter table contests
+  add constraint fk_contest_on_game_board foreign key (board_id) references game_boards (id);
 
 alter table contests
   add constraint uc_contest_access_code unique (access_code);
@@ -246,10 +258,10 @@ alter table referral_nodes
 
 create table ranking_rows
 (
-  id         uuid not null,
-  score      bigint not null,
-  contest_id uuid not null,
-  user_id    uuid not null,
+  id         uuid        not null,
+  score      bigint      not null,
+  contest_id uuid        not null,
+  user_id    uuid        not null,
   created    timestamptz not null,
   constraint pk_ranking_rows primary key (id)
 );
@@ -262,9 +274,9 @@ alter table ranking_rows
 
 create table rewards
 (
-  id      uuid not null,
-  user_id uuid not null,
-  pack_id uuid not null,
+  id      uuid        not null,
+  user_id uuid        not null,
+  pack_id uuid        not null,
   created timestamptz not null,
   constraint pk_rewards primary key (id)
 );

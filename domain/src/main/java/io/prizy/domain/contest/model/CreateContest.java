@@ -1,12 +1,10 @@
-package io.prizy.domain.contest.command;
+package io.prizy.domain.contest.model;
 
 import java.time.Instant;
 import java.util.Collection;
 import java.util.Optional;
 import java.util.UUID;
 
-import io.prizy.domain.contest.model.ContestCategory;
-import io.prizy.domain.contest.model.Merchant;
 import lombok.Builder;
 
 @Builder

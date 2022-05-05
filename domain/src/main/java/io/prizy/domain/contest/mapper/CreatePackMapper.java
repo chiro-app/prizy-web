@@ -1,7 +1,7 @@
 package io.prizy.domain.contest.mapper;
 
 
-import io.prizy.domain.contest.command.CreatePack;
+import io.prizy.domain.contest.model.CreatePack;
 import io.prizy.domain.contest.model.Pack;
 import lombok.experimental.UtilityClass;
 

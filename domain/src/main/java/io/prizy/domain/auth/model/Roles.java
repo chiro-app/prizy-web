@@ -10,7 +10,7 @@ import lombok.experimental.UtilityClass;
 
 @UtilityClass
 public class Roles {
-  public static final String ADMIN = "ADMIN";
-  public static final String USER = "USER";
-  public static final String B_USER = "B_USER";
+  public final String ADMIN = "ADMIN";
+  public final String USER = "USER";
+  public final String B_USER = "B_USER";
 }

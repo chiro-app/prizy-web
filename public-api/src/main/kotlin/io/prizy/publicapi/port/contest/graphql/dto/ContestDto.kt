@@ -3,6 +3,7 @@ package io.prizy.publicapi.port.contest.graphql.dto
 import com.expediagroup.graphql.generator.annotations.GraphQLIgnore
 import com.expediagroup.graphql.generator.annotations.GraphQLName
 import io.prizy.domain.asset.service.AssetService
+import io.prizy.domain.auth.model.Roles
 import io.prizy.domain.contest.service.ContestService
 import io.prizy.domain.ranking.service.RankingService
 import io.prizy.graphql.directives.AuthorizedDirective
@@ -41,7 +42,7 @@ data class ContestDto(
   val adultOnly: Boolean,
   val packs: List<PackDto>,
   val merchant: MerchantDto,
-  @AuthorizedDirective
+  @AuthorizedDirective(roles = [Roles.ADMIN])
   val accessCode: String,
   val boardId: UUID
 ) {
