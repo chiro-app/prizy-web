@@ -2,17 +2,20 @@ package io.prizy.domain.resources.model;
 
 import java.util.function.BiFunction;
 
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
-@Getter
 @RequiredArgsConstructor
-public enum TransactionType {
+public enum TransactionType implements BiFunction<Long, Long, Long> {
 
-  WITHDRAW((lhs, rhs) -> lhs - rhs),
-  DEPOSIT(Long::sum),
-  RECURRENT(Long::sum);
+  DEBIT((lhs, rhs) -> lhs - rhs),
+  CREDIT(Long::sum),
+  BONUS(Long::sum);
 
-  private final BiFunction<Long, Long, Long> transactionFunction;
+  private final BiFunction<Long, Long, Long> reducer;
+
+  @Override
+  public Long apply(Long lhs, Long rhs) {
+    return reducer.apply(lhs, rhs);
+  }
 
 }

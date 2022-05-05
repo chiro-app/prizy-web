@@ -15,4 +15,6 @@ public interface RankingRepository {
   RankingRow save(RankingRow row);
 
   Collection<RankingRow> byContestId(UUID contestId);
+
+  Collection<RankingRow> byContestAndUser(UUID contestId, UUID userId);
 }

@@ -1,12 +1,17 @@
 package io.prizy.adapters.resources.persistence;
 
+import java.time.Instant;
+import java.util.Collection;
 import java.util.UUID;
 
 import io.prizy.adapters.resources.mapper.ResourceTransactionMapper;
 import io.prizy.adapters.resources.persistence.entity.ResourceTransactionEntity;
 import io.prizy.adapters.resources.persistence.repository.AbsoluteResourceTransactionJpaRepository;
-import io.prizy.domain.resources.model.ResourceTransaction;
+import io.prizy.adapters.resources.persistence.repository.ContestDependentResourceTransactionJpaRepository;
+import io.prizy.adapters.resources.persistence.repository.ResourceTransactionJpaRepository;
 import io.prizy.domain.resources.model.Currency;
+import io.prizy.domain.resources.model.ResourceTransaction;
+import io.prizy.domain.resources.model.TransactionType;
 import io.prizy.domain.resources.ports.ResourceRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -15,25 +20,96 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class ResourceRepositoryImpl implements ResourceRepository {
 
-  private final AbsoluteResourceTransactionJpaRepository absoluteTransactionJpaRepository;
+  private final ResourceTransactionJpaRepository abstractJpaRepository;
+  private final AbsoluteResourceTransactionJpaRepository absoluteJpaRepository;
+  private final ContestDependentResourceTransactionJpaRepository contestDependentJpaRepository;
 
   @Override
-  public Long countKeys(UUID userId) {
-    return absoluteTransactionJpaRepository
+  public Integer countKeys(UUID userId) {
+    return absoluteJpaRepository
       .findAbsolutesByCurrency(Currency.KEYS)
       .stream()
       .reduce(
         0L,
-        (acc, transaction) -> transaction.getType().getTransactionFunction().apply(acc, transaction.getAmount()),
+        (acc, transaction) -> transaction.getType().apply(acc, transaction.getAmount()),
+        Long::sum
+      )
+      .intValue();
+  }
+
+  @Override
+  public Integer countLives(UUID userId, UUID contestId) {
+    return contestDependentJpaRepository
+      .findContestDependentsByCurrencyAndContestId(Currency.LIVES, contestId)
+      .stream()
+      .reduce(
+        0L,
+        (acc, transaction) -> transaction.getType().apply(acc, transaction.getAmount()),
+        Long::sum
+      )
+      .intValue();
+  }
+
+  @Override
+  public Long countDiamonds(UUID userId, UUID contestId) {
+    return contestDependentJpaRepository
+      .findContestDependentsByCurrencyAndContestId(Currency.DIAMONDS, contestId)
+      .stream()
+      .reduce(
+        0L,
+        (acc, transaction) -> transaction.getType().apply(acc, transaction.getAmount()),
         Long::sum
       );
   }
 
   @Override
   public ResourceTransaction saveTransaction(ResourceTransaction transaction) {
-    var entity = (ResourceTransactionEntity.Absolute) ResourceTransactionMapper.map(transaction);
-    entity = absoluteTransactionJpaRepository.save(entity);
+    var entity = ResourceTransactionMapper.map(transaction);
+    entity = switch (entity) {
+      case ResourceTransactionEntity.Absolute absolute -> absoluteJpaRepository.save(absolute);
+      case ResourceTransactionEntity.ContestDependent contestDependent ->
+        contestDependentJpaRepository.save(contestDependent);
+      default -> throw new IllegalArgumentException("Unsupported transaction type " + entity.getClass().getName());
+    };
     return ResourceTransactionMapper.map(entity);
+  }
+
+  @Override
+  public Collection<ResourceTransaction> byUserIdAndTypeAndCurrencyAndDateTimeBetween(UUID userId,
+                                                                                      TransactionType type,
+                                                                                      Currency currency, Instant from,
+                                                                                      Instant to) {
+    return abstractJpaRepository
+      .findAllByUserIdAndTypeAndCurrencyAndDateTimeBetween(userId, type, currency, from, to)
+      .stream()
+      .map(ResourceTransactionMapper::map)
+      .toList();
+  }
+
+  @Override
+  public ResourceTransaction alterKeys(UUID userId, Long amount, TransactionType txType) {
+    var transaction = ResourceTransactionEntity.Absolute.builder()
+      .type(txType)
+      .amount(amount)
+      .userId(userId)
+      .dateTime(Instant.now())
+      .currency(Currency.KEYS)
+      .build();
+    return ResourceTransactionMapper.map(absoluteJpaRepository.save(transaction));
+  }
+
+  @Override
+  public ResourceTransaction alterByUserAndContest(UUID userId, UUID contestId, Currency currency, Long amount,
+                                                   TransactionType txType) {
+    var transaction = ResourceTransactionEntity.ContestDependent.builder()
+      .type(txType)
+      .userId(userId)
+      .amount(amount)
+      .currency(currency)
+      .contestId(contestId)
+      .dateTime(Instant.now())
+      .build();
+    return ResourceTransactionMapper.map(contestDependentJpaRepository.save(transaction));
   }
 
 }

@@ -17,13 +17,13 @@ class ReferralMutation(
 
   @AuthorizedDirective
   suspend fun submitReferrer(ctx: GraphQLContext.Authenticated, code: String): Boolean = withContext(Dispatchers.IO) {
-    referralService.submitReferralCode(UUID.randomUUID(), code)
+    referralService.submitReferralCode(ctx.principal.id, code)
   }
 
   @AuthorizedDirective
   suspend fun confirmReferral(ctx: GraphQLContext.Authenticated, referralId: UUID): Boolean =
     withContext(Dispatchers.IO) {
-      referralService.confirmReferralCode(UUID.randomUUID(), referralId)
+      referralService.confirmReferralCode(ctx.principal.id, referralId)
     }
 
   @AuthorizedDirective(roles = [Roles.ADMIN])

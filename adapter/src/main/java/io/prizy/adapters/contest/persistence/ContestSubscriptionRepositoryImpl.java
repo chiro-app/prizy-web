@@ -1,5 +1,9 @@
 package io.prizy.adapters.contest.persistence;
 
+import java.util.Collection;
+import java.util.Optional;
+import java.util.UUID;
+
 import io.prizy.adapters.contest.mapper.ContestSubscriptionMapper;
 import io.prizy.adapters.contest.persistence.repository.ContestSubscriptionJpaRepository;
 import io.prizy.domain.contest.model.ContestSubscription;
@@ -7,12 +11,9 @@ import io.prizy.domain.contest.ports.ContestSubscriptionRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import java.util.Collection;
-import java.util.UUID;
-
 /**
- *  @author Nidhal Dogga
- *  @created 4/24/2022 4:06 PM
+ * @author Nidhal Dogga
+ * @created 4/24/2022 4:06 PM
  */
 
 @Component
@@ -27,6 +28,13 @@ public class ContestSubscriptionRepositoryImpl implements ContestSubscriptionRep
       .findAllByContestId(contestId)
       .stream().map(ContestSubscriptionMapper::map)
       .toList();
+  }
+
+  @Override
+  public Optional<ContestSubscription> subscriptionOfUser(UUID userId, UUID contestId) {
+    return jpaRepository
+      .findByContestIdAndUserId(contestId, userId)
+      .map(ContestSubscriptionMapper::map);
   }
 
   @Override

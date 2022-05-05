@@ -25,7 +25,10 @@ import io.prizy.domain.ranking.service.RankingService
 import io.prizy.domain.referral.ports.ReferralPublisher
 import io.prizy.domain.referral.ports.ReferralRepository
 import io.prizy.domain.referral.service.ReferralService
+import io.prizy.domain.resources.ports.ResourcePublisher
 import io.prizy.domain.resources.ports.ResourceRepository
+import io.prizy.domain.resources.service.ResourceBonusService
+import io.prizy.domain.resources.service.ResourceBoostService
 import io.prizy.domain.resources.service.ResourceService
 import io.prizy.domain.reward.port.RewardPublisher
 import io.prizy.domain.reward.port.RewardRepository
@@ -125,9 +128,30 @@ class DomainConfiguration {
   @Bean
   fun resourceService(
     contestRepository: ContestRepository,
-    transactionRepository: ResourceRepository,
+    resourceRepository: ResourceRepository,
+  ) = ResourceService(resourceRepository, contestRepository)
+
+  @Bean
+  fun resourceBonusService(
+    boostService: ResourceBoostService,
+    resourcePublisher: ResourcePublisher,
+    resourceRepository: ResourceRepository,
+    contestSubscriptionRepository: ContestSubscriptionRepository,
     resourceProperties: ResourceProperties
-  ) = ResourceService(contestRepository, transactionRepository, resourceProperties.toDomain)
+  ) = ResourceBonusService(
+    resourceRepository,
+    contestSubscriptionRepository,
+    resourcePublisher,
+    boostService,
+    resourceProperties.toDomain
+  )
+
+  @Bean
+  fun resourceBoostService(
+    referralRepository: ReferralRepository,
+    contestRepository: ContestRepository,
+    resourceProperties: ResourceProperties
+  ) = ResourceBoostService(referralRepository, contestRepository, resourceProperties.toDomain)
 
   @Bean
   fun contestService(
@@ -139,12 +163,12 @@ class DomainConfiguration {
 
   @Bean
   fun contestSubscriptionService(
-    resourceService: ResourceService,
     contestRepository: ContestRepository,
     referralRepository: ReferralRepository,
+    resourceRepository: ResourceRepository,
     subscriptionPublisher: ContestSubscriptionPublisher,
     subscriptionRepository: ContestSubscriptionRepository
   ) = ContestSubscriptionService(
-    resourceService, contestRepository, referralRepository, subscriptionPublisher, subscriptionRepository
+    resourceRepository, contestRepository, referralRepository, subscriptionPublisher, subscriptionRepository
   )
 }

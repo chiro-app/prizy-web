@@ -41,6 +41,7 @@ public class UserPreferencesEntity {
   @Type(type = "json")
   @Column(columnDefinition = "json")
   private NotificationSettings notifications = new NotificationSettings();
+  @Builder.Default
   @Type(type = "json")
   @Column(columnDefinition = "json")
   private EmailSettings emails = new EmailSettings();

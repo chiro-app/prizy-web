@@ -14,4 +14,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface RankingRowJpaRepository extends JpaRepository<RankingRowEntity, UUID> {
   Collection<RankingRowEntity> findAllByContestId(UUID contestId);
+
+  Collection<RankingRowEntity> findAllByContestIdAndUserId(UUID contestId, UUID userId);
 }

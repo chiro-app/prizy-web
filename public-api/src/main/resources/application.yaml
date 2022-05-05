@@ -18,3 +18,10 @@ prizy:
   resources:
     referral-key-bonus: 6
     referrer-key-bonus: 6
+    daily-diamonds-bonus: [ 100, 25, 25, 25, 25, 200 ]
+    daily-lives-bonus: [ 20, 8, 8, 8, 8, 50 ]
+    daily-keys-bonus: 3
+    lives-boost-multiplier: 2
+    diamonds-boost-multiplier: 50
+    max-lives-boost: 4
+    max-diamonds-boost: 4

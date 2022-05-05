@@ -39,4 +39,9 @@ public class RankingRepositoryImpl implements RankingRepository {
       .toList();
   }
 
+  @Override
+  public Collection<RankingRow> byContestAndUser(UUID contestId, UUID userId) {
+    return jpaRepository.findAllByContestIdAndUserId(contestId, userId).stream().map(RankingRowMapper::map).toList();
+  }
+
 }

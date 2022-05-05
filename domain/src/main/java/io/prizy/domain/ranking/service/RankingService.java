@@ -62,4 +62,18 @@ public class RankingService {
     );
   }
 
+  public void incrementByAndSubmitScore(UUID contestId, UUID userId, Long score) {
+    var maxScoreRow = repository
+      .byContestAndUser(contestId, userId)
+      .stream().max(Comparator.comparing(RankingRow::score))
+      .orElseGet(() -> RankingRow.builder()
+        .score(0L)
+        .userId(userId)
+        .contestId(contestId)
+        .dateTime(Instant.now())
+        .build()
+      );
+    repository.save(maxScoreRow.withScore(maxScoreRow.score() + score));
+  }
+
 }

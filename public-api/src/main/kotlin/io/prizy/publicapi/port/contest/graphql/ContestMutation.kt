@@ -48,7 +48,7 @@ class ContestMutation(
   suspend fun createContestSubscription(ctx: GraphQLContext.Authenticated, contestId: UUID): ContestSubscriptionDto =
     withContext(Dispatchers.IO) {
       contestSubscriptionService
-        .createContestSubscription(contestId, UUID.randomUUID())
+        .createContestSubscription(contestId, ctx.principal.id)
         .let(ContestSubscriptionDtoMapper::map)
     }
 }

@@ -4,6 +4,7 @@ import java.time.Instant;
 import java.util.UUID;
 
 import lombok.Builder;
+import lombok.With;
 
 /**
  * @author Nidhal Dogga
@@ -11,6 +12,7 @@ import lombok.Builder;
  */
 
 
+@With
 @Builder
 public record RankingRow(
   UUID userId,

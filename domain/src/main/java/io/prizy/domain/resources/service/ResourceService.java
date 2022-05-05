@@ -1,18 +1,16 @@
 package io.prizy.domain.resources.service;
 
+import java.util.UUID;
+
 import io.prizy.domain.contest.exception.ContestNotFoundException;
 import io.prizy.domain.contest.ports.ContestRepository;
-import io.prizy.domain.resources.model.ResourceTransaction;
-import io.prizy.domain.resources.model.TransactionType;
 import io.prizy.domain.resources.model.Currency;
+import io.prizy.domain.resources.model.ResourceBalance;
+import io.prizy.domain.resources.model.TransactionType;
 import io.prizy.domain.resources.ports.ResourceRepository;
-import io.prizy.domain.resources.properties.ResourceProperties;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.time.Instant;
-import java.util.UUID;
 
 /**
  * @author Nidhal Dogga
@@ -24,13 +22,31 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class ResourceService {
 
+  private final ResourceRepository repository;
   private final ContestRepository contestRepository;
-  private final ResourceRepository resourceRepository;
 
-  private final ResourceProperties properties;
+  public ResourceBalance.Absolute getAbsoluteBalance(UUID userId) {
+    return ResourceBalance.Absolute.builder()
+      .userId(userId)
+      .keys(repository.countKeys(userId))
+      .build();
+  }
 
-  public Long getKeyCount(UUID userId) {
-    return resourceRepository.countKeys(userId);
+  public ResourceBalance.ContestDependent getContestDependentBalance(UUID userId, UUID contestId) {
+    return ResourceBalance.ContestDependent.builder()
+      .userId(userId)
+      .contestId(contestId)
+      .diamonds(repository.countDiamonds(userId, contestId))
+      .lives(repository.countLives(userId, contestId))
+      .build();
+  }
+
+  public void creditDiamonds(UUID userId, UUID contestId, Long diamonds) {
+    repository.alterByUserAndContest(userId, contestId, Currency.DIAMONDS, diamonds, TransactionType.CREDIT);
+  }
+
+  public void creditLives(UUID userId, UUID contestId, Integer lives) {
+    repository.alterByUserAndContest(userId, contestId, Currency.LIVES, Long.valueOf(lives), TransactionType.CREDIT);
   }
 
   public void debitContestSubscriptionFees(UUID userId, UUID contestId) {
@@ -38,22 +54,6 @@ public class ResourceService {
     var contest = contestRepository
       .byId(contestId)
       .orElseThrow(() -> new ContestNotFoundException(contestId));
-    depositKeys(userId, contest.cost().longValue());
-  }
-
-  public void creditReferralKeyBonus(UUID userId) {
-    depositKeys(userId, properties.referralKeyBonus().longValue());
-  }
-
-  public void creditReferrerKeyBonus(UUID userId) {
-    depositKeys(userId, properties.referrerKeyBonus().longValue());
-  }
-
-  private void depositKeys(UUID userId, Long amount) {
-    var transaction = new ResourceTransaction.Absolute(
-      null, Currency.KEYS, TransactionType.DEPOSIT,
-      amount, userId, Instant.now()
-    );
-    resourceRepository.saveTransaction(transaction);
+    repository.alterKeys(userId, contest.cost().longValue(), TransactionType.DEBIT);
   }
 }

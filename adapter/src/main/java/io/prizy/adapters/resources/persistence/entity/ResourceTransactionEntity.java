@@ -6,19 +6,14 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import io.prizy.adapters.contest.persistence.entity.ContestEntity;
-import io.prizy.adapters.user.persistence.entity.UserEntity;
-import io.prizy.domain.resources.model.TransactionType;
 import io.prizy.domain.resources.model.Currency;
+import io.prizy.domain.resources.model.TransactionType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -45,11 +40,8 @@ public sealed class ResourceTransactionEntity {
   private TransactionType type;
   @Column
   private Long amount;
-  @Column(name = "user_id", updatable = false, insertable = false)
+  @Column(name = "user_id")
   private UUID userId;
-  @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "user_id")
-  private UserEntity user;
   @Column(name = "date_time")
   private Instant dateTime;
 
@@ -67,11 +59,8 @@ public sealed class ResourceTransactionEntity {
   @Entity(name = "ContestDependentResourceTransaction")
   public static non-sealed class ContestDependent extends ResourceTransactionEntity {
 
-    @Column(name = "contest_id", updatable = false, insertable = false)
+    @Column(name = "contest_id")
     private UUID contestId;
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "contest_id")
-    private ContestEntity contest;
 
   }
 
