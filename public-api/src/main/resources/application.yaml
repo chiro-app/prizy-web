@@ -25,3 +25,10 @@ prizy:
     diamonds-boost-multiplier: 50
     max-lives-boost: 4
     max-diamonds-boost: 4
+  game:
+    id: "random-board"
+    title: "Chiro sous les bombes"
+    description: "Atteignez le point d'arrivée en évitant les pièges. Chaque tuile sur laquelle vous marchez augmente votre multplicateur de 1. Une fois le point d'arrivée atteint votre mise de départ est multipliée par votre multiplicateur final.\nSi vous tombez sur un piège, vous perdez votre mise."
+    usage-instructions: "Touchez les tuiles adjacentes pour vous y déplacer. Vous ne pouvez pas vous déplacer sur une tuile déjà visitée."
+    icon-asset-id: "console-service-random-board-icon"
+    cover-asset-id: "console-service-random-board-cover"

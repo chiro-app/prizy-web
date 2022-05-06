@@ -7,8 +7,10 @@ import io.prizy.domain.auth.model.Roles
 import io.prizy.domain.contest.service.ContestService
 import io.prizy.domain.ranking.service.RankingService
 import io.prizy.graphql.directives.AuthorizedDirective
+import io.prizy.publicapi.application.properties.GameProperties
 import io.prizy.publicapi.port.asset.dto.AssetDto
 import io.prizy.publicapi.port.asset.mapper.AssetDtoMapper
+import io.prizy.publicapi.port.contest.mapper.GameDescriptionDtoMapper
 import io.prizy.publicapi.port.ranking.graphql.dto.RankingTableDto
 import io.prizy.publicapi.port.ranking.mapper.RankingTableDtoMapper
 import kotlinx.coroutines.Dispatchers
@@ -65,4 +67,7 @@ data class ContestDto(
     withContext(Dispatchers.IO) {
       rankingService.getForContest(id).let(RankingTableDtoMapper::map)
     }
+
+  fun gameDescription(@GraphQLIgnore @Autowired gameProperties: GameProperties) =
+    GameDescriptionDtoMapper.map(gameProperties)
 }
