@@ -3,15 +3,13 @@ services:
   db:
     image: postgres
     environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=mysecretpassword
-      - POSTGRES_DB=prizy-web
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: mysecretpassword
+      POSTGRES_DB: prizy-web
     ports:
       - "5433:5432"
-  adminer:
-    image: adminer
-    ports:
-      - "8081:8080"
+    volumes:
+      - db-data:/var/lib/postgresql/data
   minio:
     image: quay.io/minio/minio:RELEASE.2022-04-30T22-23-53Z
     command: server --console-address ":9001" /data/minio/
@@ -28,6 +26,12 @@ services:
       retries: 3
     volumes:
       - minio-data:/data
+  admin:
+    image: slydeveloper/spring-boot-admin
+    ports:
+      - 1111:1111
+    environment:
+      SPRING_BOOT_ADMIN_SECURITY_ENABLED: false
 
 #  app:
 #    image: public-api
@@ -41,4 +45,5 @@ services:
 #      - SPRING_DATASOURCE_PASSWORD=mysecretpassword
 
 volumes:
+  db-data:
   minio-data:

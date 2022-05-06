@@ -3,6 +3,10 @@ graphql:
     enabled: true
 
 spring:
+  boot:
+    admin:
+      client:
+        url: http://localhost:1111
   datasource:
     url: jdbc:postgresql://localhost:5433/prizy-web
     username: postgres

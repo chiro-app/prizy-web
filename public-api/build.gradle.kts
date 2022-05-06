@@ -1,6 +1,3 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-import org.springframework.boot.gradle.tasks.bundling.BootBuildImage
-
 plugins {
   kotlin("jvm")
   kotlin("kapt")
@@ -9,18 +6,7 @@ plugins {
   kotlin("plugin.spring")
   kotlin("plugin.allopen")
   id("org.springframework.boot")
-  id("io.spring.dependency-management")
   id("org.springframework.experimental.aot")
-}
-
-configurations {
-  compileOnly {
-    extendsFrom(configurations.annotationProcessor.get())
-  }
-}
-
-repositories {
-  maven { url = uri("https://repo.spring.io/release") }
 }
 
 dependencies {
@@ -38,6 +24,8 @@ dependencies {
   implementation("org.springframework.boot:spring-boot-starter-actuator")
   implementation("org.springframework.boot:spring-boot-starter-data-jpa")
   implementation("org.springframework.boot:spring-boot-starter-security")
+
+  implementation("de.codecentric:spring-boot-admin-starter-client")
 
   implementation("io.projectreactor:reactor-core")
   implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
@@ -60,20 +48,4 @@ dependencies {
 
   testImplementation("org.springframework.boot:spring-boot-starter-test")
   testImplementation("org.springframework.security:spring-security-test")
-}
-
-tasks.withType<KotlinCompile> {
-  kotlinOptions {
-    freeCompilerArgs = listOf("-Xjsr305=strict")
-    jvmTarget = "17"
-  }
-}
-
-tasks.withType<Test> {
-  useJUnitPlatform()
-}
-
-tasks.withType<BootBuildImage> {
-  builder = "paketobuildpacks/builder:tiny"
-  environment = mapOf("BP_NATIVE_IMAGE" to "true")
 }

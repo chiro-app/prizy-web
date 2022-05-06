@@ -19,6 +19,7 @@ import io.prizy.domain.contest.service.ContestService
 import io.prizy.domain.contest.service.ContestSubscriptionService
 import io.prizy.domain.game.port.GameBoardRepository
 import io.prizy.domain.game.service.GameBoardService
+import io.prizy.domain.game.service.GameEngine
 import io.prizy.domain.notification.publisher.NotificationPublisher
 import io.prizy.domain.ranking.port.RankingRepository
 import io.prizy.domain.ranking.service.RankingService
@@ -57,6 +58,9 @@ import org.springframework.security.crypto.password.PasswordEncoder
 @EnableAsync
 @Configuration
 class DomainConfiguration {
+
+  @Bean
+  fun gameEngine() = GameEngine()
 
   @Bean
   fun gameBoardService(repository: GameBoardRepository) = GameBoardService(repository)

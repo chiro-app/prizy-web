@@ -1,14 +1,3 @@
-plugins {
-  java
-  id("io.spring.dependency-management")
-}
-
-configurations {
-  compileOnly {
-    extendsFrom(configurations.annotationProcessor.get())
-  }
-}
-
 dependencies {
   implementation(project(":domain"))
   implementation(project(":toolbox"))
@@ -34,9 +23,4 @@ dependencies {
 
   testImplementation("org.springframework.boot:spring-boot-starter-test")
   testImplementation("org.springframework.security:spring-security-test")
-}
-
-
-tasks.withType<Test> {
-  useJUnitPlatform()
 }
