@@ -51,6 +51,14 @@ public class ResourceService {
     repository.alterByUserAndContest(userId, contestId, Currency.LIVES, Long.valueOf(lives), TransactionType.CREDIT);
   }
 
+  public void debitDiamonds(UUID userId, UUID contestId, Long diamonds) {
+    repository.alterByUserAndContest(userId, contestId, Currency.DIAMONDS, diamonds, TransactionType.DEBIT);
+  }
+
+  public void debitLives(UUID userId, UUID contestId, Integer lives) {
+    repository.alterByUserAndContest(userId, contestId, Currency.LIVES, Long.valueOf(lives), TransactionType.DEBIT);
+  }
+
   public void debitContestSubscriptionFees(UUID userId, UUID contestId) {
     log.info("Debiting contest subscription fees for user {} for contest {}", userId, contestId);
     var contest = contestRepository

@@ -1,5 +1,6 @@
 package io.prizy.publicapi.port.game.websocket.dto
 
+import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonTypeInfo
 import com.fasterxml.jackson.annotation.JsonTypeName
 import io.prizy.domain.game.model.GameBoard
@@ -31,7 +32,13 @@ sealed interface GameEventDto {
   data class PlayerMoved(val direction: Direction) : GameEventDto
 
   @JsonTypeName("board_retrieved")
-  data class BoardRetrieved(val board: GameBoard, val startPosition: Int, val endPosition: Int) : GameEventDto
+  data class BoardRetrieved(
+    val board: GameBoard,
+    val startPosition: Int,
+    val endPosition: Int,
+    @JsonIgnore
+    val obstacles: Collection<Int>
+  ) : GameEventDto
 
   @JsonTypeName("score_updated")
   data class ScoreUpdated(val score: Long) : GameEventDto

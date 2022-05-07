@@ -14,7 +14,9 @@ object GameEventDtoMapper {
     is GameEventDto.GameStarted -> GameEvent.GameStarted(dto.contestId, dto.diamonds)
     is GameEventDto.GameLost -> GameEvent.GameLost(dto.obstacles)
     is GameEventDto.GameWon -> GameEvent.GameWon(dto.obstacles, dto.score)
-    is GameEventDto.BoardRetrieved -> GameEvent.BoardRetrieved(dto.board, dto.startPosition, dto.endPosition)
+    is GameEventDto.BoardRetrieved -> GameEvent.BoardRetrieved(
+      dto.board, dto.startPosition, dto.endPosition, dto.obstacles
+    )
     is GameEventDto.Error -> GameEvent.Error(dto.errorCode)
     is GameEventDto.PlayerMoved -> GameEvent.PlayerMoved(dto.direction)
     is GameEventDto.ScoreUpdated -> GameEvent.ScoreUpdated(dto.score)
@@ -24,7 +26,9 @@ object GameEventDtoMapper {
     is GameEvent.GameStarted -> GameEventDto.GameStarted(event.contestId, event.diamonds)
     is GameEvent.GameLost -> GameEventDto.GameLost(event.obstacles)
     is GameEvent.GameWon -> GameEventDto.GameWon(event.score, event.obstacles)
-    is GameEvent.BoardRetrieved -> GameEventDto.BoardRetrieved(event.board, event.startPosition, event.endPosition)
+    is GameEvent.BoardRetrieved -> GameEventDto.BoardRetrieved(
+      event.board, event.startPosition, event.endPosition, event.obstacles
+    )
     is GameEvent.Error -> GameEventDto.Error(event.errorCode)
     is GameEvent.PlayerMoved -> GameEventDto.PlayerMoved(event.direction)
     is GameEvent.ScoreUpdated -> GameEventDto.ScoreUpdated(event.score)

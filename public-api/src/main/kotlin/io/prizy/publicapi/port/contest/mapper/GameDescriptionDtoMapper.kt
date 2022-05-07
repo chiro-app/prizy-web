@@ -1,6 +1,6 @@
 package io.prizy.publicapi.port.contest.mapper
 
-import io.prizy.publicapi.application.properties.GameProperties
+import io.prizy.publicapi.application.properties.GameDescriptionProperties
 import io.prizy.publicapi.port.contest.graphql.dto.GameDescriptionDto
 
 /**
@@ -10,12 +10,12 @@ import io.prizy.publicapi.port.contest.graphql.dto.GameDescriptionDto
 
 object GameDescriptionDtoMapper {
 
-  fun map(gameProperties: GameProperties) = GameDescriptionDto(
-    id = gameProperties.id,
-    title = gameProperties.title,
-    description = gameProperties.description,
-    usageInstructions = gameProperties.usageInstructions,
-    iconAssetId = gameProperties.iconAssetId,
-    coverAssetId = gameProperties.coverAssetId
+  fun map(gameDescriptionProperties: GameDescriptionProperties) = GameDescriptionDto(
+    id = gameDescriptionProperties.id,
+    title = gameDescriptionProperties.title,
+    description = gameDescriptionProperties.description,
+    usageInstructions = gameDescriptionProperties.usageInstructions,
+    iconAssetId = gameDescriptionProperties.iconAssetId,
+    coverAssetId = gameDescriptionProperties.coverAssetId
   )
 }

@@ -4,17 +4,20 @@ import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.boot.context.properties.ConstructorBinding
 
 /**
- * @author Nidhal Dogga
- * @created 06/05/2022 13:59
+ *  @author Nidhal Dogga
+ *  @created 5/7/2022 3:59 PM
  */
 
 @ConstructorBinding
-@ConfigurationProperties(prefix = "prizy.game")
+@ConfigurationProperties("prizy.game")
 data class GameProperties(
-  val id: String,
-  val title: String,
-  val description: String,
-  val usageInstructions: String,
-  val iconAssetId: String,
-  val coverAssetId: String
-)
+  val maxRandomObstacles: Int,
+  val minRandomObstacles: Int
+) {
+
+  val toDomain: io.prizy.domain.game.properties.GameProperties
+    get() = io.prizy.domain.game.properties.GameProperties(
+      maxRandomObstacles,
+      minRandomObstacles
+    )
+}

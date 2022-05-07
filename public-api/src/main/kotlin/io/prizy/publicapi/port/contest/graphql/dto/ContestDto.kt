@@ -7,7 +7,7 @@ import io.prizy.domain.auth.model.Roles
 import io.prizy.domain.contest.service.ContestService
 import io.prizy.domain.ranking.service.RankingService
 import io.prizy.graphql.directives.AuthorizedDirective
-import io.prizy.publicapi.application.properties.GameProperties
+import io.prizy.publicapi.application.properties.GameDescriptionProperties
 import io.prizy.publicapi.port.asset.dto.AssetDto
 import io.prizy.publicapi.port.asset.mapper.AssetDtoMapper
 import io.prizy.publicapi.port.contest.mapper.GameDescriptionDtoMapper
@@ -68,6 +68,6 @@ data class ContestDto(
       rankingService.getForContest(id).let(RankingTableDtoMapper::map)
     }
 
-  fun gameDescription(@GraphQLIgnore @Autowired gameProperties: GameProperties) =
-    GameDescriptionDtoMapper.map(gameProperties)
+  fun gameDescription(@GraphQLIgnore @Autowired gameDescriptionProperties: GameDescriptionProperties) =
+    GameDescriptionDtoMapper.map(gameDescriptionProperties)
 }
