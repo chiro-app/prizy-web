@@ -1,5 +1,7 @@
 package io.prizy.publicapi.auth.websocket
 
+import com.fasterxml.jackson.core.JacksonException
+import io.netty.handler.codec.http.HttpResponseStatus
 import io.prizy.graphql.exception.AuthenticationRequiredException
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -53,6 +55,14 @@ class AuthenticatedRequestUpgradeStrategy(private val jwtDecoder: ReactiveJwtDec
           val session = ReactorNettyWebSocketSession(inbound, outbound, authenticatedHandshake, bufferFactory)
           webSocketHandler.handle(session)
         }
+      }
+      .onErrorResume { throwable ->
+        val status = when (throwable) {
+          is AuthenticationRequiredException -> HttpResponseStatus.UNAUTHORIZED
+          is JacksonException -> HttpResponseStatus.BAD_REQUEST
+          else -> HttpResponseStatus.INTERNAL_SERVER_ERROR
+        }
+        Mono.just(reactorResponse.status(status)).flatMap(HttpServerResponse::send)
       }
   }
 

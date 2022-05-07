@@ -19,9 +19,11 @@ import io.prizy.domain.contest.ports.ContestTemplateCompiler;
 import io.prizy.domain.contest.ports.PackRepository;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 
+@Service
 @Transactional
 @RequiredArgsConstructor
 public class ContestService {

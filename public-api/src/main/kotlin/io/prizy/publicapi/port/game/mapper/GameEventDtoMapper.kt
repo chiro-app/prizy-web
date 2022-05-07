@@ -16,7 +16,18 @@ object GameEventDtoMapper {
     is GameEventDto.GameWon -> GameEvent.GameWon(dto.obstacles, dto.score)
     is GameEventDto.BoardRetrieved -> GameEvent.BoardRetrieved(dto.board, dto.startPosition, dto.endPosition)
     is GameEventDto.Error -> GameEvent.Error(dto.errorCode)
-    is GameEventDto.PlayedMoved -> GameEvent.PlayedMoved(dto.direction)
+    is GameEventDto.PlayerMoved -> GameEvent.PlayerMoved(dto.direction)
     is GameEventDto.ScoreUpdated -> GameEvent.ScoreUpdated(dto.score)
+  }
+
+  fun map(event: GameEvent): GameEventDto = when (event) {
+    is GameEvent.GameStarted -> GameEventDto.GameStarted(event.contestId, event.diamonds)
+    is GameEvent.GameLost -> GameEventDto.GameLost(event.obstacles)
+    is GameEvent.GameWon -> GameEventDto.GameWon(event.score, event.obstacles)
+    is GameEvent.BoardRetrieved -> GameEventDto.BoardRetrieved(event.board, event.startPosition, event.endPosition)
+    is GameEvent.Error -> GameEventDto.Error(event.errorCode)
+    is GameEvent.PlayerMoved -> GameEventDto.PlayerMoved(event.direction)
+    is GameEvent.ScoreUpdated -> GameEventDto.ScoreUpdated(event.score)
+    else -> throw IllegalArgumentException("Unknown event type")
   }
 }

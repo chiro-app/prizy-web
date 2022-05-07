@@ -5,6 +5,7 @@ import java.util.UUID;
 import io.prizy.domain.user.model.UserPreferences;
 import io.prizy.domain.user.port.UserPreferencesRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
 /**
  * @author Nidhal Dogga
@@ -12,6 +13,7 @@ import lombok.RequiredArgsConstructor;
  */
 
 
+@Service
 @RequiredArgsConstructor
 public class UserPreferencesService {
 

@@ -15,6 +15,7 @@ import io.prizy.domain.referral.model.ReferralNode;
 import io.prizy.domain.referral.ports.ReferralRepository;
 import io.prizy.domain.resources.ports.ResourceRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -22,6 +23,8 @@ import org.springframework.transaction.annotation.Transactional;
  * @created 4/24/2022 12:26 AM
  */
 
+
+@Service
 @Transactional
 @RequiredArgsConstructor
 public class ContestSubscriptionService {

@@ -6,6 +6,7 @@ import java.util.UUID;
 import io.prizy.domain.auth.port.RefreshTokenRepository;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.springframework.stereotype.Service;
 
 /**
  * @author Nidhal Dogga
@@ -13,6 +14,7 @@ import org.apache.commons.lang3.RandomStringUtils;
  */
 
 
+@Service
 @RequiredArgsConstructor
 public class RefreshTokenService {
 

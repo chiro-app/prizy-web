@@ -11,9 +11,11 @@ import io.prizy.domain.referral.ports.ReferralPublisher;
 import io.prizy.domain.referral.ports.ReferralRepository;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 
+@Service
 @Transactional
 @RequiredArgsConstructor
 public class ReferralService {

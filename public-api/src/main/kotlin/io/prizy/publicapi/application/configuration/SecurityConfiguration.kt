@@ -44,23 +44,37 @@ class SecurityConfiguration {
         .jwtDecoder(jwtDecoder)
         .and()
         .accessDeniedHandler { exchange, exception ->
-          // TODO(Nidhal): Move to a configurable bean
           val bytes = """
-            {"errors":[{"extensions":{"errorCode":"FORBIDDEN"}}]}
+            {
+              "errors":[
+                {
+                  "extensions": {
+                    "errorCode": "FORBIDDEN"
+                  }
+                }
+              ]
+            }
           """.trimIndent().toByteArray(Charsets.UTF_8)
           val buffer = exchange.response.bufferFactory().wrap(bytes)
           exchange.response.headers.contentType = MediaType.APPLICATION_JSON
-          exchange.response.statusCode = HttpStatus.OK
+          exchange.response.statusCode = HttpStatus.FORBIDDEN
           exchange.response.writeWith(Mono.just(buffer))
         }
         .authenticationEntryPoint { exchange, _ ->
-          // TODO(Nidhal): Move to a configurable bean
           val bytes = """
-            {"errors":[{"extensions":{"errorCode":"UNAUTHORIZED"}}]}
+            {
+              "errors":[
+                {
+                  "extensions": {
+                    "errorCode": "UNAUTHORIZED"
+                  }
+                }
+              ]
+            }
           """.trimIndent().toByteArray(Charsets.UTF_8)
           val buffer = exchange.response.bufferFactory().wrap(bytes)
           exchange.response.headers.contentType = MediaType.APPLICATION_JSON
-          exchange.response.statusCode = HttpStatus.OK
+          exchange.response.statusCode = HttpStatus.UNAUTHORIZED
           exchange.response.writeWith(Mono.just(buffer))
         }
     }

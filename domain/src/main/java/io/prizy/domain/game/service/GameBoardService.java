@@ -8,6 +8,7 @@ import io.prizy.domain.game.exception.GameBoardNotFoundException;
 import io.prizy.domain.game.model.GameBoard;
 import io.prizy.domain.game.port.GameBoardRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -16,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 
 
+@Service
 @Transactional
 @RequiredArgsConstructor
 public class GameBoardService {

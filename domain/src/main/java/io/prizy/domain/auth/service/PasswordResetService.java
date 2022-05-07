@@ -18,6 +18,7 @@ import io.prizy.domain.user.port.PasswordHasher;
 import io.prizy.domain.user.port.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -26,6 +27,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 
 
+@Service
 @Transactional
 @RequiredArgsConstructor
 public class PasswordResetService {

@@ -20,6 +20,7 @@ import io.prizy.domain.user.port.PasswordHasher;
 import io.prizy.domain.user.port.UserPublisher;
 import io.prizy.domain.user.port.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
 /**
  * @author Nidhal Dogga
@@ -27,6 +28,7 @@ import lombok.RequiredArgsConstructor;
  */
 
 
+@Service
 @RequiredArgsConstructor
 public class UserService {
 

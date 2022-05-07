@@ -14,6 +14,7 @@ public sealed interface GameEvent {
   record Error(Code errorCode) implements GameEvent {
 
     public enum Code {
+      UNRECOGNIZED_EVENT,
       CONTEST_NOT_FOUND,
       CONTEST_ENDED,
       CONTEST_NOT_STARTED,
@@ -24,6 +25,7 @@ public sealed interface GameEvent {
       GAME_ATTEMPTS_EXCEEDED,
       ILLEGAL_MOVE,
       GAME_NOT_INITIALIZED,
+      UNKNOWN,
     }
 
   }
@@ -37,7 +39,7 @@ public sealed interface GameEvent {
   record GameStarted(UUID contestId, Long diamonds) implements GameEvent {
   }
 
-  record PlayedMoved(Direction direction) implements GameEvent {
+  record PlayerMoved(Direction direction) implements GameEvent {
 
     public enum Direction {
       UP,

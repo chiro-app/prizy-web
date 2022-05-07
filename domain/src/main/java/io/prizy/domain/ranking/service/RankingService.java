@@ -12,6 +12,7 @@ import io.prizy.domain.ranking.model.RankingRow;
 import io.prizy.domain.ranking.model.RankingTable;
 import io.prizy.domain.ranking.port.RankingRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -20,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 
 
+@Service
 @Transactional
 @RequiredArgsConstructor
 public class RankingService {

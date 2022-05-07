@@ -16,6 +16,7 @@ import io.prizy.domain.resources.ports.ResourcePublisher;
 import io.prizy.domain.resources.ports.ResourceRepository;
 import io.prizy.domain.resources.properties.ResourceProperties;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import static io.prizy.domain.resources.model.Currency.DIAMONDS;
@@ -30,6 +31,7 @@ import static java.time.temporal.ChronoUnit.DAYS;
  */
 
 
+@Service
 @Transactional
 @RequiredArgsConstructor
 public class ResourceBonusService {

@@ -13,6 +13,7 @@ import io.prizy.domain.reward.event.RewardCreated;
 import io.prizy.domain.reward.port.RewardPublisher;
 import io.prizy.domain.reward.port.RewardRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -21,6 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 
 
+@Service
 @Transactional
 @RequiredArgsConstructor
 public class RewardService {

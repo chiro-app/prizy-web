@@ -2,6 +2,8 @@ package io.prizy.publicapi.application.configuration
 
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.core.Ordered
+import org.springframework.web.reactive.HandlerAdapter
 import org.springframework.web.reactive.HandlerMapping
 import org.springframework.web.reactive.handler.SimpleUrlHandlerMapping
 import org.springframework.web.reactive.socket.WebSocketHandler
@@ -19,12 +21,13 @@ import org.springframework.web.reactive.socket.server.support.WebSocketHandlerAd
 class WebSocketConfiguration {
 
   @Bean
-  fun webSocketHandler(handler: WebSocketHandler): HandlerMapping = SimpleUrlHandlerMapping(mapOf("/ws" to handler), 1)
+  fun webSocketHandler(handler: WebSocketHandler): HandlerMapping =
+    SimpleUrlHandlerMapping(mapOf("/websockets" to handler), Ordered.HIGHEST_PRECEDENCE)
 
   @Bean
   fun webSocketService(upgradeStrategy: RequestUpgradeStrategy): WebSocketService =
     HandshakeWebSocketService(upgradeStrategy)
 
   @Bean
-  fun handlerAdapter(webSocketService: WebSocketService) = WebSocketHandlerAdapter(webSocketService)
+  fun handlerAdapter(webSocketService: WebSocketService): HandlerAdapter = WebSocketHandlerAdapter(webSocketService)
 }

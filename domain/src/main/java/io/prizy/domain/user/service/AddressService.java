@@ -1,9 +1,10 @@
 package io.prizy.domain.user.service;
 
+import java.util.UUID;
+
 import io.prizy.domain.user.model.Address;
 import lombok.RequiredArgsConstructor;
-
-import java.util.UUID;
+import org.springframework.stereotype.Service;
 
 /**
  * @author Nidhal Dogga
@@ -11,6 +12,7 @@ import java.util.UUID;
  */
 
 
+@Service
 @RequiredArgsConstructor
 public class AddressService {
 

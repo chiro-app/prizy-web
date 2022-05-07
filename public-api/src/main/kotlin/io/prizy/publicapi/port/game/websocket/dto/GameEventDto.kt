@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo
 import com.fasterxml.jackson.annotation.JsonTypeName
 import io.prizy.domain.game.model.GameBoard
 import io.prizy.domain.game.model.GameEvent.Error.Code
-import io.prizy.domain.game.model.GameEvent.PlayedMoved.Direction
+import io.prizy.domain.game.model.GameEvent.PlayerMoved.Direction
 import java.util.UUID
 
 /**
@@ -27,8 +27,8 @@ sealed interface GameEventDto {
   @JsonTypeName("game_started")
   data class GameStarted(val contestId: UUID, val diamonds: Long) : GameEventDto
 
-  @JsonTypeName("played_moved")
-  data class PlayedMoved(val direction: Direction) : GameEventDto
+  @JsonTypeName("player_moved")
+  data class PlayerMoved(val direction: Direction) : GameEventDto
 
   @JsonTypeName("board_retrieved")
   data class BoardRetrieved(val board: GameBoard, val startPosition: Int, val endPosition: Int) : GameEventDto

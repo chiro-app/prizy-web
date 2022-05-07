@@ -2,6 +2,7 @@ package io.prizy.adapters.user;
 
 import io.prizy.domain.user.port.PasswordHasher;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
@@ -15,7 +16,7 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class BCryptPasswordHasher implements PasswordHasher {
 
-  private final PasswordEncoder passwordEncoder;
+  private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
   @Override
   public String hash(String password) {

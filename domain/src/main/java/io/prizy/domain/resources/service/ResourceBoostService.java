@@ -8,6 +8,7 @@ import io.prizy.domain.referral.ports.ReferralRepository;
 import io.prizy.domain.resources.model.ResourceBoost;
 import io.prizy.domain.resources.properties.ResourceProperties;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -16,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 
 
+@Service
 @Transactional
 @RequiredArgsConstructor
 public class ResourceBoostService {
