@@ -36,7 +36,7 @@ public class PasswordResetService {
   private static final Integer RESET_CODE_EXPIRE_SECONDS = 15 * 60;
   private static final String RESET_CODE_ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
   private static final String RESET_PASSWORD_SUBJECT = "%s est votre code de verification sur Chiro";
-  private static final String RESET_PASSWORD_TEMPLATE_NAME = "reset-password";
+  private static final String RESET_PASSWORD_TEMPLATE_NAME = "reset-password.html";
   private static final Integer RESET_TOKEN_LENGTH = 64;
 
   private final UserRepository userRepository;

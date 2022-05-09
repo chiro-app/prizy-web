@@ -29,7 +29,7 @@ public class EmailConfirmationService {
   private static final Integer CONFIRMATION_CODE_LENGTH = 6;
   private static final String CONFIRMATION_CODE_ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
   private static final String CONFIRMATION_EMAIL_SUBJECT = "%s - Bienvenue sur Chiro";
-  private static final String CONFIRMATION_EMAIL_TEMPLATE_NAME = "email-confirmation";
+  private static final String CONFIRMATION_EMAIL_TEMPLATE_NAME = "email-confirmation.html";
 
   private final ConfirmationCodeRepository repository;
   private final UserRepository userRepository;

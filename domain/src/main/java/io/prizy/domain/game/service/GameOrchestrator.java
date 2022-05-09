@@ -10,8 +10,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Flux;
-import reactor.core.publisher.Hooks;
 import reactor.core.publisher.Mono;
+import reactor.core.scheduler.Schedulers;
 
 /**
  * @author Nidhal Dogga
@@ -26,8 +26,8 @@ public class GameOrchestrator {
   private final GameEngine gameEngine;
 
   public Flux<GameEvent> startGame(Flux<GameEvent> input, UUID userId) {
-    Hooks.onOperatorDebug();
     return input
+      .publishOn(Schedulers.boundedElastic())
       .flatMap(event -> Mono.deferContextual(ctx -> {
         var requestId = ctx.get(ServerWebExchange.class).getRequest().getId();
         return switch (event) {

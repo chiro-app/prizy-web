@@ -35,3 +35,6 @@ prizy:
     usage-instructions: "Touchez les tuiles adjacentes pour vous y déplacer. Vous ne pouvez pas vous déplacer sur une tuile déjà visitée."
     icon-asset-id: "console-service-random-board-icon"
     cover-asset-id: "console-service-random-board-cover"
+
+spring.mail.properties:
+  sender: L'équipe Chiro <info@prizy.io>

@@ -22,7 +22,7 @@ import org.springframework.transaction.event.TransactionalEventListener;
 public class RewardListener {
 
   private static final String REWARD_EMAIL_SUBJECT = "Ton cadeau %s t'attends ! \uD83E\uDD73";
-  private static final String REWARD_EMAIL_TEMPLATE_NAME = "rewarding-email";
+  private static final String REWARD_EMAIL_TEMPLATE_NAME = "rewarding-email.html";
 
   private final NotificationPublisher notificationPublisher;
   private final ContestService contestService;

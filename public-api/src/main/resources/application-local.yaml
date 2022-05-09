@@ -3,10 +3,12 @@ graphql:
     enabled: true
 
 spring:
-  boot:
-    admin:
-      client:
-        url: http://localhost:1111
+  mail:
+    host: localhost
+    port: 25
+
+  boot.admin.client.url: http://localhost:1111
+
   datasource:
     url: jdbc:postgresql://localhost:5433/prizy-web
     username: postgres
@@ -20,6 +22,7 @@ prizy:
     bucket-name: prizy-local
     endpoint: http://localhost:9000
     server-url: http://localhost:8080
+
   security:
     jwt:
       key-id: local
@@ -64,4 +67,3 @@ prizy:
         EvbX4Nt2Ze4tv2o9DIbWVaUcjTvbpVVQKI9mImIeheAxsBRwZLBCtgjDYC9j0S5t
         6tGWVyiaPH1DXAJcd1MjdWm60x58Llwy1Xkkeg7Fd/ASMnIPchxg
         -----END RSA PRIVATE KEY-----
-
