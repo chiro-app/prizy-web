@@ -6,7 +6,6 @@ plugins {
   kotlin("plugin.spring")
   kotlin("plugin.allopen")
   id("org.springframework.boot")
-  id("org.springframework.experimental.aot")
 }
 
 dependencies {

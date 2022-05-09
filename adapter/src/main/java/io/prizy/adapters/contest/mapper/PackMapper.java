@@ -13,8 +13,8 @@ import lombok.experimental.UtilityClass;
 public class PackMapper {
 
   public Pack map(PackEntity entity) {
-    return switch (entity) {
-      case PackEntity.Product product -> new Pack.Product(
+    if (entity instanceof PackEntity.Product product) {
+      return new Pack.Product(
         product.getId(),
         product.getName(),
         product.getLastWinnerPosition(),
@@ -23,7 +23,8 @@ public class PackMapper {
         product.getValue(),
         product.getAssetId()
       );
-      case PackEntity.Coupon coupon -> new Pack.Coupon(
+    } else if (entity instanceof PackEntity.Coupon coupon) {
+      return new Pack.Coupon(
         coupon.getId(),
         coupon.getName(),
         coupon.getLastWinnerPosition(),
@@ -31,13 +32,13 @@ public class PackMapper {
         coupon.getCode(),
         coupon.getExpiration()
       );
-      default -> throw new IllegalArgumentException("Unknown pack type " + entity.getClass());
-    };
+    }
+    throw new IllegalArgumentException("Unknown pack type " + entity.getClass());
   }
 
   public PackEntity map(Pack pack) {
-    return switch (pack) {
-      case Pack.Product product -> PackEntity.Product.builder()
+    if (pack instanceof Pack.Product product) {
+      return PackEntity.Product.builder()
         .id(product.id())
         .name(product.name())
         .lastWinnerPosition(product.lastWinnerPosition())
@@ -45,7 +46,8 @@ public class PackMapper {
         .quantity(product.quantity())
         .value(product.value())
         .build();
-      case Pack.Coupon coupon -> PackEntity.Coupon.builder()
+    } else if (pack instanceof Pack.Coupon coupon) {
+      return PackEntity.Coupon.builder()
         .id(coupon.id())
         .name(coupon.name())
         .lastWinnerPosition(coupon.lastWinnerPosition())
@@ -53,6 +55,7 @@ public class PackMapper {
         .code(coupon.code())
         .expiration(coupon.expiration())
         .build();
-    };
+    }
+    throw new IllegalArgumentException("Unknown pack type " + pack.getClass());
   }
 }

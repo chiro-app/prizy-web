@@ -1,30 +1,28 @@
 package io.prizy.adapters.resources.mapper;
 
 import io.prizy.adapters.resources.persistence.entity.ResourceTransactionEntity;
-import io.prizy.domain.resources.model.Currency;
+import io.prizy.adapters.resources.persistence.entity.ResourceTransactionEntity.ResourceTransactionEntityBuilder;
 import io.prizy.domain.resources.model.ResourceTransaction;
-import io.prizy.domain.resources.model.TransactionType;
 import lombok.experimental.UtilityClass;
-
-import java.time.Instant;
-import java.util.UUID;
 
 /**
  * @author Nidhal Dogga
  * @created 4/29/2022 8:43 PM
  */
 
-
 @UtilityClass
 public class ResourceTransactionMapper {
 
   public <T extends ResourceTransaction> ResourceTransactionEntity map(T transaction) {
-    var builder = switch (transaction) {
-      case ResourceTransaction.Absolute ignored -> ResourceTransactionEntity.Absolute.builder();
-      case ResourceTransaction.ContestDependent contestDependent -> ResourceTransactionEntity.ContestDependent.builder()
+    ResourceTransactionEntityBuilder<?, ?> builder;
+    if (transaction instanceof ResourceTransaction.Absolute) {
+      builder = ResourceTransactionEntity.Absolute.builder();
+    } else if (transaction instanceof ResourceTransaction.ContestDependent contestDependent) {
+      builder = ResourceTransactionEntity.ContestDependent.builder()
         .contestId(contestDependent.contestId());
-      default -> throw new IllegalArgumentException("Unknown transaction type + " + transaction.getClass().getSimpleName());
-    };
+    } else {
+      throw new IllegalArgumentException("Unknown transaction type + " + transaction.getClass().getSimpleName());
+    }
     return builder
       .id(transaction.id())
       .currency(transaction.currency())
@@ -36,8 +34,8 @@ public class ResourceTransactionMapper {
   }
 
   public ResourceTransaction map(ResourceTransactionEntity entity) {
-    return switch(entity) {
-      case ResourceTransactionEntity.Absolute absolute -> new ResourceTransaction.Absolute(
+    if (entity instanceof ResourceTransactionEntity.Absolute absolute) {
+      return new ResourceTransaction.Absolute(
         absolute.getId(),
         absolute.getCurrency(),
         absolute.getType(),
@@ -45,7 +43,8 @@ public class ResourceTransactionMapper {
         absolute.getUserId(),
         absolute.getDateTime()
       );
-      case ResourceTransactionEntity.ContestDependent contestDependent -> new ResourceTransaction.ContestDependent(
+    } else if (entity instanceof ResourceTransactionEntity.ContestDependent contestDependent) {
+      return new ResourceTransaction.ContestDependent(
         contestDependent.getId(),
         contestDependent.getCurrency(),
         contestDependent.getType(),
@@ -54,8 +53,8 @@ public class ResourceTransactionMapper {
         contestDependent.getContestId(),
         contestDependent.getDateTime()
       );
-      default -> throw new IllegalArgumentException("Unknown transaction type + " + entity.getClass().getSimpleName());
-    };
+    }
+    throw new IllegalArgumentException("Unknown transaction type + " + entity.getClass().getSimpleName());
   }
 
 }

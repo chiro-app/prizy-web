@@ -1,0 +1,22 @@
+graphql:
+  playground:
+    enabled: true
+
+spring:
+  mail:
+    host: localhost
+    port: 25
+
+  boot.admin.client.url: https://spring-boot-admin-rdhrb.ondigitalocean.app
+
+prizy:
+  storage:
+    endpoint: fra1.digitaloceanspaces.com
+    server-url: https://prizy-web-stg.ondigitalocean.app
+
+  security:
+    jwt:
+      key-id: staging
+      issuer: prizy-staging
+      audience: prizy-public-api
+      algorithm: RS256

@@ -27,7 +27,7 @@ import lombok.experimental.SuperBuilder;
 @Entity(name = "Pack")
 @Table(name = "packs")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-public sealed class PackEntity {
+public abstract class PackEntity {
 
   @Id
   @GeneratedValue
@@ -46,7 +46,7 @@ public sealed class PackEntity {
   @SuperBuilder
   @NoArgsConstructor
   @Entity(name = "Product")
-  public non-sealed static class Product extends PackEntity {
+  public static class Product extends PackEntity {
 
     @Column
     private Float value;
@@ -61,7 +61,7 @@ public sealed class PackEntity {
   @SuperBuilder
   @NoArgsConstructor
   @Entity(name = "Coupon")
-  public non-sealed static class Coupon extends PackEntity {
+  public static class Coupon extends PackEntity {
 
     @Column
     private String code;

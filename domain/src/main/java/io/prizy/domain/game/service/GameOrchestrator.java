@@ -30,11 +30,12 @@ public class GameOrchestrator {
       .publishOn(Schedulers.boundedElastic())
       .flatMap(event -> Mono.deferContextual(ctx -> {
         var requestId = ctx.get(ServerWebExchange.class).getRequest().getId();
-        return switch (event) {
-          case GameEvent.GameStarted gameStarted -> gameEngine.startGame(requestId, userId, gameStarted);
-          case GameEvent.PlayerMoved playerMoved -> gameEngine.movePlayer(requestId, userId, playerMoved);
-          default -> Mono.error(new GameEventException(Code.ILLEGAL_EVENT));
-        };
+        if (event instanceof GameEvent.GameStarted gameStarted) {
+          return gameEngine.startGame(requestId, userId, gameStarted);
+        } else if (event instanceof GameEvent.PlayerMoved playerMoved) {
+          return gameEngine.movePlayer(requestId, userId, playerMoved);
+        }
+        return Mono.error(new GameEventException(Code.ILLEGAL_EVENT));
       }))
       .handle((event, sink) -> {
         sink.next(event);

@@ -9,15 +9,17 @@ import lombok.experimental.UtilityClass;
 public class CreatePackMapper {
 
   public Pack map(CreatePack create) {
-    return switch (create) {
-      case CreatePack.Coupon coupon -> Pack.Coupon.builder()
+    if (create instanceof CreatePack.Coupon coupon) {
+      return Pack.Coupon.builder()
         .name(coupon.name())
         .firstWinnerPosition(coupon.firstWinnerPosition())
         .lastWinnerPosition(coupon.lastWinnerPosition())
         .code(coupon.code())
         .expiration(coupon.expiration())
         .build();
-      case CreatePack.Product product -> Pack.Product.builder()
+    }
+    if (create instanceof CreatePack.Product product) {
+      Pack.Product.builder()
         .name(product.name())
         .firstWinnerPosition(product.firstWinnerPosition())
         .lastWinnerPosition(product.lastWinnerPosition())
@@ -25,7 +27,8 @@ public class CreatePackMapper {
         .value(product.value())
         .assetId(product.assetId())
         .build();
-    };
+    }
+    return null;
   }
 
 }

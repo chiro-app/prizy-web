@@ -65,12 +65,13 @@ public class ResourceRepositoryImpl implements ResourceRepository {
   @Override
   public ResourceTransaction saveTransaction(ResourceTransaction transaction) {
     var entity = ResourceTransactionMapper.map(transaction);
-    entity = switch (entity) {
-      case ResourceTransactionEntity.Absolute absolute -> absoluteJpaRepository.save(absolute);
-      case ResourceTransactionEntity.ContestDependent contestDependent ->
-        contestDependentJpaRepository.save(contestDependent);
-      default -> throw new IllegalArgumentException("Unsupported transaction type " + entity.getClass().getName());
-    };
+    if (entity instanceof ResourceTransactionEntity.Absolute absolute) {
+      entity = absoluteJpaRepository.save(absolute);
+    } else if (entity instanceof ResourceTransactionEntity.ContestDependent contestDependent) {
+      contestDependentJpaRepository.save(contestDependent);
+    } else {
+      throw new IllegalArgumentException("Unsupported transaction type " + entity.getClass().getName());
+    }
     return ResourceTransactionMapper.map(entity);
   }
 

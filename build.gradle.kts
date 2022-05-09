@@ -1,5 +1,4 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-import org.springframework.boot.gradle.tasks.bundling.BootBuildImage
 
 plugins {
   java
@@ -8,13 +7,7 @@ plugins {
   id("org.springframework.boot") apply false
 }
 
-group = "io.prizy"
 version = file("version.txt").readText().trim()
-
-java {
-  sourceCompatibility = JavaVersion.VERSION_17
-  targetCompatibility = JavaVersion.VERSION_17
-}
 
 subprojects {
   version = rootProject.version
@@ -28,6 +21,12 @@ subprojects {
   repositories {
     mavenCentral()
     maven { url = uri("https://repo.spring.io/release") }
+  }
+
+  java {
+    toolchain {
+      languageVersion.set(JavaLanguageVersion.of(17))
+    }
   }
 
   dependencyManagement {
@@ -78,17 +77,8 @@ subprojects {
     }
   }
 
-  tasks.withType<BootBuildImage> {
-    builder = "paketobuildpacks/builder:tiny"
-    environment = mapOf("BP_NATIVE_IMAGE" to "true")
-  }
-
   tasks.withType<Test> {
     useJUnitPlatform()
-  }
-
-  tasks.withType<JavaCompile> {
-    options.compilerArgs.add("--enable-preview")
   }
 
 }

@@ -27,7 +27,7 @@ import lombok.experimental.SuperBuilder;
 @Entity(name = "ResourceTransaction")
 @Table(name = "resource_transactions")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-public sealed class ResourceTransactionEntity {
+public abstract class ResourceTransactionEntity {
 
   @Id
   @GeneratedValue
@@ -49,7 +49,7 @@ public sealed class ResourceTransactionEntity {
   @SuperBuilder
   @NoArgsConstructor
   @Entity(name = "AbsoluteResourceTransaction")
-  public static non-sealed class Absolute extends ResourceTransactionEntity {
+  public static class Absolute extends ResourceTransactionEntity {
 
   }
 
@@ -57,7 +57,7 @@ public sealed class ResourceTransactionEntity {
   @SuperBuilder
   @NoArgsConstructor
   @Entity(name = "ContestDependentResourceTransaction")
-  public static non-sealed class ContestDependent extends ResourceTransactionEntity {
+  public static class ContestDependent extends ResourceTransactionEntity {
 
     @Column(name = "contest_id")
     private UUID contestId;
