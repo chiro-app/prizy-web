@@ -4,7 +4,9 @@ import com.expediagroup.graphql.generator.annotations.GraphQLIgnore
 import com.expediagroup.graphql.generator.annotations.GraphQLName
 import io.prizy.domain.contest.service.ContestService
 import io.prizy.domain.user.service.UserService
+import io.prizy.publicapi.port.contest.graphql.dto.ContestDto
 import io.prizy.publicapi.port.contest.graphql.dto.PackDto
+import io.prizy.publicapi.port.contest.mapper.ContestDtoMapper
 import io.prizy.publicapi.port.contest.mapper.PackDtoMapper
 import io.prizy.publicapi.port.user.graphql.dto.UserDto
 import io.prizy.publicapi.port.user.mapper.UserDtoMapper
@@ -36,4 +38,9 @@ data class RewardDto(
   suspend fun pack(@GraphQLIgnore @Autowired contestService: ContestService): PackDto = withContext(Dispatchers.IO) {
     contestService.packById(packId).map(PackDtoMapper::map).get()
   }
+
+  suspend fun contest(@GraphQLIgnore @Autowired contestService: ContestService): ContestDto =
+    withContext(Dispatchers.IO) {
+      contestService.byPackId(packId).map(ContestDtoMapper::map).get()
+    }
 }

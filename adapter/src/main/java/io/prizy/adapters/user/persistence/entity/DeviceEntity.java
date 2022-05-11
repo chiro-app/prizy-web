@@ -3,11 +3,14 @@ package io.prizy.adapters.user.persistence.entity;
 import java.util.UUID;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 
 /**
@@ -16,16 +19,18 @@ import javax.persistence.Table;
  */
 
 
+@Getter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity(name = "Device")
 @Table(name = "devices")
 public class DeviceEntity {
   @Id
   @GeneratedValue
-  private UUID id;
+  private String id;
   @Column(name = "device_id")
   private String deviceId;
-  @Column(name = "user_id", insertable = false, updatable = false)
+  @Column(name = "user_id")
   private UUID userId;
-  @ManyToOne(fetch = FetchType.LAZY)
-  private UserEntity user;
 }

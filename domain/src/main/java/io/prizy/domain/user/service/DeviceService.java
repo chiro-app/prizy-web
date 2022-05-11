@@ -3,6 +3,7 @@ package io.prizy.domain.user.service;
 import java.util.Collection;
 import java.util.UUID;
 
+import io.prizy.domain.user.model.Device;
 import io.prizy.domain.user.port.DeviceRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,16 +20,16 @@ public class DeviceService {
 
   private final DeviceRepository repository;
 
-  public Collection<String> getForUser(UUID userId) {
-    throw new UnsupportedOperationException("Not implemented yet");
+  public Collection<Device> getForUser(UUID userId) {
+    return repository.byUserId(userId);
   }
 
-  public void register(UUID userId, String deviceId) {
-    throw new UnsupportedOperationException("Not implemented yet");
+  public Boolean register(UUID userId, String deviceId) {
+    return repository.save(new Device(deviceId, userId));
   }
 
-  public void unregister(UUID userId, String deviceId) {
-    throw new UnsupportedOperationException("Not implemented yet");
+  public Boolean unregister(String deviceId) {
+    return repository.delete(deviceId);
   }
 
 }

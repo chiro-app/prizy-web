@@ -1,6 +1,7 @@
 package io.prizy.publicapi.port.user.graphql
 
 import com.expediagroup.graphql.server.operations.Mutation
+import io.prizy.domain.user.service.DeviceService
 import io.prizy.domain.user.service.UserService
 import io.prizy.graphql.context.GraphQLContext
 import io.prizy.graphql.directives.AuthorizedDirective
@@ -20,7 +21,10 @@ import org.springframework.stereotype.Component
  */
 
 @Component
-class UserMutation(private val userService: UserService) : Mutation {
+class UserMutation(
+  private val userService: UserService,
+  private val deviceService: DeviceService
+) : Mutation {
 
   suspend fun createUser(request: CreateUserDto): UserDto = withContext(Dispatchers.IO) {
     userService
@@ -34,5 +38,16 @@ class UserMutation(private val userService: UserService) : Mutation {
       userService
         .updateUser(UpdateUserDtoMapper.map(request, ctx.principal.id))
         .let(UserDtoMapper::map)
+    }
+
+  @AuthorizedDirective
+  suspend fun registerDevice(ctx: GraphQLContext.Authenticated, deviceId: String): Boolean =
+    withContext(Dispatchers.IO) {
+      deviceService.register(ctx.principal.id, deviceId)
+    }
+
+  suspend fun unregisterDevice(deviceId: String): Boolean =
+    withContext(Dispatchers.IO) {
+      deviceService.unregister(deviceId)
     }
 }

@@ -1,5 +1,6 @@
 package io.prizy.adapters.user.persistence.repository;
 
+import java.util.Collection;
 import java.util.UUID;
 
 import io.prizy.adapters.user.persistence.entity.DeviceEntity;
@@ -11,5 +12,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
  */
 
 
-public interface DeviceJpaRepository extends JpaRepository<DeviceEntity, UUID> {
+public interface DeviceJpaRepository extends JpaRepository<DeviceEntity, String> {
+  Collection<DeviceEntity> findAllByUserId(UUID userId);
 }
