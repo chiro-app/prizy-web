@@ -25,25 +25,22 @@ class GameWebSocketHandler(private val gameOrchestrator: GameOrchestrator) : Web
   }
 
   override fun handle(session: WebSocketSession): Mono<Void> {
-    val inputFlux = session
+    val eventFlux = session
       .receive()
-      .map { message -> message.payloadAsText }
-      .map { json ->
-        objectMapper
-          .readValue(json, GameEventDto::class.java)
+      .map { message ->
+        message
+          .payloadAsText
+          .let { json -> objectMapper.readValue(json, GameEventDto::class.java) }
           .let(GameEventDtoMapper::map)
       }
-    val outputFlux = session.handshakeInfo
-      .principal
-      .map { ctx -> UUID.fromString(ctx.name) }
-      .flux()
-      .flatMap { userId ->
+      .zipWith(session.handshakeInfo.principal)
+      .map { tuple ->
         gameOrchestrator
-          .startGame(inputFlux, userId)
-          .map { gameEvent -> GameEventDtoMapper.map(gameEvent) }
-          .map { dto -> session.textMessage(objectMapper.writeValueAsString(dto)) }
+          .handleEvent(tuple.t1, UUID.fromString(tuple.t2.name), "")
+          .let(GameEventDtoMapper::map)
+          .let(objectMapper::writeValueAsString)
+          .let(session::textMessage)
       }
-      
-    return session.send(outputFlux)
+    return session.send(eventFlux)
   }
 }
