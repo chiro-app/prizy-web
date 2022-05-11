@@ -8,7 +8,7 @@ RUN chmod +x gradlew
 
 RUN ./gradlew bootJar
 
-FROM eclipse-temurin:17.0.3_7-jre
+FROM eclipse-temurin:17.0.3_7-jre-alpine
 
 WORKDIR /app
 

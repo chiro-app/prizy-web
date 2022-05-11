@@ -1,3 +1,5 @@
+import org.springframework.boot.gradle.tasks.bundling.BootBuildImage
+
 plugins {
   kotlin("jvm")
   kotlin("kapt")
@@ -48,4 +50,9 @@ dependencies {
 
   testImplementation("org.springframework.boot:spring-boot-starter-test")
   testImplementation("org.springframework.security:spring-security-test")
+}
+
+tasks.withType<BootBuildImage> {
+  val registry: String? by project
+  imageName = "${registry ?: "docker.io/library"}/${project.name}:${project.version}"
 }
