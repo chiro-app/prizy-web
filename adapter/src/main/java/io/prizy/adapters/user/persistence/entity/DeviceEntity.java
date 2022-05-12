@@ -28,7 +28,7 @@ import lombok.NoArgsConstructor;
 public class DeviceEntity {
   @Id
   @GeneratedValue
-  private String id;
+  private UUID id;
   @Column(name = "device_id")
   private String deviceId;
   @Column(name = "user_id")

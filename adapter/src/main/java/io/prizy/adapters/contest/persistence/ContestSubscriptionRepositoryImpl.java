@@ -23,10 +23,19 @@ public class ContestSubscriptionRepositoryImpl implements ContestSubscriptionRep
   private final ContestSubscriptionJpaRepository jpaRepository;
 
   @Override
-  public Collection<ContestSubscription> subscriptionsOf(UUID contestId) {
+  public Collection<ContestSubscription> ofContest(UUID contestId) {
     return jpaRepository
       .findAllByContestId(contestId)
       .stream().map(ContestSubscriptionMapper::map)
+      .toList();
+  }
+
+  @Override
+  public Collection<ContestSubscription> ofUser(UUID userId) {
+    return jpaRepository
+      .findAllByUserId(userId)
+      .stream()
+      .map(ContestSubscriptionMapper::map)
       .toList();
   }
 

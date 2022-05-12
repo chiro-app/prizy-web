@@ -3,12 +3,16 @@ package io.prizy.publicapi.port.user.graphql.dto
 import com.expediagroup.graphql.generator.annotations.GraphQLIgnore
 import com.expediagroup.graphql.generator.annotations.GraphQLName
 import io.prizy.domain.asset.service.AssetService
+import io.prizy.domain.contest.service.ContestService
+import io.prizy.domain.contest.service.ContestSubscriptionService
 import io.prizy.domain.referral.service.ReferralService
 import io.prizy.domain.reward.service.RewardService
 import io.prizy.domain.user.service.AddressService
 import io.prizy.domain.user.service.UserPreferencesService
 import io.prizy.publicapi.port.asset.dto.AssetDto
 import io.prizy.publicapi.port.asset.mapper.AssetDtoMapper
+import io.prizy.publicapi.port.contest.graphql.dto.ContestDto
+import io.prizy.publicapi.port.contest.mapper.ContestDtoMapper
 import io.prizy.publicapi.port.contest.mapper.ReferralDtoMapper
 import io.prizy.publicapi.port.referral.graphql.dto.ReferralNodeDto
 import io.prizy.publicapi.port.reward.graphql.dto.RewardDto
@@ -79,5 +83,17 @@ data class UserDto(
   suspend fun referrals(@GraphQLIgnore @Autowired referralService: ReferralService): List<ReferralNodeDto> =
     withContext(Dispatchers.IO) {
       referralService.getReferrals(id).map(ReferralDtoMapper::map)
+    }
+
+  suspend fun subscriptions(
+    @GraphQLIgnore @Autowired subscriptionService: ContestSubscriptionService,
+    @GraphQLIgnore @Autowired contestService: ContestService
+  ): List<ContestDto> =
+    withContext(Dispatchers.IO) {
+      subscriptionService
+        .ofUser(id)
+        .map { subscription -> subscription.contestId }
+        .let { contestIds -> contestService.byIds(contestIds) }
+        .map(ContestDtoMapper::map)
     }
 }

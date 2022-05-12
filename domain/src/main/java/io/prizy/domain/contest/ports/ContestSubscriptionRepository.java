@@ -12,7 +12,9 @@ import io.prizy.domain.contest.model.ContestSubscription;
  */
 
 public interface ContestSubscriptionRepository {
-  Collection<ContestSubscription> subscriptionsOf(UUID contestId);
+  Collection<ContestSubscription> ofContest(UUID contestId);
+
+  Collection<ContestSubscription> ofUser(UUID userId);
 
   Optional<ContestSubscription> subscriptionOfUser(UUID userId, UUID contestId);
 
