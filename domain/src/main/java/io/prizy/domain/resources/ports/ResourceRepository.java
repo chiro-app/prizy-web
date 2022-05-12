@@ -2,6 +2,7 @@ package io.prizy.domain.resources.ports;
 
 import java.time.Instant;
 import java.util.Collection;
+import java.util.Optional;
 import java.util.UUID;
 
 import io.prizy.domain.resources.model.Currency;
@@ -14,6 +15,8 @@ public interface ResourceRepository {
   Integer countLives(UUID userId, UUID contestId);
 
   Long countDiamonds(UUID userId, UUID contestId);
+
+  Optional<ResourceTransaction> lastTransaction(UUID userId);
 
   ResourceTransaction alterKeys(UUID userId, Long amount, TransactionType txType);
 

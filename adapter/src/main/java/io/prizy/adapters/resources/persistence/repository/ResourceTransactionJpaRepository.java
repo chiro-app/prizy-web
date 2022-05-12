@@ -2,6 +2,7 @@ package io.prizy.adapters.resources.persistence.repository;
 
 import java.time.Instant;
 import java.util.Collection;
+import java.util.Optional;
 import java.util.UUID;
 
 import io.prizy.adapters.resources.persistence.entity.ResourceTransactionEntity;
@@ -15,4 +16,6 @@ public interface ResourceTransactionJpaRepository extends JpaRepository<Resource
                                                                                             Currency currency,
                                                                                             Instant from,
                                                                                             Instant to);
+
+  Optional<ResourceTransactionEntity> findTop1ByUserIdOrderByDateTimeDesc(UUID userId);
 }

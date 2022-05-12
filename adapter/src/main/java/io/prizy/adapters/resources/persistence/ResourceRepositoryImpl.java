@@ -2,6 +2,7 @@ package io.prizy.adapters.resources.persistence;
 
 import java.time.Instant;
 import java.util.Collection;
+import java.util.Optional;
 import java.util.UUID;
 
 import io.prizy.adapters.resources.mapper.ResourceTransactionMapper;
@@ -60,6 +61,13 @@ public class ResourceRepositoryImpl implements ResourceRepository {
         (acc, transaction) -> transaction.getType().apply(acc, transaction.getAmount()),
         Long::sum
       );
+  }
+
+  @Override
+  public Optional<ResourceTransaction> lastTransaction(UUID userId) {
+    return abstractJpaRepository
+      .findTop1ByUserIdOrderByDateTimeDesc(userId)
+      .map(ResourceTransactionMapper::map);
   }
 
   @Override

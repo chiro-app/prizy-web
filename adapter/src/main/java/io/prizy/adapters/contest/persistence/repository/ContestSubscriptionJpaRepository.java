@@ -10,6 +10,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface ContestSubscriptionJpaRepository extends JpaRepository<ContestSubscriptionEntity, UUID> {
   Collection<ContestSubscriptionEntity> findAllByContestId(UUID contestId);
 
+  Collection<ContestSubscriptionEntity> findAllByUserId(UUID userId);
+
   Boolean existsByContestIdAndUserId(UUID contestId, UUID userId);
 
   Optional<ContestSubscriptionEntity> findByContestIdAndUserId(UUID contestId, UUID userId);

@@ -11,6 +11,8 @@ import io.prizy.domain.contest.ports.ContestSubscriptionRepository;
 import io.prizy.domain.resources.event.ResourceTransactionCreated;
 import io.prizy.domain.resources.exception.ResourceBonusAlreadyClaimedException;
 import io.prizy.domain.resources.model.ResourceBalance;
+import io.prizy.domain.resources.model.ResourceBonusStatus;
+import io.prizy.domain.resources.model.ResourceTransaction;
 import io.prizy.domain.resources.model.TransactionType;
 import io.prizy.domain.resources.ports.ResourcePublisher;
 import io.prizy.domain.resources.ports.ResourceRepository;
@@ -76,8 +78,44 @@ public class ResourceBonusService {
     return getAvailableKeysBonus(userId).isPresent();
   }
 
+  public ResourceBonusStatus availableKeysBonus(UUID userId) {
+    return getAvailableKeysBonus(userId)
+      .map(bonus -> ResourceBonusStatus.builder()
+        .available(true)
+        .availableAt(Optional.empty())
+        .build()
+      )
+      .orElseGet(() -> ResourceBonusStatus.builder()
+        .available(false)
+        .availableAt(repository
+          .lastTransaction(userId)
+          .map(ResourceTransaction::dateTime)
+          .map(dateTime -> dateTime.plus(1, DAYS))
+        )
+        .build()
+      );
+  }
+
   public Boolean hasAvailableContestBonus(UUID userId, UUID contestId) {
     return getAvailableContestBonus(userId, contestId).isPresent();
+  }
+
+  public ResourceBonusStatus availableContestBonus(UUID userId, UUID contestId) {
+    return getAvailableContestBonus(userId, contestId)
+      .map(bonus -> ResourceBonusStatus.builder()
+        .available(true)
+        .availableAt(Optional.empty())
+        .build()
+      )
+      .orElseGet(() -> ResourceBonusStatus.builder()
+        .available(false)
+        .availableAt(repository
+          .lastTransaction(userId)
+          .map(ResourceTransaction::dateTime)
+          .map(dateTime -> dateTime.plus(1, DAYS))
+        )
+        .build()
+      );
   }
 
   public Optional<ResourceBalance.Absolute> getAvailableKeysBonus(UUID userId) {
