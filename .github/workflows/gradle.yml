@@ -13,54 +13,54 @@ permissions:
 
 jobs:
   build:
-   runs-on: ubuntu-latest
-   steps:
-     - uses: actions/checkout@v3
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
 
-     - name: Set up JDK
-       uses: actions/setup-java@v3
-       with:
-         java-version: '17'
-         distribution: 'temurin'
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
 
-     - name: Prepare gradle wrapper
-       run: chmod +x gradlew
+      - name: Prepare gradle wrapper
+        run: chmod +x gradlew
 
-     - name: Build with Gradle
-       uses: gradle/gradle-build-action@0d13054264b0bb894ded474f08ebb30921341cee
-       with:
-         arguments: build
+      - name: Build with Gradle
+        uses: gradle/gradle-build-action@0d13054264b0bb894ded474f08ebb30921341cee
+        with:
+          arguments: build
 
   publish:
-   runs-on: ubuntu-latest
-   needs: build
-   if: ${{ github.event_name != 'pull_request' }}
-   steps:
-     - uses: actions/checkout@v3
-     - name: Set version
-       run: |
-         VERSION=$(cat version.txt)
-         echo "VERSION=$VERSION" >> $GITHUB_ENV
+    runs-on: ubuntu-latest
+    needs: build
+    if: ${{ github.event_name != 'pull_request' }}
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set version
+        run: |
+          VERSION=$(cat version.txt)
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
 
-     - name: Install doctl
-       uses: digitalocean/action-doctl@v2
-       with:
-         token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+      - name: Install doctl
+        uses: digitalocean/action-doctl@v2
+        with:
+          token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
 
-     - name: Login to docker registry
-       run: doctl registry login --access-token ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+      - name: Login to docker registry
+        run: doctl registry login --access-token ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
 
-     - name: Prepare gradle wrapper
-       run: chmod +x gradlew
+      - name: Prepare gradle wrapper
+        run: chmod +x gradlew
 
-     - name: Build docker image
-       if: ${{ github.event_name != 'pull_request' }}
-       uses: gradle/gradle-build-action@0d13054264b0bb894ded474f08ebb30921341cee
-       with:
-         arguments: -Pregistry=${{ secrets.DOCKER_REGISTRY }} bootBuildImage
+      - name: Build docker image
+        if: ${{ github.event_name != 'pull_request' }}
+        uses: gradle/gradle-build-action@0d13054264b0bb894ded474f08ebb30921341cee
+        with:
+          arguments: -Pregistry=${{ secrets.DOCKER_REGISTRY }} bootBuildImage
 
-     - name: Publish docker image
-       run: docker push ${{ secrets.DOCKER_REGISTRY }}/public-api:${{ env.VERSION }}
+      - name: Publish docker image
+        run: docker push ${{ secrets.DOCKER_REGISTRY }}/public-api:${{ env.VERSION }}
 
   deploy:
     runs-on: ubuntu-latest
@@ -80,7 +80,7 @@ jobs:
           echo "VERSION=$VERSION" >> $GITHUB_ENV
 
       - name: Prepare deployment script
-        run: chmod +x update-tag.sh
+        run: chmod +x .delivery/upgrade.sh
 
       - name: Deploy to staging
-        run: ./update-tag.sh ${{ secrets.STAGING_APP_ID }} ${{ env.VERSION }}
+        run: .delivery/upgrade.sh ${{ secrets.STAGING_APP_ID }} ${{ env.VERSION }}
