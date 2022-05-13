@@ -5,6 +5,7 @@ plugins {
   kotlin("jvm") apply false
   id("io.spring.dependency-management")
   id("org.springframework.boot") apply false
+  id("ch.netzwerg.release")
 }
 
 version = file("version.txt").readText().trim()
@@ -81,4 +82,8 @@ subprojects {
     useJUnitPlatform()
   }
 
+}
+
+release {
+  push = true
 }

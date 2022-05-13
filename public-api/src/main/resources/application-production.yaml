@@ -2,15 +2,15 @@ graphql.playground.enabled: true
 
 spring.boot.admin.client:
   url: https://spring-boot-admin-rdhrb.ondigitalocean.app
-  instance.name: public-api-staging
+  instance.name: public-api-production
 
 prizy:
   storage:
     endpoint: fra1.digitaloceanspaces.com
-    server-url: https://api.stg.prizy.io
+    server-url: https://api.prizy.io
 
   security.jwt:
-    key-id: staging
-    issuer: prizy-staging
+    key-id: production
+    issuer: prizy-production
     audience: prizy-public-api
     algorithm: RS256
