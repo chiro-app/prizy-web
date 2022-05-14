@@ -6,15 +6,12 @@ import java.time.LocalDate;
 import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.vladmihalcea.hibernate.type.array.ListArrayType;
@@ -26,11 +23,13 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.With;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
 import org.springframework.data.annotation.CreatedDate;
 
 
+@With
 @Getter
 @Builder(toBuilder = true)
 @NoArgsConstructor
@@ -81,9 +80,7 @@ public class UserEntity {
   @CreatedDate
   @Builder.Default
   private Instant created = Instant.now();
-  @Column(name = "address_id", insertable = false, updatable = false)
+  @Column(name = "address_id")
   private UUID addressId;
-  @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-  private AddressEntity address;
 
 }

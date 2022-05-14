@@ -56,7 +56,7 @@ class UserMutation(
   suspend fun updateAddress(ctx: GraphQLContext.Authenticated, request: UpdateAddressDto): AddressDto =
     withContext(Dispatchers.IO) {
       addressService
-        .updateUserAddress(ctx.principal.id, UpdateAddressDtoMapper.map(request))
+        .updateUserAddress(UpdateAddressDtoMapper.map(ctx.principal.id, request))
         .let(AddressDtoMapper::map)
     }
 

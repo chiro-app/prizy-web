@@ -1,8 +1,10 @@
 package io.prizy.domain.user.model;
 
 import java.util.Optional;
+import java.util.UUID;
 
 import lombok.Builder;
+import lombok.With;
 
 /**
  * @author Nidhal Dogga
@@ -10,8 +12,10 @@ import lombok.Builder;
  */
 
 
+@With
 @Builder
 public record Address(
+  UUID userId,
   String street,
   String country,
   String city,

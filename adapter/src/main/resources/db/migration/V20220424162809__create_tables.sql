@@ -98,18 +98,6 @@ alter table packs
 alter table packs
   add constraint fk_packs_on_contest foreign key (contest_id) references contests (id);
 
-create table addresses
-(
-  id           uuid not null,
-  street       text not null,
-  city         text not null,
-  country      text not null,
-  zipcode      text not null,
-  extra_line_1 text,
-  extra_line_2 text,
-  constraint pk_addresses primary key (id)
-);
-
 create table users
 (
   id              uuid        not null,
@@ -136,8 +124,24 @@ alter table users
 alter table users
   add constraint uc_users_email unique (email);
 
+create table addresses
+(
+  id           uuid not null,
+  user_id      uuid not null,
+  street       text not null,
+  city         text not null,
+  country      text not null,
+  zipcode      text not null,
+  extra_line_1 text,
+  extra_line_2 text,
+  constraint pk_addresses primary key (id)
+);
+
 alter table users
   add constraint fk_users_on_address foreign key (address_id) references addresses (id);
+
+alter table addresses
+  add constraint fk_addresses_on_user foreign key (user_id) references users (id);
 
 create table user_preferences
 (

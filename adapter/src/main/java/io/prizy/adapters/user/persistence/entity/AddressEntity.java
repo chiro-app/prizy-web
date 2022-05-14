@@ -1,11 +1,16 @@
 package io.prizy.adapters.user.persistence.entity;
 
+import java.util.UUID;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import java.util.UUID;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 /**
  * @author Nidhal Dogga
@@ -13,6 +18,10 @@ import java.util.UUID;
  */
 
 
+@Getter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity(name = "Address")
 @Table(name = "addresses")
 public class AddressEntity {
@@ -20,6 +29,8 @@ public class AddressEntity {
   @Id
   @GeneratedValue
   private UUID id;
+  @Column(name = "user_id")
+  private UUID userId;
   @Column
   private String street;
   @Column

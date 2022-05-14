@@ -1,5 +1,6 @@
 package io.prizy.adapters.user.persistence.repository;
 
+import java.util.Optional;
 import java.util.UUID;
 
 import io.prizy.adapters.user.persistence.entity.AddressEntity;
@@ -12,4 +13,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 
 public interface AddressJpaRepository extends JpaRepository<AddressEntity, UUID> {
+  Optional<AddressEntity> findByUserId(UUID userId);
 }
