@@ -1,12 +1,7 @@
-graphql:
-  packages:
-    - io.prizy.publicapi
+graphql.packages:
+  - io.prizy.publicapi
 
-management:
-  endpoints:
-    web:
-      exposure:
-        include: "*"
+management.endpoints.web.exposure.include: "*"
 
 prizy:
   app.version:
@@ -15,6 +10,7 @@ prizy:
     legal-notice-url: https://prizy-dev.s3.eu-west-3.amazonaws.com/static-content/legal-notice.html
     privacy-policy-url: https://prizy-dev.s3.eu-west-3.amazonaws.com/static-content/privacy-policy.html
     usage-conditions-url: https://prizy-dev.s3.eu-west-3.amazonaws.com/static-content/usage-conditions.html
+
   resources:
     referral-key-bonus: 6
     referrer-key-bonus: 6
@@ -25,9 +21,11 @@ prizy:
     diamonds-boost-multiplier: 50
     max-lives-boost: 4
     max-diamonds-boost: 4
+
   game:
     max-random-obstacles: 6
     min-random-obstacles: 3
+
   game-description:
     id: "random-board"
     title: "Chiro sous les bombes"

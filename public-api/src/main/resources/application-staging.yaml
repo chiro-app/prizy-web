@@ -6,7 +6,9 @@ spring:
     port: 587
   boot.admin.client:
     url: https://spring-boot-admin-rdhrb.ondigitalocean.app
-    instance.name: public-api-staging
+    instance:
+      name: public-api-staging
+      service-url: https://api.stg.prizy.io
 
 prizy:
   storage:
