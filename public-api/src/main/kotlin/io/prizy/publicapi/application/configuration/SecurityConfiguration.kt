@@ -13,6 +13,8 @@ import org.springframework.security.oauth2.jwt.JwtValidators
 import org.springframework.security.oauth2.jwt.NimbusReactiveJwtDecoder
 import org.springframework.security.oauth2.jwt.ReactiveJwtDecoder
 import org.springframework.security.web.server.SecurityWebFilterChain
+import org.springframework.web.reactive.config.CorsRegistry
+import org.springframework.web.reactive.config.WebFluxConfigurer
 import reactor.core.publisher.Mono
 
 /**
@@ -24,7 +26,16 @@ import reactor.core.publisher.Mono
 @EnableWebFluxSecurity
 @EnableReactiveMethodSecurity
 @EnableConfigurationProperties(JwtProperties::class)
-class SecurityConfiguration {
+class SecurityConfiguration : WebFluxConfigurer {
+
+  override fun addCorsMappings(registry: CorsRegistry) {
+    registry
+      .addMapping("/**")
+      .allowedOrigins("*")
+      .allowedMethods("*")
+      .allowedHeaders("*")
+      .maxAge(3600)
+  }
 
   @Bean
   internal fun securityWebFilterChain(
@@ -35,6 +46,7 @@ class SecurityConfiguration {
     .anyExchange().permitAll() // Let GraphQL decide
     .and()
     .csrf().disable()
+    .cors().disable()
     .formLogin().disable()
     .httpBasic().disable()
     .authenticationManager { authentication -> Mono.just(authentication) }

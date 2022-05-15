@@ -9,6 +9,7 @@ import io.prizy.publicapi.port.game.mapper.GameBoardDtoMapper
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.springframework.stereotype.Component
+import java.util.UUID
 
 /**
  * @author Nidhal Dogga
@@ -21,5 +22,13 @@ class GameBoardQuery(private val gameBoardService: GameBoardService) : Query {
   @AuthorizedDirective(roles = [Roles.ADMIN])
   suspend fun gameBoards(): List<GameBoardDto> = withContext(Dispatchers.IO) {
     gameBoardService.list().map(GameBoardDtoMapper::map)
+  }
+
+  @AuthorizedDirective(roles = [Roles.ADMIN])
+  suspend fun gameBoard(id: UUID): GameBoardDto? = withContext(Dispatchers.IO) {
+    gameBoardService
+      .byId(id)
+      .map(GameBoardDtoMapper::map)
+      .orElse(null)
   }
 }

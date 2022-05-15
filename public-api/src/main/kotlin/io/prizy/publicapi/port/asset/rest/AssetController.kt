@@ -2,6 +2,7 @@ package io.prizy.publicapi.port.asset.rest
 
 import io.prizy.domain.asset.service.AssetService
 import io.prizy.publicapi.port.asset.dto.AssetDto
+import io.prizy.publicapi.port.asset.dto.DownloadableAssetDto
 import io.prizy.publicapi.port.asset.exception.AssetNotFoundException
 import io.prizy.publicapi.port.asset.mapper.AssetDtoMapper
 import kotlinx.coroutines.Dispatchers
@@ -31,8 +32,10 @@ class AssetController(private val assetService: AssetService) {
 
   @PostMapping
   @PreAuthorize("isAuthenticated()")
-  suspend fun uploadFile(@RequestPart("file") filePart: FilePart): AssetDto = withContext(Dispatchers.IO) {
-    assetService.upload(filePart).let(AssetDtoMapper::map)
+  suspend fun uploadFile(@RequestPart("file") filePart: FilePart): DownloadableAssetDto = withContext(Dispatchers.IO) {
+    assetService
+      .upload(filePart)
+      .let { asset -> AssetDtoMapper.map(asset, assetService.getDownloadUrl(asset.id).get()) }
   }
 
   @GetMapping("/{assetId}")

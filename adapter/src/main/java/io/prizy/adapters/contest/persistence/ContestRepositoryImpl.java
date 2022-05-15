@@ -55,7 +55,7 @@ public class ContestRepositoryImpl implements ContestRepository {
   @Override
   public Contest update(Contest contest) {
     var contestEntity = ContestMapper.map(contest);
-    contestEntity = ContestEntityMerger.merge(contestEntity, contest);
+    contestEntity = ContestEntityMerger.merge(contestEntity, jpaRepository.getById(contest.id()));
     var packEntities = contestEntity.getPacks();
     contestEntity = jpaRepository.save(contestEntity.withPacks(Set.of()));
     final var finalContestEntity = contestEntity;

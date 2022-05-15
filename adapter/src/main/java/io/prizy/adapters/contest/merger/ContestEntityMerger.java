@@ -3,7 +3,6 @@ package io.prizy.adapters.contest.merger;
 import java.util.Objects;
 
 import io.prizy.adapters.contest.persistence.entity.ContestEntity;
-import io.prizy.domain.contest.model.Contest;
 import lombok.experimental.UtilityClass;
 
 /**
@@ -15,10 +14,10 @@ import lombok.experimental.UtilityClass;
 @UtilityClass
 public class ContestEntityMerger {
 
-  public ContestEntity merge(ContestEntity entity, Contest contest) {
+  public ContestEntity merge(ContestEntity entity, ContestEntity delta) {
     // Reuse non-updatable columns
     return entity.toBuilder()
-      .accessCode(Objects.requireNonNullElse(contest.accessCode(), entity.getAccessCode()))
+      .accessCode(Objects.requireNonNullElse(delta.getAccessCode(), entity.getAccessCode()))
       .build();
   }
 }
