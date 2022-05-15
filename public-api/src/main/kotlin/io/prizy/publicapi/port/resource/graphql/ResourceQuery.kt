@@ -41,7 +41,7 @@ class ResourceQuery(
     }
 
   @AuthorizedDirective
-  suspend fun availableContestBonus(ctx: GraphQLContext.Authenticated, contestId: UUID): ResourceBonusStatusDto =
+  suspend fun hasAvailableContestBonus(ctx: GraphQLContext.Authenticated, contestId: UUID): ResourceBonusStatusDto =
     withContext(Dispatchers.IO) {
       resourceBonusService
         .availableContestBonus(ctx.principal.id, contestId)
@@ -49,11 +49,20 @@ class ResourceQuery(
     }
 
   @AuthorizedDirective
-  suspend fun availableKeys(ctx: GraphQLContext.Authenticated): ResourceBonusStatusDto =
+  suspend fun hasAvailableKeys(ctx: GraphQLContext.Authenticated): ResourceBonusStatusDto =
     withContext(Dispatchers.IO) {
       resourceBonusService
         .availableKeysBonus(ctx.principal.id)
         .let(ResourceBonusStatusDtoMapper::map)
+    }
+
+  @AuthorizedDirective
+  suspend fun availableContestBonus(ctx: GraphQLContext.Authenticated, contestId: UUID): ResourceBalanceDto? =
+    withContext(Dispatchers.IO) {
+      resourceBonusService
+        .getAvailableContestBonus(ctx.principal.id, contestId)
+        .map(ResourceBalanceDtoMapper::map)
+        .orElse(null)
     }
 
   @AuthorizedDirective
