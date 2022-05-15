@@ -30,7 +30,7 @@ jobs:
         run: chmod +x gradlew
 
       - name: Prepare promote task
-        run: |
+        run: -|
           git config --global user.email "ci@prizy.io"
           git config --global user.name "CI Bot"
           [[ ${{ github.event.inputs.type }} = 'Patch' ]] && TASK="release" || TASK="release${{ github.event.inputs.type }}Version"

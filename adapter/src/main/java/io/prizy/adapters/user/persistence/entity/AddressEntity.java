@@ -5,12 +5,14 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.With;
 
 /**
  * @author Nidhal Dogga
@@ -18,6 +20,7 @@ import lombok.NoArgsConstructor;
  */
 
 
+@With
 @Getter
 @Builder
 @NoArgsConstructor
@@ -29,7 +32,7 @@ public class AddressEntity {
   @Id
   @GeneratedValue
   private UUID id;
-  @Column(name = "user_id")
+  @Column(name = "user_id", updatable = false, insertable = false)
   private UUID userId;
   @Column
   private String street;
@@ -43,5 +46,7 @@ public class AddressEntity {
   private String extraLine1;
   @Column(name = "extra_line_2")
   private String extraLine2;
+  @OneToOne
+  private UserEntity user;
 
 }

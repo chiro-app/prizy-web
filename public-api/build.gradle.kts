@@ -54,5 +54,6 @@ dependencies {
 
 tasks.withType<BootBuildImage> {
   val registry: String? by project
-  imageName = "${registry ?: "docker.io/library"}/${project.name}:${project.version}"
+  val tag: String? by project
+  imageName = "${registry ?: "docker.io/library"}/${project.name}:${tag ?: project.version}"
 }

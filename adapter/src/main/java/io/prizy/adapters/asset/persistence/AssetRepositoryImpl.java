@@ -38,4 +38,9 @@ public class AssetRepositoryImpl implements AssetRepository {
     return jpaRepository.findAllById(ids).stream().map(AssetMapper::map).toList();
   }
 
+  @Override
+  public Boolean existsById(String id) {
+    return jpaRepository.existsById(id);
+  }
+
 }

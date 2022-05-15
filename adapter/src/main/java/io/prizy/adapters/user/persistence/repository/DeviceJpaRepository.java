@@ -14,4 +14,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface DeviceJpaRepository extends JpaRepository<DeviceEntity, String> {
   Collection<DeviceEntity> findAllByUserId(UUID userId);
+
+  void deleteByDeviceId(String deviceId);
 }
