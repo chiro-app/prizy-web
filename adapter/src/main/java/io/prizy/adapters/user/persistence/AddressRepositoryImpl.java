@@ -40,10 +40,12 @@ public class AddressRepositoryImpl implements AddressRepository {
 
   @Override
   public Address save(Address address) {
-    var entity = jpaRepository.save(AddressMapper.map(address));
+    var entity = AddressMapper.map(address);
     var userEntity = userJpaRepository
       .findById(address.userId())
-      .map(user -> user.withAddressId(entity.getId()))
+      .map(user -> user
+        .withAddress(entity.withUser(user))
+      )
       .get();
     userJpaRepository.save(userEntity);
     return AddressMapper.map(entity);

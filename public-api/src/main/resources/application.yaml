@@ -31,8 +31,8 @@ prizy:
     title: "Chiro sous les bombes"
     description: "Atteignez le point d'arrivée en évitant les pièges. Chaque tuile sur laquelle vous marchez augmente votre multplicateur de 1. Une fois le point d'arrivée atteint votre mise de départ est multipliée par votre multiplicateur final.\nSi vous tombez sur un piège, vous perdez votre mise."
     usage-instructions: "Touchez les tuiles adjacentes pour vous y déplacer. Vous ne pouvez pas vous déplacer sur une tuile déjà visitée."
-    icon-asset-id: "console-service-random-board-icon"
-    cover-asset-id: "console-service-random-board-cover"
+    icon-asset-id: "random-board-icon"
+    cover-asset-id: "random-board-cover"
 
 spring.mail.properties:
   sender: L'équipe Chiro <info@prizy.io>

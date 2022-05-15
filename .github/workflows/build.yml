@@ -39,10 +39,12 @@ jobs:
     if: ${{ github.event_name != 'pull_request' }}
     steps:
       - uses: actions/checkout@v3
-      - name: Set version
+      - name: Prepare docker tag
         run: |
-          VERSION=$(cat version.txt)
-          echo "VERSION=$VERSION" >> $GITHUB_ENV
+          chmod +x .delivery/tag.sh
+          .delivery/tag.sh
+          TAG=$(cat tag.txt)
+          echo "TAG=$TAG" >> $GITHUB_ENV
 
       - name: Install doctl
         uses: digitalocean/action-doctl@v2
@@ -59,10 +61,10 @@ jobs:
         if: ${{ github.event_name != 'pull_request' }}
         uses: gradle/gradle-build-action@0d13054264b0bb894ded474f08ebb30921341cee
         with:
-          arguments: -Pregistry=${{ secrets.DOCKER_REGISTRY }} bootBuildImage
+          arguments: -Pregistry=${{ secrets.DOCKER_REGISTRY }} -Ptag=${{ env.TAG }} bootBuildImage
 
       - name: Publish docker image
-        run: docker push ${{ secrets.DOCKER_REGISTRY }}/public-api:${{ env.VERSION }}
+        run: docker push ${{ secrets.DOCKER_REGISTRY }}/public-api:${{ env.TAG }}
 
   deploy-staging:
     runs-on: ubuntu-latest
@@ -76,16 +78,18 @@ jobs:
         with:
           token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
 
-      - name: Set version
+      - name: Prepare docker tag
         run: |
-          VERSION=$(cat version.txt)
-          echo "VERSION=$VERSION" >> $GITHUB_ENV
+          chmod +x .delivery/tag.sh
+          .delivery/tag.sh
+          TAG=$(cat tag.txt)
+          echo "TAG=$TAG" >> $GITHUB_ENV
 
       - name: Prepare deployment script
         run: chmod +x .delivery/upgrade.sh
 
       - name: Deploy to staging
-        run: .delivery/upgrade.sh ${{ secrets.STAGING_APP_ID }} ${{ env.VERSION }}
+        run: .delivery/upgrade.sh ${{ secrets.STAGING_APP_ID }} ${{ env.TAG }}
 
   deploy-production:
     runs-on: ubuntu-latest
@@ -99,13 +103,15 @@ jobs:
         with:
           token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
 
-      - name: Set version
+      - name: Prepare docker tag
         run: |
-          VERSION=$(cat version.txt)
-          echo "VERSION=$VERSION" >> $GITHUB_ENV
+          chmod +x .delivery/tag.sh
+          .delivery/tag.sh
+          TAG=$(cat tag.txt)
+          echo "TAG=$TAG" >> $GITHUB_ENV
 
       - name: Prepare deployment script
         run: chmod +x .delivery/upgrade.sh
 
       - name: Deploy to production
-        run: .delivery/upgrade.sh ${{ secrets.PRODUCTION_APP_ID }} ${{ env.VERSION }}
+        run: .delivery/upgrade.sh ${{ secrets.PRODUCTION_APP_ID }} ${{ env.TAG }}

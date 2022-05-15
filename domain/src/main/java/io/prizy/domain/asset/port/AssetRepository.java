@@ -17,4 +17,6 @@ public interface AssetRepository {
   Optional<Asset> byId(String id);
 
   Collection<Asset> byIds(Collection<String> ids);
+
+  Boolean existsById(String id);
 }

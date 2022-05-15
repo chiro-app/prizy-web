@@ -85,6 +85,10 @@ public class AssetService {
     return assetRepository.byId(id);
   }
 
+  public Boolean exists(String id) {
+    return assetRepository.existsById(id);
+  }
+
   public Collection<Asset> getMany(Collection<String> ids) {
     return assetRepository.byIds(ids);
   }

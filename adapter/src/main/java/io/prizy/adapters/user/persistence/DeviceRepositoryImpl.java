@@ -49,7 +49,7 @@ public class DeviceRepositoryImpl implements DeviceRepository {
   @Override
   public Boolean delete(String deviceId) {
     try {
-      jpaRepository.deleteById(deviceId);
+      jpaRepository.deleteByDeviceId(deviceId);
       return true;
     } catch (Exception e) {
       log.warn("Failed to delete device {}", deviceId, e);
