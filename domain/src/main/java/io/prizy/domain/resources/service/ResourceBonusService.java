@@ -57,7 +57,8 @@ public class ResourceBonusService {
       throw new ResourceBonusAlreadyClaimedException();
     }
     var boost = boostService.boost(userId, contestId);
-    var daysSinceSubscription = daysSinceContestSubscription(userId, contestId);
+    var daysSinceSubscription = daysSinceContestSubscription(userId, contestId)
+      .orElseThrow(() -> new UserNotSubscribedException(userId, contestId));
     var diamondsBonus = properties
       .dailyDiamondsBonus()
       .get(Math.min(daysSinceSubscription, properties.dailyDiamondsBonus().size() - 1))
@@ -137,21 +138,21 @@ public class ResourceBonusService {
       repository.byUserIdAndTypeAndCurrencyAndDateTimeBetween(userId, BONUS, DIAMONDS, midnight, midnightPlusOneDay).stream()
     ).toList();
     if (bonusTransactionSinceMidnight.isEmpty()) {
-      var daysSinceSubscription = daysSinceContestSubscription(userId, contestId);
-      return Optional.of(ResourceBalance.ContestDependent.builder()
-        .userId(userId)
-        .contestId(contestId)
-        .lives(properties
-          .dailyLivesBonus()
-          .get(Math.min(daysSinceSubscription, properties.dailyLivesBonus().size() - 1))
-        )
-        .diamonds(properties
-          .dailyDiamondsBonus()
-          .get(Math.min(daysSinceSubscription, properties.dailyDiamondsBonus().size() - 1))
-          .longValue()
-        )
-        .build()
-      );
+      return daysSinceContestSubscription(userId, contestId)
+        .map(daysSinceSubscription -> ResourceBalance.ContestDependent.builder()
+          .userId(userId)
+          .contestId(contestId)
+          .lives(properties
+            .dailyLivesBonus()
+            .get(Math.min(daysSinceSubscription, properties.dailyLivesBonus().size() - 1))
+          )
+          .diamonds(properties
+            .dailyDiamondsBonus()
+            .get(Math.min(daysSinceSubscription, properties.dailyDiamondsBonus().size() - 1))
+            .longValue()
+          )
+          .build()
+        );
     }
     return Optional.empty();
   }
@@ -164,11 +165,10 @@ public class ResourceBonusService {
     repository.alterKeys(userId, properties.referrerKeysBonus().longValue(), TransactionType.CREDIT);
   }
 
-  private Integer daysSinceContestSubscription(UUID userId, UUID contestId) {
-    var subscription = contestSubscriptionRepository
+  private Optional<Integer> daysSinceContestSubscription(UUID userId, UUID contestId) {
+    return contestSubscriptionRepository
       .subscriptionOfUser(userId, contestId)
-      .orElseThrow(() -> new UserNotSubscribedException(userId, contestId));
-    return (int) Duration.between(subscription.dateTime(), Instant.now()).toDays();
+      .map(subscription -> (int) Duration.between(subscription.dateTime(), Instant.now()).toDays());
   }
 
 }

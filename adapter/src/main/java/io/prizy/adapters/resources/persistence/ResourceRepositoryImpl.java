@@ -41,7 +41,7 @@ public class ResourceRepositoryImpl implements ResourceRepository {
   @Override
   public Integer countLives(UUID userId, UUID contestId) {
     return contestDependentJpaRepository
-      .findContestDependentsByCurrencyAndContestId(Currency.LIVES, contestId)
+      .findContestDependentsByCurrencyAndContestIdAndUserId(Currency.LIVES, contestId, userId)
       .stream()
       .reduce(
         0L,
@@ -54,7 +54,7 @@ public class ResourceRepositoryImpl implements ResourceRepository {
   @Override
   public Long countDiamonds(UUID userId, UUID contestId) {
     return contestDependentJpaRepository
-      .findContestDependentsByCurrencyAndContestId(Currency.DIAMONDS, contestId)
+      .findContestDependentsByCurrencyAndContestIdAndUserId(Currency.DIAMONDS, contestId, userId)
       .stream()
       .reduce(
         0L,

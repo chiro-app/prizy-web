@@ -8,6 +8,7 @@ import io.prizy.domain.resources.model.Currency;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ContestDependentResourceTransactionJpaRepository extends JpaRepository<ContestDependent, UUID> {
-  Collection<ContestDependent> findContestDependentsByCurrencyAndContestId(Currency currency, UUID contestId);
+  Collection<ContestDependent> findContestDependentsByCurrencyAndContestIdAndUserId(Currency currency, UUID contestId
+    , UUID userId);
 
 }
