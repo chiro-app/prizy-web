@@ -37,7 +37,7 @@ public class ReferralService {
   public Boolean submitReferralCode(UUID userId, String referralCode) {
     var referrerId = repository
       .byReferralCode(referralCode)
-      .flatMap(ReferralNode::referrerId);
+      .map(ReferralNode::userId);
     if (referrerId.isEmpty()) {
       return false;
     }
@@ -51,7 +51,7 @@ public class ReferralService {
     ) {
       return false;
     }
-    repository.save(referralNode);
+    repository.save(referralNode.withReferrerId(referrerId));
     publisher.publish(new ReferralCreated(userId, referrerId.get()));
     return true;
   }
