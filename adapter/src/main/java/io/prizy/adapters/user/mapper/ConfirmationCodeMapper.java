@@ -17,6 +17,7 @@ public class ConfirmationCodeMapper {
     return ConfirmationCode.builder()
       .code(entity.getCode())
       .userId(entity.getUserId())
+      .created(entity.getCreated())
       .build();
   }
 
@@ -24,6 +25,7 @@ public class ConfirmationCodeMapper {
     return ConfirmationCodeEntity.builder()
       .code(confirmationCode.code())
       .userId(confirmationCode.userId())
+      .created(confirmationCode.created())
       .build();
   }
 

@@ -1,5 +1,6 @@
 package io.prizy.domain.user.model;
 
+import java.time.Instant;
 import java.util.UUID;
 
 import lombok.Builder;
@@ -13,6 +14,7 @@ import lombok.Builder;
 @Builder
 public record ConfirmationCode(
   String code,
-  UUID userId
+  UUID userId,
+  Instant created
 ) {
 }

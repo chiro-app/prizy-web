@@ -1,5 +1,6 @@
 package io.prizy.domain.user.service;
 
+import java.time.Instant;
 import java.util.Map;
 import java.util.UUID;
 
@@ -38,7 +39,12 @@ public class EmailConfirmationService {
 
   public void sendConfirmationEmail(UUID userId) {
     var code = RandomStringUtils.random(CONFIRMATION_CODE_LENGTH, CONFIRMATION_CODE_ALPHABET);
-    repository.save(new ConfirmationCode(code, userId));
+    repository.save(ConfirmationCode.builder()
+      .code(code)
+      .userId(userId)
+      .created(Instant.now())
+      .build()
+    );
     var user = userRepository.byId(userId).get();
     notificationPublisher.publish(new SendEmail(
       new EmailNotification(
