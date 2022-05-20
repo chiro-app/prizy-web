@@ -4,7 +4,7 @@ import java.util.UUID;
 
 import io.prizy.domain.contest.exception.ContestNotFoundException;
 import io.prizy.domain.contest.ports.ContestRepository;
-import io.prizy.domain.referral.ports.ReferralRepository;
+import io.prizy.domain.contest.service.ContestSubscriptionService;
 import io.prizy.domain.resources.model.ResourceBoost;
 import io.prizy.domain.resources.properties.ResourceProperties;
 import lombok.RequiredArgsConstructor;
@@ -22,13 +22,13 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class ResourceBoostService {
 
-  private final ReferralRepository referralRepository;
   private final ContestRepository contestRepository;
+  private final ContestSubscriptionService subscriptionService;
   private final ResourceProperties properties;
 
   public ResourceBoost boost(UUID userId, UUID contestId) {
     contestRepository.byId(contestId).orElseThrow(() -> new ContestNotFoundException(contestId));
-    var referralsCount = referralRepository.byReferrerId(userId).size();
+    var referralsCount = subscriptionService.subscribedReferrals(contestId, userId).size();
     return ResourceBoost.builder()
       .userId(userId)
       .contestId(contestId)
