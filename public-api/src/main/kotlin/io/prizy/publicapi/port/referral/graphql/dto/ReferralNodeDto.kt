@@ -2,7 +2,9 @@ package io.prizy.publicapi.port.referral.graphql.dto
 
 import com.expediagroup.graphql.generator.annotations.GraphQLIgnore
 import com.expediagroup.graphql.generator.annotations.GraphQLName
+import io.prizy.domain.asset.service.AssetService
 import io.prizy.domain.user.service.UserService
+import io.prizy.publicapi.port.asset.dto.AssetDto
 import io.prizy.publicapi.port.user.graphql.dto.UserDto
 import io.prizy.publicapi.port.user.mapper.UserDtoMapper
 import kotlinx.coroutines.Dispatchers
@@ -35,6 +37,16 @@ data class ReferralNodeDto(
       fetchUser(userService)
     }
     return user.lastName
+  }
+
+  suspend fun avatar(
+    @GraphQLIgnore @Autowired userService: UserService,
+    @GraphQLIgnore @Autowired assetService: AssetService
+  ): AssetDto? {
+    if (!this::user.isInitialized) {
+      fetchUser(userService)
+    }
+    return user.avatar(assetService)
   }
 
   @GraphQLIgnore
