@@ -66,11 +66,13 @@ public class ContestSubscriptionService {
   public Collection<ReferralNode> subscribedReferrals(UUID contestId, UUID userId) {
     var subscribedUserIds = subscriptionRepository
       .ofContest(contestId)
-      .stream().map(ContestSubscription::userId)
+      .stream()
+      .map(ContestSubscription::userId)
       .toList();
     return referralRepository
       .byReferrerId(userId)
-      .stream().filter(referral -> subscribedUserIds.contains(referral.userId()))
+      .stream()
+      .filter(referral -> subscribedUserIds.contains(referral.userId()))
       .toList();
   }
 }
