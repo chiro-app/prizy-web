@@ -19,7 +19,7 @@ public class CreatePackMapper {
         .build();
     }
     if (create instanceof CreatePack.Product product) {
-      Pack.Product.builder()
+      return Pack.Product.builder()
         .name(product.name())
         .firstWinnerPosition(product.firstWinnerPosition())
         .lastWinnerPosition(product.lastWinnerPosition())

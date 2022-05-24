@@ -41,6 +41,7 @@ public class PackMapper {
       return PackEntity.Product.builder()
         .id(product.id())
         .name(product.name())
+        .assetId(product.assetId())
         .lastWinnerPosition(product.lastWinnerPosition())
         .firstWinnerPosition(product.firstWinnerPosition())
         .quantity(product.quantity())
