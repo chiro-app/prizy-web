@@ -60,14 +60,16 @@ public class GameSessionService {
     return Pair.of(randomAvailablePosition(board), randomAvailablePosition(board));
   }
 
-  private Collection<Integer> randomObstacles(GameBoard board) {
+  public Collection<Integer> randomObstacles(GameBoard board) {
     var possibleObstacleCounts = IntStream
       .range(properties.minRandomObstacles(), properties.maxRandomObstacles())
       .toArray();
-    var obstacleCount = RANDOM.nextInt(possibleObstacleCounts.length);
+    var obstacleCount = possibleObstacleCounts[RANDOM.nextInt(possibleObstacleCounts.length)];
     return IntStream
       .range(0, obstacleCount)
       .mapToObj(i -> randomAvailablePosition(board))
+      .distinct()
+      .sorted()
       .toList();
   }
 

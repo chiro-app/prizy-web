@@ -53,6 +53,9 @@ public class ResourceBonusService {
   }
 
   public void claimContestDailyBonus(UUID userId, UUID contestId) {
+    if (!contestSubscriptionRepository.userSubscribedTo(userId, contestId)) {
+      throw new UserNotSubscribedException(userId, contestId);
+    }
     if (!hasAvailableContestBonus(userId, contestId)) {
       throw new ResourceBonusAlreadyClaimedException();
     }

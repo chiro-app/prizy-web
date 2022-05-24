@@ -1,6 +1,5 @@
 package io.prizy.publicapi.port.game.websocket.dto
 
-import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonTypeInfo
 import com.fasterxml.jackson.annotation.JsonTypeName
 import io.prizy.domain.game.model.GameBoard
@@ -36,7 +35,6 @@ sealed interface GameEventDto {
     val board: GameBoard,
     val startPosition: Int,
     val endPosition: Int,
-    @JsonIgnore
     val obstacles: Collection<Int>
   ) : GameEventDto
 

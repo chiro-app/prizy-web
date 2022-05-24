@@ -8,8 +8,10 @@ import java.util.UUID;
 
 import io.prizy.adapters.contest.mapper.ContestMapper;
 import io.prizy.adapters.contest.merger.ContestEntityMerger;
+import io.prizy.adapters.contest.persistence.entity.ContestEntity;
 import io.prizy.adapters.contest.persistence.repository.ContestJpaRepository;
 import io.prizy.adapters.contest.persistence.repository.PackJpaRepository;
+import io.prizy.domain.contest.exception.ContestNotFoundException;
 import io.prizy.domain.contest.model.Contest;
 import io.prizy.domain.contest.ports.ContestRepository;
 import lombok.RequiredArgsConstructor;
@@ -54,23 +56,17 @@ public class ContestRepositoryImpl implements ContestRepository {
 
   @Override
   public Contest update(Contest contest) {
-    var contestEntity = ContestMapper.map(contest);
-    contestEntity = ContestEntityMerger.merge(contestEntity, jpaRepository.getById(contest.id()));
-    var packEntities = contestEntity.getPacks();
-    contestEntity = jpaRepository.save(contestEntity.withPacks(Set.of()));
-    final var finalContestEntity = contestEntity;
-    packEntities = Set.copyOf(packJpaRepository.saveAll(packEntities
-      .stream()
-      .peek(packEntity -> packEntity.setContest(finalContestEntity))
-      .toList()
-    ));
-    contestEntity = contestEntity.withPacks(packEntities);
-    return ContestMapper.map(contestEntity);
+    if (!jpaRepository.existsById(contest.id())) {
+      throw new ContestNotFoundException(contest.id());
+    }
+    var entity = ContestMapper.map(contest);
+    entity = ContestEntityMerger.merge(entity, jpaRepository.getById(contest.id()));
+    return save(entity);
   }
 
   @Override
   public Contest create(Contest contest) {
-    return update(contest);
+    return save(ContestMapper.map(contest));
   }
 
   @Override
@@ -96,5 +92,18 @@ public class ContestRepositoryImpl implements ContestRepository {
   @Override
   public Optional<Contest> byAccessCode(String accessCode) {
     return jpaRepository.findByAccessCode(accessCode).map(ContestMapper::map);
+  }
+
+  private Contest save(ContestEntity entity) {
+    var packEntities = entity.getPacks();
+    entity = jpaRepository.save(entity.withPacks(Set.of()));
+    final var finalContestEntity = entity;
+    packEntities = Set.copyOf(packJpaRepository.saveAll(packEntities
+      .stream()
+      .peek(packEntity -> packEntity.setContest(finalContestEntity))
+      .toList()
+    ));
+    entity = entity.withPacks(packEntities);
+    return ContestMapper.map(entity);
   }
 }
