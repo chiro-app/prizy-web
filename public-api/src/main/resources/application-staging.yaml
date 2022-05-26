@@ -11,6 +11,9 @@ spring:
       service-url: https://api.stg.prizy.io
 
 prizy:
+  server:
+    url: https://api.stg.prizy.io
+
   storage:
     endpoint: fra1.digitaloceanspaces.com
     server-url: https://api.stg.prizy.io

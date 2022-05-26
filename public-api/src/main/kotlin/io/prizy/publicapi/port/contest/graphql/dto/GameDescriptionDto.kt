@@ -3,12 +3,12 @@ package io.prizy.publicapi.port.contest.graphql.dto
 import com.expediagroup.graphql.generator.annotations.GraphQLIgnore
 import com.expediagroup.graphql.generator.annotations.GraphQLName
 import io.prizy.domain.asset.service.AssetService
+import io.prizy.publicapi.application.properties.ServerProperties
 import io.prizy.publicapi.port.asset.dto.AssetDto
 import io.prizy.publicapi.port.asset.mapper.AssetDtoMapper
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.autoconfigure.web.ServerProperties
 
 /**
  * @author Nidhal Dogga
@@ -27,7 +27,7 @@ data class GameDescriptionDto(
   val coverAssetId: String
 ) {
 
-  fun url(@Autowired @GraphQLIgnore serverProperties: ServerProperties) = "/game/index.html" // TODO: Implement full url
+  fun url(@Autowired @GraphQLIgnore serverProperties: ServerProperties) = "${serverProperties.url}/game/index.html"
 
   suspend fun icon(@GraphQLIgnore @Autowired assetService: AssetService): AssetDto = withContext(Dispatchers.IO) {
     assetService.get(iconAssetId).map(AssetDtoMapper::map).get()

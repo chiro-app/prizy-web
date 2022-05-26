@@ -5,6 +5,7 @@ import io.prizy.publicapi.application.properties.AppConfigurationProperties
 import io.prizy.publicapi.application.properties.GameDescriptionProperties
 import io.prizy.publicapi.application.properties.GameProperties
 import io.prizy.publicapi.application.properties.ResourceProperties
+import io.prizy.publicapi.application.properties.ServerProperties
 import io.prizy.publicapi.application.properties.StorageProperties
 import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean
@@ -22,10 +23,11 @@ import org.springframework.scheduling.annotation.EnableAsync
 @ComponentScan(basePackages = ["io.prizy.publicapi"])
 @EnableConfigurationProperties(
   GameProperties::class,
+  ServerProperties::class,
   StorageProperties::class,
   ResourceProperties::class,
   GameDescriptionProperties::class,
-  AppConfigurationProperties::class
+  AppConfigurationProperties::class,
 )
 class PublicApiConfiguration {
 
