@@ -4,6 +4,7 @@ import io.prizy.domain.ranking.service.RankingService;
 import io.prizy.domain.resources.event.ResourceTransactionCreated;
 import io.prizy.domain.resources.model.Currency;
 import io.prizy.domain.resources.model.ResourceTransaction;
+import io.prizy.domain.resources.model.TransactionType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.event.TransactionalEventListener;
@@ -21,10 +22,8 @@ public class RankingEventListener {
 
   @TransactionalEventListener
   public void onResourceTransactionCreate(ResourceTransactionCreated event) {
-    if (Currency.DIAMONDS.equals(event.transaction().currency())
-      && event.transaction() instanceof ResourceTransaction.ContestDependent transaction) {
-      rankingService.incrementByAndSubmitScore(transaction.contestId(), transaction.userId(),
-        event.transaction().amount());
+    if (event.transaction() instanceof ResourceTransaction.ContestDependent transaction) {
+      rankingService.applyTransaction(transaction);
     }
   }
 

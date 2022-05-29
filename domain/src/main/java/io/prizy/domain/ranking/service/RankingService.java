@@ -11,7 +11,10 @@ import io.prizy.domain.contest.ports.ContestRepository;
 import io.prizy.domain.ranking.model.RankingRow;
 import io.prizy.domain.ranking.model.RankingTable;
 import io.prizy.domain.ranking.port.RankingRepository;
+import io.prizy.domain.resources.model.ResourceTransaction;
+import io.prizy.domain.resources.model.TransactionType;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,6 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 
 
+@Slf4j
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -49,33 +53,42 @@ public class RankingService {
     return new RankingTable(contestId, rows);
   }
 
-  public void submitScore(UUID contestId, UUID userId, Long score) {
-    var contest = contestRepository
-      .byId(contestId)
-      .orElseThrow(() -> new ContestNotFoundException(contestId));
-    if (contest.toDate().isAfter(Instant.now())) {
-      throw new ContestExpiredException();
-    }
-    repository.save(RankingRow.builder()
-      .score(score)
-      .contestId(contestId)
-      .userId(userId)
-      .build()
-    );
-  }
+  public void applyTransaction(ResourceTransaction.ContestDependent transaction) {
+    RankingRow row;
 
-  public void incrementByAndSubmitScore(UUID contestId, UUID userId, Long score) {
-    var maxScoreRow = repository
-      .byContestAndUser(contestId, userId)
-      .stream().max(Comparator.comparing(RankingRow::score))
-      .orElseGet(() -> RankingRow.builder()
-        .score(0L)
+    var amount = transaction.amount();
+    var userId = transaction.userId();
+    var contestId = transaction.contestId();
+
+    if (transaction.type() == TransactionType.CREDIT) {
+      log.info("Incrementing score by {} for contest {} and user {}", amount, contestId, userId);
+      row = repository
+        .byContestAndUser(contestId, userId)
+        .stream().max(Comparator.comparing(RankingRow::score))
+        .orElseGet(() -> RankingRow.builder()
+          .score(0L)
+          .userId(userId)
+          .contestId(contestId)
+          .dateTime(Instant.now())
+          .build()
+        );
+      row.withScore(row.score() + amount);
+    } else {
+      log.info("Submitting score {} for contest {} and user {}", amount, contestId, userId);
+      var contest = contestRepository
+        .byId(contestId)
+        .orElseThrow(() -> new ContestNotFoundException(contestId));
+      if (contest.toDate().isAfter(Instant.now())) {
+        throw new ContestExpiredException();
+      }
+      row = RankingRow.builder()
+        .score(amount)
         .userId(userId)
         .contestId(contestId)
-        .dateTime(Instant.now())
-        .build()
-      );
-    repository.save(maxScoreRow.withScore(maxScoreRow.score() + score));
+        .build();
+    }
+
+    repository.save(row);
   }
 
 }
