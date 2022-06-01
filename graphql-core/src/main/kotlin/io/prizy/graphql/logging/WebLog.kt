@@ -1,5 +1,6 @@
 package io.prizy.graphql.logging
 
+import io.prizy.graphql.auth.Principal
 import java.time.Instant
 
 /**
@@ -11,7 +12,7 @@ data class WebLog(
   val type: QueryType,
   val timestamp: Instant,
   val elapsed: Long,
-  val headers: Map<String, String>,
+  val principal: Principal? = null,
   val ip: String?,
   val query: String,
   val response: Any?,

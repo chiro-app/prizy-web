@@ -16,7 +16,7 @@ spring:
 
 prizy:
   logging:
-    log-to-elastic-search: true
+    log-to-elastic-search: false
 
   server:
     url: http://localhost:8080

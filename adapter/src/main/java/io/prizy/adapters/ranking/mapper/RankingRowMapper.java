@@ -15,6 +15,7 @@ public class RankingRowMapper {
 
   public RankingRow map(RankingRowEntity entity) {
     return RankingRow.builder()
+      .id(entity.getId())
       .score(entity.getScore())
       .contestId(entity.getContestId())
       .userId(entity.getUserId())
@@ -24,6 +25,7 @@ public class RankingRowMapper {
 
   public RankingRowEntity map(RankingRow row) {
     return RankingRowEntity.builder()
+      .id(row.id())
       .score(row.score())
       .contestId(row.contestId())
       .userId(row.userId())

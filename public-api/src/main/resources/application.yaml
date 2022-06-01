@@ -1,7 +1,9 @@
 graphql.packages:
   - io.prizy.publicapi
 
-management.endpoints.web.exposure.include: "*"
+management:
+  endpoints.web.exposure.include: "*"
+  health.elasticsearch.enabled: false
 
 prizy:
   app.version:

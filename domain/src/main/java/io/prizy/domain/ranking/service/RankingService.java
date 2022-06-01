@@ -54,39 +54,25 @@ public class RankingService {
   }
 
   public void applyTransaction(ResourceTransaction.ContestDependent transaction) {
-    RankingRow row;
 
     var amount = transaction.amount();
     var userId = transaction.userId();
     var contestId = transaction.contestId();
 
-    if (transaction.type() == TransactionType.CREDIT) {
-      log.info("Incrementing score by {} for contest {} and user {}", amount, contestId, userId);
-      row = repository
-        .byContestAndUser(contestId, userId)
-        .stream().max(Comparator.comparing(RankingRow::score))
-        .orElseGet(() -> RankingRow.builder()
-          .score(0L)
-          .userId(userId)
-          .contestId(contestId)
-          .dateTime(Instant.now())
-          .build()
-        );
-      row.withScore(row.score() + amount);
-    } else {
-      log.info("Submitting score {} for contest {} and user {}", amount, contestId, userId);
-      var contest = contestRepository
-        .byId(contestId)
-        .orElseThrow(() -> new ContestNotFoundException(contestId));
-      if (contest.toDate().isAfter(Instant.now())) {
-        throw new ContestExpiredException();
-      }
-      row = RankingRow.builder()
-        .score(amount)
+    var row = repository
+      .byContestAndUser(contestId, userId)
+      .stream().max(Comparator.comparing(RankingRow::score))
+      .orElseGet(() -> RankingRow.builder()
+        .score(0L)
         .userId(userId)
         .contestId(contestId)
-        .build();
-    }
+        .dateTime(Instant.now())
+        .build()
+      );
+
+    var newScore = transaction.type().apply(row.score(), amount);
+    log.info("User's {} score for contest {} is now {}, was {}", userId, contestId, newScore, row.score());
+    row = row.withScore(newScore);
 
     repository.save(row);
   }

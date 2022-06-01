@@ -15,6 +15,7 @@ import lombok.With;
 @With
 @Builder
 public record RankingRow(
+  UUID id,
   UUID userId,
   UUID contestId,
   Long score,

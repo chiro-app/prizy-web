@@ -9,14 +9,13 @@ import io.prizy.graphql.context.GraphQLContext
 import io.prizy.graphql.logging.QueryType
 import io.prizy.graphql.logging.WebLog
 import io.prizy.graphql.properties.LoggingProperties
-import kotlinx.coroutines.reactor.awaitSingle
 import org.elasticsearch.action.index.IndexRequest
+import org.elasticsearch.client.RequestOptions
+import org.elasticsearch.client.RestHighLevelClient
 import org.elasticsearch.common.xcontent.XContentType
 import org.slf4j.LoggerFactory
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
-import org.springframework.data.elasticsearch.client.reactive.ReactiveElasticsearchClient
 import org.springframework.stereotype.Component
-import org.springframework.web.reactive.function.server.ServerRequest
 import org.springframework.web.reactive.function.server.remoteAddressOrNull
 import java.time.Instant
 import java.util.UUID
@@ -32,7 +31,7 @@ class LoggingGraphQLRequestHandler(
   graphQL: GraphQL,
   private val objectMapper: ObjectMapper,
   private val properties: LoggingProperties,
-  private val elasticsearchClient: ReactiveElasticsearchClient
+  private val elasticsearchClient: RestHighLevelClient,
 ) : GraphQLRequestHandler(graphQL) {
 
   companion object {
@@ -54,15 +53,15 @@ class LoggingGraphQLRequestHandler(
         objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(request),
         elapsed
       )
-      indexRequest(request, response, (context as GraphQLContext).request, elapsed)
+      indexRequest(request, response, (context as GraphQLContext), elapsed)
     }
     return response
   }
 
-  private suspend fun indexRequest(
+  private fun indexRequest(
     request: GraphQLRequest,
     response: GraphQLResponse<*>,
-    serverRequest: ServerRequest,
+    context: GraphQLContext,
     elapsed: Long
   ) = try {
     val webLog = WebLog(
@@ -72,13 +71,13 @@ class LoggingGraphQLRequestHandler(
       timestamp = Instant.now(),
       variables = request.variables,
       type = extractQueryType(request.query),
-      ip = serverRequest.remoteAddressOrNull()?.toString(),
-      headers = serverRequest.headers().asHttpHeaders().toSingleValueMap(),
+      ip = context.request.remoteAddressOrNull()?.toString(),
+      principal = (context as? GraphQLContext.Authenticated)?.principal,
     )
     val indexRequest = IndexRequest(properties.indexName)
       .id(UUID.randomUUID().toString())
       .source(webLog, XContentType.JSON)
-    val indexResponse = elasticsearchClient.index(indexRequest).awaitSingle()
+    val indexResponse = elasticsearchClient.index(indexRequest, RequestOptions.DEFAULT)
     log.trace("received web log response {}", indexResponse)
   } catch (throwable: Throwable) {
     log.warn("Request indexing failed, {}", throwable.message, throwable)
