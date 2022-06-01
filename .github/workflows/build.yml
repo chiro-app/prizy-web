@@ -54,14 +54,8 @@ jobs:
       - name: Login to docker registry
         run: doctl registry login --access-token ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
 
-      - name: Prepare gradle wrapper
-        run: chmod +x gradlew
-
       - name: Build docker image
-        if: ${{ github.event_name != 'pull_request' }}
-        uses: gradle/gradle-build-action@0d13054264b0bb894ded474f08ebb30921341cee
-        with:
-          arguments: -Pregistry=${{ secrets.DOCKER_REGISTRY }} -Ptag=${{ env.TAG }} bootBuildImage
+        run: docker build . -t ${{ secrets.DOCKER_REGISTRY }}/public-api:${{ env.TAG }}
 
       - name: Publish docker image
         run: docker push ${{ secrets.DOCKER_REGISTRY }}/public-api:${{ env.TAG }}
