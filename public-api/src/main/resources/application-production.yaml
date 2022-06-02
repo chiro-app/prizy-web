@@ -9,15 +9,8 @@ spring:
     instance:
       name: public-api-production
       service-url: https://api.prizy.io
-  elasticsearch:
-    uris: https://elastic.prizy.io:443
-    username: elastic
 
 prizy:
-  logging:
-    log-to-elastic-search: true
-    index-name: prizy.logs.production
-
   server:
     url: https://api.prizy.io
 

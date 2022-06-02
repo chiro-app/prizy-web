@@ -9,15 +9,8 @@ spring:
     instance:
       name: public-api-staging
       service-url: https://api.stg.prizy.io
-  elasticsearch:
-    uris: https://elastic.prizy.io:443
-    username: elastic
 
 prizy:
-  logging:
-    log-to-elastic-search: true
-    index-name: prizy.logs.staging
-
   server:
     url: https://api.stg.prizy.io
 

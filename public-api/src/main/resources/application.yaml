@@ -3,7 +3,6 @@ graphql.packages:
 
 management:
   endpoints.web.exposure.include: "*"
-  health.elasticsearch.enabled: false
 
 prizy:
   app.version:

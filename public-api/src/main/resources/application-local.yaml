@@ -15,9 +15,6 @@ spring:
     password: mysecretpassword
 
 prizy:
-  logging:
-    log-to-elastic-search: false
-
   server:
     url: http://localhost:8080
 

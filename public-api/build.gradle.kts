@@ -1,4 +1,4 @@
-import org.springframework.boot.gradle.tasks.bundling.BootJar
+import org.springframework.boot.gradle.tasks.bundling.BootBuildImage
 
 plugins {
   kotlin("jvm")
@@ -52,10 +52,8 @@ dependencies {
   testImplementation("org.springframework.security:spring-security-test")
 }
 
-tasks.withType<Jar> {
-  enabled = false
-}
-
-tasks.withType<BootJar> {
-  enabled = true
+tasks.withType<BootBuildImage> {
+  val registry: String? by project
+  val tag: String? by project
+  imageName = "${registry ?: "docker.io/library"}/${project.name}:${tag ?: project.version}"
 }
