@@ -28,7 +28,7 @@ public class ResourceRepositoryImpl implements ResourceRepository {
   @Override
   public Integer countKeys(UUID userId) {
     return absoluteJpaRepository
-      .findAbsolutesByCurrency(Currency.KEYS)
+      .findAbsolutesByCurrencyAndUserId(Currency.KEYS, userId)
       .stream()
       .reduce(
         0L,

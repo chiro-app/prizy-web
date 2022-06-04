@@ -42,6 +42,6 @@ class ContestQuery(
     ctx: GraphQLContext.Authenticated,
     contestId: UUID
   ): List<ReferralNodeDto> = withContext(Dispatchers.IO) {
-    contestSubscriptionService.subscribedReferrals(ctx.principal.id, contestId).map(ReferralDtoMapper::map)
+    contestSubscriptionService.subscribedReferrals(contestId, ctx.principal.id).map(ReferralDtoMapper::map)
   }
 }

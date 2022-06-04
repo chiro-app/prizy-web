@@ -8,5 +8,5 @@ import io.prizy.domain.resources.model.Currency;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface AbsoluteResourceTransactionJpaRepository extends JpaRepository<Absolute, UUID> {
-  Collection<Absolute> findAbsolutesByCurrency(Currency currency);
+  Collection<Absolute> findAbsolutesByCurrencyAndUserId(Currency currency, UUID userId);
 }

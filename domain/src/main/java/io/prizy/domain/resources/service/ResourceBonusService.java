@@ -71,9 +71,9 @@ public class ResourceBonusService {
       .get(Math.min(daysSinceSubscription, properties.dailyLivesBonus().size() - 1))
       .longValue();
     var diamondsTransaction = repository
-      .alterByUserAndContest(userId, contestId, DIAMONDS, diamondsBonus + boost.lives(), BONUS);
+      .alterByUserAndContest(userId, contestId, DIAMONDS, diamondsBonus + boost.diamonds(), BONUS);
     var livesTransaction = repository.alterByUserAndContest(userId, contestId, LIVES,
-      livesBonus + boost.diamonds(), BONUS);
+      livesBonus + boost.lives(), BONUS);
     publisher.publish(new ResourceTransactionCreated(livesTransaction));
     publisher.publish(new ResourceTransactionCreated(diamondsTransaction));
   }
@@ -140,6 +140,7 @@ public class ResourceBonusService {
       repository.byUserIdAndTypeAndCurrencyAndDateTimeBetween(userId, BONUS, LIVES, midnight, midnightPlusOneDay).stream(),
       repository.byUserIdAndTypeAndCurrencyAndDateTimeBetween(userId, BONUS, DIAMONDS, midnight, midnightPlusOneDay).stream()
     ).toList();
+    var boost = boostService.boost(userId, contestId);
     if (bonusTransactionSinceMidnight.isEmpty()) {
       return daysSinceContestSubscription(userId, contestId)
         .map(daysSinceSubscription -> ResourceBalance.ContestDependent.builder()
@@ -148,11 +149,13 @@ public class ResourceBonusService {
           .lives(properties
             .dailyLivesBonus()
             .get(Math.min(daysSinceSubscription, properties.dailyLivesBonus().size() - 1))
+            + boost.lives()
           )
           .diamonds(properties
             .dailyDiamondsBonus()
             .get(Math.min(daysSinceSubscription, properties.dailyDiamondsBonus().size() - 1))
             .longValue()
+            + boost.diamonds()
           )
           .build()
         );

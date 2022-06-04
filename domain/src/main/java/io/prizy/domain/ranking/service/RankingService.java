@@ -1,22 +1,21 @@
 package io.prizy.domain.ranking.service;
 
-import java.time.Instant;
-import java.util.Comparator;
-import java.util.UUID;
-import java.util.stream.Collectors;
-
-import io.prizy.domain.contest.exception.ContestExpiredException;
 import io.prizy.domain.contest.exception.ContestNotFoundException;
 import io.prizy.domain.contest.ports.ContestRepository;
 import io.prizy.domain.ranking.model.RankingRow;
 import io.prizy.domain.ranking.model.RankingTable;
 import io.prizy.domain.ranking.port.RankingRepository;
 import io.prizy.domain.resources.model.ResourceTransaction;
-import io.prizy.domain.resources.model.TransactionType;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.time.Instant;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.UUID;
+import java.util.stream.Collectors;
 
 /**
  * @author Nidhal Dogga
@@ -34,22 +33,22 @@ public class RankingService {
   private final ContestRepository contestRepository;
 
   public RankingTable getForContest(UUID contestId) {
-    contestRepository
-      .byId(contestId)
-      .orElseThrow(() -> new ContestNotFoundException(contestId));
+    contestRepository.byId(contestId).orElseThrow(() -> new ContestNotFoundException(contestId));
     var rows = repository
       .byContestId(contestId)
       .stream()
-      .sorted(Comparator.comparing(RankingRow::score))
       .collect(Collectors.groupingBy(RankingRow::userId))
-      .values()
-      .stream()
+      .values().stream()
       .map(rankingRows -> rankingRows
         .stream()
         .max(Comparator.comparing(RankingRow::score))
         .get()
       )
-      .toList();
+      .sorted(Comparator.comparing(RankingRow::score))
+      .collect(Collectors.collectingAndThen(Collectors.toList(), table -> {
+        Collections.reverse(table);
+        return table;
+      }));
     return new RankingTable(contestId, rows);
   }
 
@@ -59,16 +58,8 @@ public class RankingService {
     var userId = transaction.userId();
     var contestId = transaction.contestId();
 
-    var row = repository
-      .byContestAndUser(contestId, userId)
-      .stream().max(Comparator.comparing(RankingRow::score))
-      .orElseGet(() -> RankingRow.builder()
-        .score(0L)
-        .userId(userId)
-        .contestId(contestId)
-        .dateTime(Instant.now())
-        .build()
-      );
+    var row =
+      repository.byContestAndUser(contestId, userId).stream().max(Comparator.comparing(RankingRow::score)).orElseGet(() -> RankingRow.builder().score(0L).userId(userId).contestId(contestId).dateTime(Instant.now()).build());
 
     var newScore = transaction.type().apply(row.score(), amount);
     log.info("User's {} score for contest {} is now {}, was {}", userId, contestId, newScore, row.score());
