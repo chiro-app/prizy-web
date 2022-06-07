@@ -84,10 +84,19 @@ public class ResourceRepositoryImpl implements ResourceRepository {
   }
 
   @Override
-  public Collection<ResourceTransaction> byUserIdAndTypeAndCurrencyAndDateTimeBetween(UUID userId,
-                                                                                      TransactionType type,
-                                                                                      Currency currency, Instant from,
-                                                                                      Instant to) {
+  public Collection<ResourceTransaction> byUserIdAndContestIdAndTypeAndCurrencyAndDateTimeBetween(
+    UUID userId, UUID contestId, TransactionType type, Currency currency, Instant from, Instant to) {
+    return contestDependentJpaRepository
+      .findContestDependentsByUserIdAndContestIdAndTypeAndCurrencyAndDateTimeBetween(userId, contestId, type,
+        currency, from, to)
+      .stream()
+      .map(ResourceTransactionMapper::map)
+      .toList();
+  }
+
+  @Override
+  public Collection<ResourceTransaction> byUserIdAndTypeAndCurrencyAndDateTimeBetween(
+    UUID userId, TransactionType type, Currency currency, Instant from, Instant to) {
     return abstractJpaRepository
       .findAllByUserIdAndTypeAndCurrencyAndDateTimeBetween(userId, type, currency, from, to)
       .stream()

@@ -137,8 +137,10 @@ public class ResourceBonusService {
     var midnight = Instant.now().truncatedTo(DAYS);
     var midnightPlusOneDay = midnight.plus(1, DAYS);
     var bonusTransactionSinceMidnight = Stream.concat(
-      repository.byUserIdAndTypeAndCurrencyAndDateTimeBetween(userId, BONUS, LIVES, midnight, midnightPlusOneDay).stream(),
-      repository.byUserIdAndTypeAndCurrencyAndDateTimeBetween(userId, BONUS, DIAMONDS, midnight, midnightPlusOneDay).stream()
+      repository.byUserIdAndContestIdAndTypeAndCurrencyAndDateTimeBetween(userId, contestId, BONUS, LIVES, midnight,
+        midnightPlusOneDay).stream(),
+      repository.byUserIdAndContestIdAndTypeAndCurrencyAndDateTimeBetween(userId, contestId, BONUS, DIAMONDS,
+        midnight, midnightPlusOneDay).stream()
     ).toList();
     var boost = boostService.boost(userId, contestId);
     if (bonusTransactionSinceMidnight.isEmpty()) {

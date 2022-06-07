@@ -11,11 +11,8 @@ import io.prizy.domain.resources.model.TransactionType;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ResourceTransactionJpaRepository extends JpaRepository<ResourceTransactionEntity, UUID> {
-  Collection<ResourceTransactionEntity> findAllByUserIdAndTypeAndCurrencyAndDateTimeBetween(UUID userId,
-                                                                                            TransactionType type,
-                                                                                            Currency currency,
-                                                                                            Instant from,
-                                                                                            Instant to);
+  Collection<ResourceTransactionEntity> findAllByUserIdAndTypeAndCurrencyAndDateTimeBetween(
+    UUID userId, TransactionType type, Currency currency, Instant from, Instant to);
 
   Optional<ResourceTransactionEntity> findTop1ByUserIdOrderByDateTimeDesc(UUID userId);
 }

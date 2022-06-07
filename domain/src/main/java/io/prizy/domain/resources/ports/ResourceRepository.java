@@ -25,7 +25,9 @@ public interface ResourceRepository {
 
   ResourceTransaction saveTransaction(ResourceTransaction transaction);
 
-  Collection<ResourceTransaction> byUserIdAndTypeAndCurrencyAndDateTimeBetween(UUID userId, TransactionType type,
-                                                                               Currency currency, Instant from,
-                                                                               Instant to);
+  Collection<ResourceTransaction> byUserIdAndContestIdAndTypeAndCurrencyAndDateTimeBetween(
+    UUID userId, UUID contestId, TransactionType type, Currency currency, Instant from, Instant to);
+
+  Collection<ResourceTransaction> byUserIdAndTypeAndCurrencyAndDateTimeBetween(
+    UUID userId, TransactionType type, Currency currency, Instant from, Instant to);
 }
