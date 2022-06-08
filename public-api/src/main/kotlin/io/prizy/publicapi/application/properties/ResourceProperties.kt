@@ -18,8 +18,7 @@ data class ResourceProperties(
   val dailyKeysBonus: Int,
   val livesBoostMultiplier: Int,
   val diamondsBoostMultiplier: Int,
-  val maxLivesBoost: Int,
-  val maxDiamondsBoost: Int
+  val maxBoostReferrals: Int
 ) {
 
   val toDomain: io.prizy.domain.resources.properties.ResourceProperties
@@ -31,7 +30,6 @@ data class ResourceProperties(
       dailyKeysBonus,
       livesBoostMultiplier,
       diamondsBoostMultiplier,
-      maxLivesBoost,
-      maxDiamondsBoost
+      maxBoostReferrals
     )
 }

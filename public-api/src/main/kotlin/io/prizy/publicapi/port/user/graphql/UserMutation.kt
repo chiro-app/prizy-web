@@ -1,10 +1,11 @@
 package io.prizy.publicapi.port.user.graphql
 
 import com.expediagroup.graphql.server.operations.Mutation
-import io.prizy.domain.user.service.AddressService
 import io.prizy.domain.user.service.DeviceService
-import io.prizy.domain.user.service.UserPreferencesService
-import io.prizy.domain.user.service.UserService
+import io.prizy.domain.user.usecase.CreateUserUseCase
+import io.prizy.domain.user.usecase.UpdateUserAddressUseCase
+import io.prizy.domain.user.usecase.UpdateUserPreferencesUseCase
+import io.prizy.domain.user.usecase.UpdateUserUseCase
 import io.prizy.graphql.context.GraphQLContext
 import io.prizy.graphql.directives.AuthorizedDirective
 import io.prizy.publicapi.port.user.graphql.dto.AddressDto
@@ -32,31 +33,32 @@ import org.springframework.stereotype.Component
 
 @Component
 class UserMutation(
-  private val userService: UserService,
   private val deviceService: DeviceService,
-  private val addressService: AddressService,
-  private val userPreferencesService: UserPreferencesService
+  private val updateUserUseCase: UpdateUserUseCase,
+  private val createUserUseCase: CreateUserUseCase,
+  private val updateUserAddressUseCase: UpdateUserAddressUseCase,
+  private val updateUserPreferencesUseCase: UpdateUserPreferencesUseCase
 ) : Mutation {
 
   suspend fun createUser(request: CreateUserDto): UserDto = withContext(Dispatchers.IO) {
-    userService
-      .createUser(CreateUserDtoMapper.map(request))
+    createUserUseCase
+      .create(CreateUserDtoMapper.map(request))
       .let(UserDtoMapper::map)
   }
 
   @AuthorizedDirective
   suspend fun updateUser(ctx: GraphQLContext.Authenticated, request: UpdateUserDto): UserDto =
     withContext(Dispatchers.IO) {
-      userService
-        .updateUser(UpdateUserDtoMapper.map(request, ctx.principal.id))
+      updateUserUseCase
+        .update(UpdateUserDtoMapper.map(request, ctx.principal.id))
         .let(UserDtoMapper::map)
     }
 
   @AuthorizedDirective
   suspend fun updateAddress(ctx: GraphQLContext.Authenticated, request: UpdateAddressDto): AddressDto =
     withContext(Dispatchers.IO) {
-      addressService
-        .updateUserAddress(UpdateAddressDtoMapper.map(ctx.principal.id, request))
+      updateUserAddressUseCase
+        .update(UpdateAddressDtoMapper.map(ctx.principal.id, request))
         .let(AddressDtoMapper::map)
     }
 
@@ -77,7 +79,7 @@ class UserMutation(
     request: UpdateUserPreferencesDto
   ): UserPreferencesDto =
     withContext(Dispatchers.IO) {
-      userPreferencesService
+      updateUserPreferencesUseCase
         .update(UpdateUserPreferencesDtoMapper.map(request, ctx.principal.id))
         .let(UserPreferencesDtoMapper::map)
     }

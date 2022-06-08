@@ -24,16 +24,20 @@ public class ResourceBoostService {
 
   private final ContestRepository contestRepository;
   private final ContestSubscriptionService subscriptionService;
-  private final ResourceProperties properties;
+  private final ResourceProperties resourceProperties;
 
   public ResourceBoost boost(UUID userId, UUID contestId) {
-    contestRepository.byId(contestId).orElseThrow(() -> new ContestNotFoundException(contestId));
-    var referralsCount = subscriptionService.subscribedReferrals(contestId, userId).size();
+    if (!contestRepository.exists(contestId)) {
+      throw new ContestNotFoundException(contestId);
+    }
+    var referralsCount = subscriptionService.subscribedReferralsCount(contestId, userId);
     return ResourceBoost.builder()
       .userId(userId)
       .contestId(contestId)
-      .lives(properties.livesBoostMultiplier() * Math.min(referralsCount, properties.maxLivesBoost()))
-      .diamonds((long) properties.diamondsBoostMultiplier() * Math.min(referralsCount, properties.maxDiamondsBoost()))
+      .lives(resourceProperties.livesBoostMultiplier() * Math.min(referralsCount,
+        resourceProperties.maxBoostReferrals()))
+      .diamonds((long) resourceProperties.diamondsBoostMultiplier() * Math.min(referralsCount,
+        resourceProperties.maxBoostReferrals()))
       .build();
   }
 

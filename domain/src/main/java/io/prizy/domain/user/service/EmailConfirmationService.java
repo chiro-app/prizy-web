@@ -8,7 +8,6 @@ import io.prizy.domain.notification.event.SendEmail;
 import io.prizy.domain.notification.model.EmailNotification;
 import io.prizy.domain.notification.publisher.NotificationPublisher;
 import io.prizy.domain.user.model.ConfirmationCode;
-import io.prizy.domain.user.model.UserStatus;
 import io.prizy.domain.user.port.ConfirmationCodeRepository;
 import io.prizy.domain.user.port.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +22,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 
 @Service
-@Transactional
 @RequiredArgsConstructor
 public class EmailConfirmationService {
 
@@ -37,6 +35,7 @@ public class EmailConfirmationService {
 
   private final NotificationPublisher notificationPublisher;
 
+  @Transactional
   public void sendConfirmationEmail(UUID userId) {
     var code = RandomStringUtils.random(CONFIRMATION_CODE_LENGTH, CONFIRMATION_CODE_ALPHABET);
     repository.save(ConfirmationCode.builder()
@@ -57,18 +56,6 @@ public class EmailConfirmationService {
         )
       )
     ));
-  }
-
-  public Boolean confirmEmail(String code) {
-    var maybeConfirmationCode = repository.byCode(code);
-    if (maybeConfirmationCode.isEmpty()) {
-      return false;
-    }
-    var confirmationCode = maybeConfirmationCode.get();
-    var user = userRepository.byId(confirmationCode.userId()).get();
-    userRepository.save(user.withStatus(UserStatus.CONFIRMED));
-    repository.deleteByCode(code);
-    return true;
   }
 
 }

@@ -25,19 +25,4 @@ public class AddressService {
     return repository.byId(id).get();
   }
 
-  public Address updateUserAddress(Address address) {
-    return repository.save(repository
-      .byUserId(address.userId())
-      .map(old -> old
-        .withStreet(address.street())
-        .withCity(address.city())
-        .withCountry(address.country())
-        .withPostalCode(address.postalCode())
-        .withExtraLine1(address.extraLine1())
-        .withExtraLine2(address.extraLine2())
-      )
-      .orElse(address)
-    );
-  }
-
 }

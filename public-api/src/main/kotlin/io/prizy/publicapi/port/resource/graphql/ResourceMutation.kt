@@ -1,8 +1,9 @@
 package io.prizy.publicapi.port.resource.graphql
 
 import com.expediagroup.graphql.server.operations.Mutation
-import io.prizy.domain.resources.service.ResourceBonusService
 import io.prizy.domain.resources.service.ResourceService
+import io.prizy.domain.resources.usecase.ClaimContestBonusUseCase
+import io.prizy.domain.resources.usecase.ClaimKeysBonusUseCase
 import io.prizy.graphql.context.GraphQLContext
 import io.prizy.graphql.directives.AuthorizedDirective
 import io.prizy.publicapi.port.resource.graphql.dto.ResourceBalanceDto
@@ -20,12 +21,13 @@ import java.util.UUID
 @Component
 class ResourceMutation(
   private val resourceService: ResourceService,
-  private val resourceBonusService: ResourceBonusService
+  private val claimContestBonusUseCase: ClaimContestBonusUseCase,
+  private val claimKeysBonusUseCase: ClaimKeysBonusUseCase
 ) : Mutation {
 
   @AuthorizedDirective
   suspend fun claimKeysBonus(ctx: GraphQLContext.Authenticated): Int = withContext(Dispatchers.IO) {
-    resourceBonusService.claimKeysDailyBonus(ctx.principal.id)
+    claimKeysBonusUseCase.claim(ctx.principal.id)
     resourceService
       .getAbsoluteBalance(ctx.principal.id)
       .keys
@@ -34,7 +36,7 @@ class ResourceMutation(
   @AuthorizedDirective
   suspend fun claimContestBonus(ctx: GraphQLContext.Authenticated, contestId: UUID): ResourceBalanceDto =
     withContext(Dispatchers.IO) {
-      resourceBonusService.claimContestDailyBonus(ctx.principal.id, contestId)
+      claimContestBonusUseCase.claim(ctx.principal.id, contestId)
       resourceService
         .getContestDependentBalance(ctx.principal.id, contestId)
         .let(ResourceBalanceDtoMapper::map)

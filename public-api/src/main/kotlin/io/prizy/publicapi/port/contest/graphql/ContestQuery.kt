@@ -2,7 +2,7 @@ package io.prizy.publicapi.port.contest.graphql
 
 import com.expediagroup.graphql.server.operations.Query
 import io.prizy.domain.contest.service.ContestService
-import io.prizy.domain.contest.service.ContestSubscriptionService
+import io.prizy.domain.contest.usecase.GetUserSubscribedReferralsUseCase
 import io.prizy.graphql.context.GraphQLContext
 import io.prizy.graphql.directives.AuthorizedDirective
 import io.prizy.publicapi.port.contest.graphql.dto.ContestDto
@@ -22,7 +22,7 @@ import java.util.UUID
 @Component
 class ContestQuery(
   private val contestService: ContestService,
-  private val contestSubscriptionService: ContestSubscriptionService
+  private val getUserSubscribedReferralsUseCase: GetUserSubscribedReferralsUseCase
 ) : Query {
 
   suspend fun contestById(id: UUID): ContestDto? = withContext(Dispatchers.IO) {
@@ -42,6 +42,8 @@ class ContestQuery(
     ctx: GraphQLContext.Authenticated,
     contestId: UUID
   ): List<ReferralNodeDto> = withContext(Dispatchers.IO) {
-    contestSubscriptionService.subscribedReferrals(contestId, ctx.principal.id).map(ReferralDtoMapper::map)
+    getUserSubscribedReferralsUseCase
+      .get(contestId, ctx.principal.id)
+      .map(ReferralDtoMapper::map)
   }
 }

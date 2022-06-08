@@ -2,7 +2,8 @@ package io.prizy.publicapi.port.referral.graphql
 
 import com.expediagroup.graphql.server.operations.Mutation
 import io.prizy.domain.auth.model.Roles
-import io.prizy.domain.referral.service.ReferralService
+import io.prizy.domain.referral.usecase.ConfirmReferralCodeUseCase
+import io.prizy.domain.referral.usecase.SubmitReferralCodeUseCase
 import io.prizy.graphql.context.GraphQLContext
 import io.prizy.graphql.directives.AuthorizedDirective
 import kotlinx.coroutines.Dispatchers
@@ -12,27 +13,28 @@ import java.util.UUID
 
 @Component
 class ReferralMutation(
-  private val referralService: ReferralService
+  private val submitReferralCodeUseCase: SubmitReferralCodeUseCase,
+  private val confirmReferralCodeUseCase: ConfirmReferralCodeUseCase
 ) : Mutation {
 
   @AuthorizedDirective
   suspend fun submitReferrer(ctx: GraphQLContext.Authenticated, code: String): Boolean = withContext(Dispatchers.IO) {
-    referralService.submitReferralCode(ctx.principal.id, code)
+    submitReferralCodeUseCase.submit(ctx.principal.id, code)
   }
 
   @AuthorizedDirective
   suspend fun confirmReferral(ctx: GraphQLContext.Authenticated, referralId: UUID): Boolean =
     withContext(Dispatchers.IO) {
-      referralService.confirmReferralCode(ctx.principal.id, referralId)
+      confirmReferralCodeUseCase.confirm(ctx.principal.id, referralId)
     }
 
   @AuthorizedDirective(roles = [Roles.ADMIN])
   suspend fun submitReferrerById(id: UUID, code: String): Boolean = withContext(Dispatchers.IO) {
-    referralService.submitReferralCode(id, code)
+    submitReferralCodeUseCase.submit(id, code)
   }
 
   @AuthorizedDirective(roles = [Roles.ADMIN])
   suspend fun confirmReferralById(id: UUID, referralId: UUID): Boolean = withContext(Dispatchers.IO) {
-    referralService.confirmReferralCode(id, referralId)
+    confirmReferralCodeUseCase.confirm(id, referralId)
   }
 }

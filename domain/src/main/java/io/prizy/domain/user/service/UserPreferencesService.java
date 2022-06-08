@@ -25,8 +25,4 @@ public class UserPreferencesService {
       .orElseGet(() -> repository.save(new UserPreferences(userId)));
   }
 
-  public UserPreferences update(UserPreferences preferences) {
-    return repository.save(preferences);
-  }
-
 }

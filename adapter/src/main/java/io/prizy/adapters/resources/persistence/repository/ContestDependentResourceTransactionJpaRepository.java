@@ -14,7 +14,7 @@ public interface ContestDependentResourceTransactionJpaRepository extends JpaRep
   Collection<ContestDependent> findContestDependentsByCurrencyAndContestIdAndUserId(
     Currency currency, UUID contestId, UUID userId);
 
-  Collection<ResourceTransactionEntity> findContestDependentsByUserIdAndContestIdAndTypeAndCurrencyAndDateTimeBetween(
-    UUID userId, UUID contestId, TransactionType type, Currency currency, Instant from, Instant to);
+  Collection<ResourceTransactionEntity> findContestDependentsByUserIdAndContestIdAndTypeAndDateTimeBetweenAndCurrencyIn(
+    UUID userId, UUID contestId, TransactionType type, Instant from, Instant to, Collection<Currency> currencies);
 
 }

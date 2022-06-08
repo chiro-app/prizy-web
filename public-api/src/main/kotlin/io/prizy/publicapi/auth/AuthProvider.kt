@@ -41,7 +41,7 @@ class AuthProvider(
     return buildJwtToken(user)
   }
 
-  suspend fun refreshCredentialS(refreshToken: String): JwtToken {
+  suspend fun refreshCredentials(refreshToken: String): JwtToken {
     val user = refreshTokenService
       .findUserId(refreshToken)
       .orElseThrow { InvalidCredentialsException() }
@@ -49,7 +49,7 @@ class AuthProvider(
     return buildJwtToken(user)
   }
 
-  suspend fun buildJwtToken(user: User): JwtToken {
+  private suspend fun buildJwtToken(user: User): JwtToken {
     val claims = mapOf(
       "roles" to user.roles,
       "email" to user.email,

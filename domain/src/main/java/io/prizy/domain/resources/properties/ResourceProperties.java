@@ -16,7 +16,6 @@ public record ResourceProperties(
   Integer dailyKeysBonus,
   Integer livesBoostMultiplier,
   Integer diamondsBoostMultiplier,
-  Integer maxLivesBoost,
-  Integer maxDiamondsBoost
+  Integer maxBoostReferrals
 ) {
 }

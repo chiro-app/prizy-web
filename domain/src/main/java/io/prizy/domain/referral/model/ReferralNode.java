@@ -3,6 +3,7 @@ package io.prizy.domain.referral.model;
 import java.util.Optional;
 import java.util.UUID;
 
+import lombok.Builder;
 import lombok.With;
 
 /**
@@ -11,6 +12,7 @@ import lombok.With;
  */
 
 @With
+@Builder
 public record ReferralNode(
   UUID userId,
   String code,

@@ -52,12 +52,6 @@ public class ResourceService {
     resourcePublisher.publish(new ResourceTransactionCreated(transaction));
   }
 
-  public void creditLives(UUID userId, UUID contestId, Integer lives) {
-    var transaction = repository
-      .alterByUserAndContest(userId, contestId, Currency.LIVES, Long.valueOf(lives), TransactionType.CREDIT);
-    resourcePublisher.publish(new ResourceTransactionCreated(transaction));
-  }
-
   public void debitDiamonds(UUID userId, UUID contestId, Long diamonds) {
     var transaction = repository
       .alterByUserAndContest(userId, contestId, Currency.DIAMONDS, diamonds, TransactionType.DEBIT);

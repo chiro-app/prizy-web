@@ -19,9 +19,8 @@ prizy:
     daily-lives-bonus: [ 20, 8, 8, 8, 8, 50 ]
     daily-keys-bonus: 3
     lives-boost-multiplier: 2
-    diamonds-boost-multiplier: 50
-    max-lives-boost: 4
-    max-diamonds-boost: 4
+    diamonds-boost-multiplier: 25
+    max-boost-referrals: 4
 
   game:
     max-random-obstacles: 6
