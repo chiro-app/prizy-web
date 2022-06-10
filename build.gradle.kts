@@ -43,9 +43,7 @@ subprojects {
       val bouncyCastleVersion: String by project
       val graphqlKotlinVersion: String by project
       val hibernateTypesVersion: String by project
-      val springBootAdminVersion: String by project
 
-      dependency("de.codecentric:spring-boot-admin-starter-client:$springBootAdminVersion")
       dependency("com.graphql-java:graphql-java-extended-validation:$graphqlJavaVersion")
       dependency("com.expediagroup:graphql-kotlin-spring-server:$graphqlKotlinVersion")
       dependency("com.github.spullara.mustache.java:compiler:$mustacheVersion")

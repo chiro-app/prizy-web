@@ -27,8 +27,6 @@ dependencies {
   implementation("org.springframework.boot:spring-boot-starter-security")
   implementation("org.springframework.boot:spring-boot-starter-mail")
 
-  implementation("de.codecentric:spring-boot-admin-starter-client")
-
   implementation("io.projectreactor:reactor-core")
   implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
 

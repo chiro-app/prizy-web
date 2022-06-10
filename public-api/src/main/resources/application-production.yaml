@@ -4,11 +4,6 @@ spring:
   mail:
     host: email-smtp.eu-west-3.amazonaws.com
     port: 587
-  boot.admin.client:
-    url: https://spring-boot-admin-rdhrb.ondigitalocean.app
-    instance:
-      name: public-api-production
-      service-url: https://api.prizy.io
 
 prizy:
   server:
