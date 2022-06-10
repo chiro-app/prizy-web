@@ -30,9 +30,9 @@ public class RewardEntity {
   @Id
   @GeneratedValue
   private UUID id;
-  @Column(name = "user_id")
-  private UUID packId;
   @Column(name = "pack_id")
+  private UUID packId;
+  @Column(name = "user_id")
   private UUID userId;
   private Instant created;
 
