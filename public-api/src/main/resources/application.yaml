@@ -6,11 +6,11 @@ management:
 
 prizy:
   app.version:
-    latest-app-version: 1.4.0+39
-    minimum-app-version: 1.4.0+39
-    legal-notice-url: https://prizy-dev.s3.eu-west-3.amazonaws.com/static-content/legal-notice.html
-    privacy-policy-url: https://prizy-dev.s3.eu-west-3.amazonaws.com/static-content/privacy-policy.html
-    usage-conditions-url: https://prizy-dev.s3.eu-west-3.amazonaws.com/static-content/usage-conditions.html
+    latest-app-version: 1.4.0
+    minimum-app-version: 1.4.0
+    legal-notice-url: https://prizy.fra1.digitaloceanspaces.com/legal-notice.html
+    privacy-policy-url: https://prizy.fra1.digitaloceanspaces.com/privacy-policy.html
+    usage-conditions-url: https://prizy.fra1.digitaloceanspaces.com/usage-conditions.html
 
   resources:
     referral-key-bonus: 6
