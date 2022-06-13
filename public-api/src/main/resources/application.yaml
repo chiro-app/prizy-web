@@ -6,8 +6,8 @@ management:
 
 prizy:
   app.version:
-    latest-app-version: 1.4.0
-    minimum-app-version: 1.4.0
+    latest-app-version: 1.4.1
+    minimum-app-version: 1.4.1
     legal-notice-url: https://prizy.fra1.digitaloceanspaces.com/legal-notice.html
     privacy-policy-url: https://prizy.fra1.digitaloceanspaces.com/privacy-policy.html
     usage-conditions-url: https://prizy.fra1.digitaloceanspaces.com/usage-conditions.html
