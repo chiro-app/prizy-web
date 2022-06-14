@@ -1,9 +1,6 @@
 package io.prizy.domain.contest.service;
 
-import java.time.Duration;
-import java.time.Instant;
 import java.util.Collection;
-import java.util.Optional;
 import java.util.UUID;
 
 import io.prizy.domain.contest.model.ContestSubscription;
@@ -45,11 +42,5 @@ public class ContestSubscriptionService {
 
   public Integer subscribedReferralsCount(UUID contestId, UUID userId) {
     return subscribedReferrals(contestId, userId).size();
-  }
-
-  public Optional<Integer> daysSinceContestSubscription(UUID userId, UUID contestId) {
-    return subscriptionRepository
-      .subscriptionOfUser(userId, contestId)
-      .map(subscription -> (int) Duration.between(subscription.dateTime(), Instant.now()).toDays());
   }
 }

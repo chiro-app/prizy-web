@@ -5,9 +5,10 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import io.prizy.domain.contest.service.ContestSubscriptionService;
+import io.prizy.domain.resources.event.ResourceTransactionCreated;
 import io.prizy.domain.resources.model.ResourceBalance;
 import io.prizy.domain.resources.model.TransactionType;
+import io.prizy.domain.resources.ports.ResourcePublisher;
 import io.prizy.domain.resources.ports.ResourceRepository;
 import io.prizy.domain.resources.properties.ResourceProperties;
 import lombok.RequiredArgsConstructor;
@@ -33,7 +34,7 @@ public class ResourceBonusService {
 
   private final ResourceRepository resourceRepository;
   private final ResourceBoostService boostService;
-  private final ContestSubscriptionService contestSubscriptionService;
+  private final ResourcePublisher resourcePublisher;
   private final ResourceProperties resourceProperties;
 
   public Boolean hasAvailableKeysBonus(UUID userId) {
@@ -65,24 +66,25 @@ public class ResourceBonusService {
       .toList();
     var boost = boostService.boost(userId, contestId);
     if (bonusTransactionSinceMidnight.isEmpty()) {
-      return contestSubscriptionService
-        .daysSinceContestSubscription(userId, contestId)
-        .map(daysSinceSubscription -> ResourceBalance.ContestDependent.builder()
-          .userId(userId)
-          .contestId(contestId)
-          .lives(resourceProperties
-            .dailyLivesBonus()
-            .get(Math.min(daysSinceSubscription, resourceProperties.dailyLivesBonus().size() - 1)) + boost.lives()
-          )
-          .diamonds(resourceProperties
-            .dailyDiamondsBonus()
-            .get(Math.min(daysSinceSubscription, resourceProperties.dailyDiamondsBonus().size() - 1))
-            .longValue() + boost.diamonds()
-          )
-          .build()
-        );
+      return Optional.of(ResourceBalance.ContestDependent.builder()
+        .userId(userId)
+        .contestId(contestId)
+        .lives(resourceProperties.dailyLivesBonus() + boost.lives())
+        .diamonds(resourceProperties.dailyDiamondsBonus().longValue() + boost.diamonds())
+        .build()
+      );
     }
     return Optional.empty();
+  }
+
+  public void creditContestBonus(UUID userId, UUID contestId, Integer lives, Integer diamonds) {
+    var boost = boostService.boost(userId, contestId);
+    var diamondsTransaction = resourceRepository
+      .alterByUserAndContest(userId, contestId, DIAMONDS, diamonds + boost.diamonds(), BONUS);
+    var livesTransaction = resourceRepository
+      .alterByUserAndContest(userId, contestId, LIVES, lives.longValue() + boost.lives(), BONUS);
+    resourcePublisher
+      .publish(new ResourceTransactionCreated(livesTransaction), new ResourceTransactionCreated(diamondsTransaction));
   }
 
   public void creditReferralBonus(UUID userId) {

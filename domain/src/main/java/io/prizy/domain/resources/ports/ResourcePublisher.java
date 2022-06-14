@@ -1,5 +1,7 @@
 package io.prizy.domain.resources.ports;
 
+import java.util.Arrays;
+
 import io.prizy.domain.resources.event.ResourceTransactionCreated;
 
 /**
@@ -9,4 +11,8 @@ import io.prizy.domain.resources.event.ResourceTransactionCreated;
 
 public interface ResourcePublisher {
   void publish(ResourceTransactionCreated event);
+
+  default void publish(ResourceTransactionCreated... events) {
+    Arrays.stream(events).forEach(this::publish);
+  }
 }

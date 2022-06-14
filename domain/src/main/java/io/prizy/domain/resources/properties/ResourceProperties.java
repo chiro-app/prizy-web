@@ -1,7 +1,5 @@
 package io.prizy.domain.resources.properties;
 
-import java.util.List;
-
 /**
  * @author Nidhal Dogga
  * @created 4/29/2022 9:34 PM
@@ -11,8 +9,10 @@ import java.util.List;
 public record ResourceProperties(
   Integer referrerKeysBonus,
   Integer referralKeysBonus,
-  List<Integer> dailyDiamondsBonus,
-  List<Integer> dailyLivesBonus,
+  Integer dailyDiamondsBonus,
+  Integer dailyLivesBonus,
+  Integer initialDiamondsBonus,
+  Integer initialLivesBonus,
   Integer dailyKeysBonus,
   Integer livesBoostMultiplier,
   Integer diamondsBoostMultiplier,
