@@ -30,6 +30,15 @@ services:
     image: namshi/smtp
     ports:
       - "25:25"
+  app:
+    image: public-api:1.0.4-SNAPSHOT
+    depends_on:
+      - db
+      - minio
+      - smtp
+    environment:
+      SPRING_PROFILES_ACTIVE: local
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/prizy-web
 
 volumes:
   db-data:

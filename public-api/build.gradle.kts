@@ -1,4 +1,4 @@
-import org.springframework.boot.gradle.tasks.bundling.BootBuildImage
+import org.springframework.boot.gradle.tasks.bundling.BootJar
 
 plugins {
   kotlin("jvm")
@@ -39,8 +39,6 @@ dependencies {
   implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
   implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core")
 
-  implementation("org.logback-extensions:logback-ext-loggly")
-
   runtimeOnly("org.postgresql:postgresql")
 
   runtimeOnly("org.bouncycastle:bcprov-jdk15on")
@@ -52,8 +50,6 @@ dependencies {
   testImplementation("org.springframework.security:spring-security-test")
 }
 
-tasks.withType<BootBuildImage> {
-  val registry: String? by project
-  val tag: String? by project
-  imageName = "${registry ?: "docker.io/library"}/${project.name}:${tag ?: project.version}"
+tasks.withType<BootJar> {
+  archiveFileName.set("public-api.jar")
 }
