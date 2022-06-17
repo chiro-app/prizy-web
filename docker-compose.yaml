@@ -30,12 +30,6 @@ services:
     image: namshi/smtp
     ports:
       - "25:25"
-  admin:
-    image: slydeveloper/spring-boot-admin
-    ports:
-      - "1111:1111"
-    environment:
-      SPRING_BOOT_ADMIN_SECURITY_ENABLED: "false"
 
 volumes:
   db-data:

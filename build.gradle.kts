@@ -43,7 +43,9 @@ subprojects {
       val bouncyCastleVersion: String by project
       val graphqlKotlinVersion: String by project
       val hibernateTypesVersion: String by project
+      val logbackLogglyExtensionVersion: String by project
 
+      dependency("org.logback-extensions:logback-ext-loggly:$logbackLogglyExtensionVersion")
       dependency("com.graphql-java:graphql-java-extended-validation:$graphqlJavaVersion")
       dependency("com.expediagroup:graphql-kotlin-spring-server:$graphqlKotlinVersion")
       dependency("com.github.spullara.mustache.java:compiler:$mustacheVersion")

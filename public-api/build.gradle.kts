@@ -39,6 +39,8 @@ dependencies {
   implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
   implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core")
 
+  implementation("org.logback-extensions:logback-ext-loggly")
+
   runtimeOnly("org.postgresql:postgresql")
 
   runtimeOnly("org.bouncycastle:bcprov-jdk15on")
