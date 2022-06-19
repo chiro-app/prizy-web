@@ -25,8 +25,6 @@ public class GameBoardRandomizer {
 
   private static final Random RANDOM = ThreadLocalRandom.current();
 
-  private final GameProperties properties;
-
   public Integer randomAvailablePosition(GameBoard board, Integer... excluded) {
     var availablePositions = IntStream
       .range(0, board.cells().length)
@@ -41,11 +39,7 @@ public class GameBoardRandomizer {
     return Pair.of(startPosition, endPosition);
   }
 
-  public Collection<Integer> randomObstacles(GameBoard board, Integer start, Integer end) {
-    var possibleObstacleCounts = IntStream
-      .range(properties.minRandomObstacles(), properties.maxRandomObstacles())
-      .toArray();
-    var obstacleCount = possibleObstacleCounts[RANDOM.nextInt(possibleObstacleCounts.length - 1)];
+  public Collection<Integer> randomObstacles(GameBoard board, Integer start, Integer end, Integer obstacleCount) {
     var obstacles = new ArrayList<Integer>();
     for (int i = 0; i < obstacleCount; i++) {
       var excluded = new ArrayList<>(obstacles) {{

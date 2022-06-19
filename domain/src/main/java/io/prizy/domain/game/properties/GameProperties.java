@@ -1,5 +1,7 @@
 package io.prizy.domain.game.properties;
 
+import java.util.Collection;
+
 /**
  * @author Nidhal Dogga
  * @created 5/7/2022 3:14 PM
@@ -7,7 +9,14 @@ package io.prizy.domain.game.properties;
 
 
 public record GameProperties(
-  Integer maxRandomObstacles,
-  Integer minRandomObstacles
+  Collection<ObstacleRange> obstacles
 ) {
+
+  public record ObstacleRange(
+    Long from,
+    Long to,
+    Integer obstacles
+  ) {
+  }
+
 }

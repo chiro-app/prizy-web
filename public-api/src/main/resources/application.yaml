@@ -25,8 +25,32 @@ prizy:
     max-boost-referrals: 4
 
   game:
-    max-random-obstacles: 6
-    min-random-obstacles: 3
+    obstacles:
+      - to: 500
+        obstacles: 2
+      - from: 500
+        to: 2500
+        obstacles: 3
+      - from: 2500
+        to: 12500
+        obstacles: 4
+      - from: 12500
+        to: 62500
+        obstacles: 5
+      - from: 62500
+        to: 312500
+        obstacles: 6
+      - from: 312500
+        to: 1562500
+        obstacles: 7
+      - from: 1562500
+        to: 7812500
+        obstacles: 8
+      - from: 7812500
+        to: 39062500
+        obstacles: 9
+      - from: 39062500
+        obstacles: 10
 
   game-description:
     id: "random-board"

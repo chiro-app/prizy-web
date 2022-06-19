@@ -6,6 +6,8 @@ import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 /**
  * @author Nidhal Dogga
  * @created 5/7/2022 3:19 PM
@@ -17,10 +19,13 @@ import org.springframework.stereotype.Service;
 public class GameSessionService {
 
   private final GameBoardRandomizer randomizer;
+  private final GameObstacleService obstacleService;
 
-  public GameSession generate(GameBoard board) {
+  public GameSession generate(GameBoard board, UUID userId, UUID contestId) {
     var startEndPosition = randomizer.randomStartEndPosition(board);
-    var obstacles = randomizer.randomObstacles(board, startEndPosition.getLeft(), startEndPosition.getRight());
+    var obstacleCount = obstacleService.obstacleCount(userId, contestId);
+    var obstacles = randomizer
+      .randomObstacles(board, startEndPosition.getLeft(), startEndPosition.getRight(), obstacleCount);
     return GameSession.builder()
       .score(0L)
       .board(board)

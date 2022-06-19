@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.Instant;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -50,6 +51,13 @@ public class RankingService {
         return table;
       }));
     return new RankingTable(contestId, rows);
+  }
+
+  public Optional<RankingRow> ofUser(UUID userId, UUID contestId) {
+    return repository
+      .byContestAndUser(contestId, userId)
+      .stream()
+      .max(Comparator.comparingLong(RankingRow::score));
   }
 
   public void applyTransaction(ResourceTransaction.ContestDependent transaction) {

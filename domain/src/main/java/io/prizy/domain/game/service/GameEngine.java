@@ -60,7 +60,7 @@ public class GameEngine {
     }
 
     var board = gameBoardRepository.byId(contest.boardId()).get();
-    var session = sessionService.generate(board);
+    var session = sessionService.generate(board, userId, contest.id());
 
     resourceService.debitLives(user.id(), contest.id(), 1);
     resourceService.debitDiamonds(user.id(), contest.id(), event.diamonds());
