@@ -53,14 +53,14 @@ public class RewardService {
     return repository.byContestId(contest.id());
   }
 
-  private Collection<Reward> affectRewards(Contest contest) {
+  Collection<Reward> affectRewards(Contest contest) {
     var rows = rankingRepository.byContestId(contest.id());
     return contest.packs()
       .stream()
       .flatMap(pack -> rows
         .stream()
         .skip(pack.firstWinnerPosition() - 1)
-        .limit(pack.lastWinnerPosition() - pack.firstWinnerPosition() + 1)
+        .limit(pack.lastWinnerPosition() - pack.firstWinnerPosition())
         .map(row -> Reward.builder()
           .userId(row.userId())
           .packId(pack.id())

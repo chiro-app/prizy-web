@@ -9,6 +9,7 @@ import io.prizy.domain.notification.publisher.NotificationPublisher;
 import io.prizy.domain.reward.event.RewardCreated;
 import io.prizy.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.event.TransactionalEventListener;
 
@@ -17,6 +18,7 @@ import org.springframework.transaction.event.TransactionalEventListener;
  * @created 04/05/2022 14:38
  */
 
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class RewardListener {
@@ -32,6 +34,7 @@ public class RewardListener {
   public void onRewardCreated(RewardCreated event) {
     var contest = contestService.byPackId(event.reward().packId()).get();
     var user = userService.byId(event.reward().userId()).get();
+    log.info("Affected reward {} to user {} on contests {}", event.reward(), user.id(), contest.id());
     notificationPublisher.publish(new SendEmail(new EmailNotification(
       event.reward().userId(),
       String.format(REWARD_EMAIL_SUBJECT, contest.merchant().name()),
