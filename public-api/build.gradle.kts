@@ -1,4 +1,5 @@
 import org.springframework.boot.gradle.tasks.bundling.BootJar
+import org.springframework.boot.gradle.tasks.bundling.BootBuildImage
 
 plugins {
   kotlin("jvm")
@@ -8,6 +9,7 @@ plugins {
   kotlin("plugin.spring")
   kotlin("plugin.allopen")
   id("org.springframework.boot")
+  id("org.springframework.experimental.aot")
 }
 
 dependencies {
@@ -52,4 +54,9 @@ dependencies {
 
 tasks.withType<BootJar> {
   archiveFileName.set("public-api.jar")
+}
+
+tasks.withType<BootBuildImage> {
+  builder = "paketobuildpacks/builder:tiny"
+  environment = mapOf("BP_NATIVE_IMAGE" to "true")
 }

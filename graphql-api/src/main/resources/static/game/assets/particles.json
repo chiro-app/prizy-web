@@ -1,0 +1,207 @@
+{
+  "frames": {
+    "trail_normal2": {
+      "frame": {
+        "x": 0,
+        "y": 0,
+        "w": 96,
+        "h": 94
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 96,
+        "h": 94
+      },
+      "sourceSize": {
+        "w": 96,
+        "h": 94
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "trail_invincible3": {
+      "frame": {
+        "x": 96,
+        "y": 0,
+        "w": 90,
+        "h": 90
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 90,
+        "h": 90
+      },
+      "sourceSize": {
+        "w": 90,
+        "h": 90
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "trail_bomb": {
+      "frame": {
+        "x": 186,
+        "y": 0,
+        "w": 81,
+        "h": 81
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 81,
+        "h": 81
+      },
+      "sourceSize": {
+        "w": 81,
+        "h": 81
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "trail_invincible4": {
+      "frame": {
+        "x": 267,
+        "y": 0,
+        "w": 81,
+        "h": 81
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 81,
+        "h": 81
+      },
+      "sourceSize": {
+        "w": 81,
+        "h": 81
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "trail_normal1": {
+      "frame": {
+        "x": 348,
+        "y": 0,
+        "w": 66,
+        "h": 66
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 66,
+        "h": 66
+      },
+      "sourceSize": {
+        "w": 66,
+        "h": 66
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "trail_normal3": {
+      "frame": {
+        "x": 414,
+        "y": 0,
+        "w": 66,
+        "h": 66
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 66,
+        "h": 66
+      },
+      "sourceSize": {
+        "w": 66,
+        "h": 66
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "trail_invincible1": {
+      "frame": {
+        "x": 480,
+        "y": 0,
+        "w": 56,
+        "h": 57
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 56,
+        "h": 57
+      },
+      "sourceSize": {
+        "w": 56,
+        "h": 57
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "trail_shield": {
+      "frame": {
+        "x": 536,
+        "y": 0,
+        "w": 56,
+        "h": 57
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 56,
+        "h": 57
+      },
+      "sourceSize": {
+        "w": 56,
+        "h": 57
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    }
+  },
+  "meta": {
+    "app": "http://free-tex-packer.com",
+    "version": "0.6.7",
+    "image": "particles.png",
+    "format": "RGBA8888",
+    "size": {
+      "w": 592,
+      "h": 94
+    },
+    "scale": 1
+  }
+}

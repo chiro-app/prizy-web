@@ -1,0 +1,68 @@
+graphql.packages:
+  - io.prizy.publicapi
+
+management:
+  endpoints.web.exposure.include: "*"
+
+prizy:
+  app.version:
+    latest-app-version: 1.4.1
+    minimum-app-version: 1.4.1
+    legal-notice-url: https://prizy.fra1.digitaloceanspaces.com/legal-notice.html
+    privacy-policy-url: https://prizy.fra1.digitaloceanspaces.com/privacy-policy.html
+    usage-conditions-url: https://prizy.fra1.digitaloceanspaces.com/usage-conditions.html
+
+  resources:
+    referral-key-bonus: 6
+    referrer-key-bonus: 6
+    daily-diamonds-bonus: 25
+    daily-lives-bonus: 8
+    initial-diamonds-bonus: 100
+    initial-lives-bonus: 20
+    daily-keys-bonus: 3
+    lives-boost-multiplier: 2
+    diamonds-boost-multiplier: 25
+    max-boost-referrals: 4
+
+  game:
+    obstacles:
+      - to: 500
+        obstacles: 2
+      - from: 500
+        to: 2500
+        obstacles: 3
+      - from: 2500
+        to: 12500
+        obstacles: 4
+      - from: 12500
+        to: 62500
+        obstacles: 5
+      - from: 62500
+        to: 312500
+        obstacles: 6
+      - from: 312500
+        to: 1562500
+        obstacles: 7
+      - from: 1562500
+        to: 7812500
+        obstacles: 8
+      - from: 7812500
+        to: 39062500
+        obstacles: 9
+      - from: 39062500
+        obstacles: 10
+
+  game-description:
+    id: "random-board"
+    title: "Chiro sous les bombes"
+    description: "Atteignez le point d'arrivée en évitant les pièges. Chaque tuile sur laquelle vous marchez augmente votre multplicateur de 1. Une fois le point d'arrivée atteint votre mise de départ est multipliée par votre multiplicateur final.\nSi vous tombez sur un piège, vous perdez votre mise."
+    usage-instructions: "Touchez les tuiles adjacentes pour vous y déplacer. Vous ne pouvez pas vous déplacer sur une tuile déjà visitée."
+    icon-asset-id: "random-board-icon"
+    cover-asset-id: "random-board-cover"
+
+spring:
+  mail.properties:
+    sender: L'équipe Chiro <info@prizy.io>
+  graphql:
+    graphiql:
+      enabled: true

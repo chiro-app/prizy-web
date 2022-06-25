@@ -1,0 +1,422 @@
+schema {
+  query: Query
+  mutation: Mutation
+}
+
+directive @authorized(resource: String!, roles: [String!]!, scope: String!) on FIELD_DEFINITION
+
+interface Pack {
+  firstWinnerPosition: Int!
+  id: UUID!
+  lastWinnerPosition: Int!
+  name: String!
+}
+
+type Address {
+  city: String!
+  country: String!
+  extraLine1: String
+  extraLine2: String
+  postalCode: String!
+  street: String!
+}
+
+type AppConfiguration {
+  latestAppVersion: String!
+  legalNoticeUrl: String!
+  minimumAppVersion: String!
+  privacyPolicyUrl: String!
+  usageConditionsUrl: String!
+}
+
+type Asset {
+  downloadUrl: String!
+  id: String!
+  originalName: String!
+  size: Long!
+  type: String!
+}
+
+type AuthToken {
+  expiresAt: DateTime!
+  refreshToken: String!
+  token: String!
+  type: String!
+}
+
+type Balance {
+  diamonds: Long!
+  lives: Int!
+}
+
+type Contest {
+  accessCode: String! @authorized(resource : "", roles : ["ADMIN"], scope : "")
+  adultOnly: Boolean!
+  assets: [Asset!]!
+  board: GameBoard!
+  boardId: UUID!
+  category: ContestCategory!
+  cost: Int!
+  cover: Asset!
+  description: String!
+  facebookPage: String
+  fromDate: DateTime!
+  gameDescription: GameDescription!
+  id: UUID!
+  instagramPage: String
+  merchant: Merchant!
+  name: String!
+  newsletterSubscription: Boolean!
+  packs: [Pack!]!
+  rankingTable: RankingTable!
+  rulesHTML: String!
+  toDate: DateTime!
+  website: String
+}
+
+type ContestSubscription {
+  contest: Contest!
+  dateTime: DateTime!
+  id: UUID!
+}
+
+type Coupon implements Pack {
+  code: String!
+  expiration: DateTime!
+  firstWinnerPosition: Int!
+  id: UUID!
+  lastWinnerPosition: Int!
+  name: String!
+}
+
+type EmailSettings {
+  newsletter: Boolean!
+  tips: Boolean!
+}
+
+type GameBoard {
+  cells: [Int!]!
+  id: UUID!
+  name: String!
+  rowSize: Int!
+}
+
+type GameDescription {
+  cover: Asset!
+  description: String!
+  icon: Asset!
+  id: String!
+  title: String!
+  url: String!
+  usageInstructions: String!
+}
+
+type Merchant {
+  address: String!
+  capital: Float!
+  logo: Asset!
+  name: String!
+  siren: String!
+}
+
+type Mutation {
+  claimContestBonus(contestId: UUID!): Balance! @authorized(resource : "", roles : [], scope : "")
+  claimKeysBonus: Int! @authorized(resource : "", roles : [], scope : "")
+  confirmEmail(code: String!): Boolean!
+  confirmReferral(referralId: UUID!): Boolean! @authorized(resource : "", roles : [], scope : "")
+  confirmReferralById(id: UUID!, referralId: UUID!): Boolean! @authorized(resource : "", roles : ["ADMIN"], scope : "")
+  createContest(request: CreateContestInput!): Contest! @authorized(resource : "", roles : ["ADMIN"], scope : "")
+  createContestSubscription(contestId: UUID!): ContestSubscription! @authorized(resource : "", roles : [], scope : "")
+  createGameBoard(gameBoard: CreateGameBoardInput!): GameBoard! @authorized(resource : "", roles : ["ADMIN"], scope : "")
+  createUser(request: CreateUserInput!): User!
+  editPassword(request: EditPasswordInput!): Boolean! @authorized(resource : "", roles : [], scope : "")
+  exchangeResetCodeForToken(code: String!): String!
+  forgotPassword(loginId: String!): Boolean!
+  login(request: LoginInput!): AuthToken!
+  refreshCredentials(refreshToken: String!): AuthToken!
+  registerDevice(deviceId: String!): Boolean! @authorized(resource : "", roles : [], scope : "")
+  resetPassword(newPassword: String!, token: String!): Boolean!
+  submitReferrer(code: String!): Boolean! @authorized(resource : "", roles : [], scope : "")
+  submitReferrerById(code: String!, id: UUID!): Boolean! @authorized(resource : "", roles : ["ADMIN"], scope : "")
+  unregisterDevice(deviceId: String!): Boolean!
+  updateAddress(request: UpdateAddressInput!): Address! @authorized(resource : "", roles : [], scope : "")
+  updateContest(request: UpdateContestInput!): Contest! @authorized(resource : "", roles : ["ADMIN"], scope : "")
+  updateGameBoard(gameBoard: UpdateGameBoardInput!): GameBoard! @authorized(resource : "", roles : ["ADMIN"], scope : "")
+  updatePreferences(request: UpdateUserPreferencesInput!): UserPreferences! @authorized(resource : "", roles : [], scope : "")
+  updateUser(request: UpdateUserInput!): User! @authorized(resource : "", roles : [], scope : "")
+}
+
+type NotificationSettings {
+  collectDiamonds: Boolean!
+  collectTickets: Boolean!
+  couponExpiration: Boolean!
+  leagueDowngrade: Boolean!
+  newContests: Boolean!
+  packWinning: Boolean!
+}
+
+type Product implements Pack {
+  asset: Asset!
+  firstWinnerPosition: Int!
+  id: UUID!
+  lastWinnerPosition: Int!
+  name: String!
+  quantity: Int!
+  value: Float!
+}
+
+type Query {
+  appConfiguration: AppConfiguration!
+  availableContestBonus(contestId: UUID!): Balance @authorized(resource : "", roles : [], scope : "")
+  boost(contestId: UUID!): Balance! @authorized(resource : "", roles : [], scope : "")
+  contestBalance(contestId: UUID!): Balance! @authorized(resource : "", roles : [], scope : "")
+  contestById(id: UUID!): Contest
+  contests: [Contest!]!
+  gameBoard(id: UUID!): GameBoard @authorized(resource : "", roles : ["ADMIN"], scope : "")
+  gameBoards: [GameBoard!]! @authorized(resource : "", roles : ["ADMIN"], scope : "")
+  getUserReferrals(userId: UUID!): [ReferralNode!]! @authorized(resource : "", roles : ["ADMIN"], scope : "")
+  hasAvailableContestBonus(contestId: UUID!): ResourceBonusStatus! @authorized(resource : "", roles : [], scope : "")
+  hasAvailableKeys: ResourceBonusStatus! @authorized(resource : "", roles : [], scope : "")
+  keys: Int! @authorized(resource : "", roles : [], scope : "")
+  listAllContests: [Contest!]!
+  me: User! @authorized(resource : "", roles : [], scope : "")
+  rankingTable(contestId: UUID!): RankingTable @authorized(resource : "", roles : [], scope : "")
+  rewards: [Reward!]! @authorized(resource : "", roles : [], scope : "")
+  rewardsByAccessCode(accessCode: String!): [Reward!]!
+  subscribedReferrals(contestId: UUID!): [ReferralNode!]! @authorized(resource : "", roles : [], scope : "")
+}
+
+type RankingRow {
+  dateTime: DateTime!
+  score: Long!
+  user: User!
+}
+
+type RankingTable {
+  rows: [RankingRow!]!
+}
+
+type ReferralNode {
+  avatar: Asset
+  confirmed: Boolean!
+  firstName: String!
+  id: UUID!
+  lastName: String!
+}
+
+type ResourceBonusStatus {
+  available: Boolean!
+  availableAt: DateTime
+}
+
+type Reward {
+  contest: Contest!
+  created: DateTime!
+  id: UUID!
+  pack: Pack!
+  user: User!
+}
+
+type User {
+  address: Address
+  avatar: Asset
+  birthDate: Date!
+  created: DateTime!
+  email: String!
+  firstName: String!
+  gender: Gender!
+  id: UUID!
+  lastName: String!
+  mobilePhone: String
+  preferences: UserPreferences!
+  referralCode: String!
+  referrals: [ReferralNode!]!
+  referrer: ReferralNode
+  rewards: [Reward!]!
+  status: UserStatus!
+  subscriptions: [Contest!]!
+  username: String!
+}
+
+type UserPreferences {
+  emails: EmailSettings!
+  notifications: NotificationSettings!
+}
+
+enum ContestCategory {
+  FASHION
+  FOOD_DRINKS
+  GAMES_TOYS
+  HIGH_TECH
+  HOME
+  PURSES_BAGS
+  SHOES
+  SPORT
+  TOILETRY
+}
+
+enum Gender {
+  FEMALE
+  MALE
+  OTHER
+}
+
+enum UserStatus {
+  CONFIRMED
+  PENDING
+}
+
+"Date"
+scalar Date
+
+"Timezoned date and time"
+scalar DateTime
+
+"Long integer"
+scalar Long
+
+"UUID"
+scalar UUID
+
+input CreateContestInput {
+  adultOnly: Boolean!
+  assetIds: [String!]!
+  boardId: UUID!
+  category: ContestCategory!
+  cost: Int!
+  coverAssetId: String!
+  description: String!
+  facebookPage: String
+  fromDate: DateTime!
+  instagramPage: String
+  merchant: CreateMerchantInput!
+  name: String!
+  newsletterSubscription: Boolean!
+  packs: [CreatePackInput!]!
+  toDate: DateTime!
+  website: String
+}
+
+input CreateCouponInput {
+  code: String!
+  expiration: DateTime!
+  firstWinnerPosition: Int!
+  lastWinnerPosition: Int!
+  name: String!
+}
+
+input CreateGameBoardInput {
+  cells: [Int!]!
+  name: String!
+  rowSize: Int!
+}
+
+input CreateMerchantInput {
+  address: String!
+  capital: Float!
+  logoAssetId: String!
+  name: String!
+  siren: String!
+}
+
+input CreatePackInput {
+  coupon: CreateCouponInput
+  product: CreateProductInput
+}
+
+input CreateProductInput {
+  assetId: String!
+  firstWinnerPosition: Int!
+  lastWinnerPosition: Int!
+  name: String!
+  quantity: Int!
+  value: Float!
+}
+
+input CreateUserInput {
+  birthDate: Date!
+  email: String!
+  firstName: String!
+  gender: Gender!
+  lastName: String!
+  mobilePhone: String
+  password: String!
+  username: String!
+}
+
+input EditPasswordInput {
+  newPassword: String!
+  oldPassword: String!
+}
+
+input EmailSettingsInput {
+  newsletter: Boolean!
+  tips: Boolean!
+}
+
+input LoginInput {
+  login: String!
+  password: String!
+}
+
+input NotificationSettingsInput {
+  collectDiamonds: Boolean!
+  collectTickets: Boolean!
+  couponExpiration: Boolean!
+  leagueDowngrade: Boolean!
+  newContests: Boolean!
+  packWinning: Boolean!
+}
+
+input UpdateAddressInput {
+  city: String!
+  country: String!
+  extraLine1: String
+  extraLine2: String
+  postalCode: String!
+  street: String!
+}
+
+input UpdateContestInput {
+  adultOnly: Boolean!
+  assetIds: [String!]!
+  boardId: UUID!
+  category: ContestCategory!
+  cost: Int!
+  coverAssetId: String!
+  description: String!
+  facebookPage: String
+  fromDate: DateTime!
+  id: UUID!
+  instagramPage: String
+  merchant: CreateMerchantInput!
+  name: String!
+  newsletterSubscription: Boolean!
+  packs: [CreatePackInput!]!
+  toDate: DateTime!
+  website: String
+}
+
+input UpdateGameBoardInput {
+  cells: [Int!]!
+  id: UUID!
+  name: String!
+  rowSize: Int!
+}
+
+input UpdateUserInput {
+  addressId: UUID
+  avatarAssetId: String
+  birthDate: Date!
+  email: String!
+  firstName: String!
+  gender: Gender!
+  lastName: String!
+  mobilePhone: String
+  username: String!
+}
+
+input UpdateUserPreferencesInput {
+  emails: EmailSettingsInput!
+  notifications: NotificationSettingsInput!
+}
