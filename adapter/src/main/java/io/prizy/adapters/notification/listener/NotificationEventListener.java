@@ -15,13 +15,13 @@ import org.springframework.transaction.event.TransactionalEventListener;
 
 
 @Slf4j
-@Async
 @Component
 @RequiredArgsConstructor
 public class NotificationEventListener {
 
   private final NotificationService notificationService;
 
+  @Async
   @TransactionalEventListener
   public void onSendEmail(SendEmail event) {
     log.info("Sending email with subject {} to {}", event.email().subject(), event.email().userId());

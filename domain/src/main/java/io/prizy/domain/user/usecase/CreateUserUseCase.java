@@ -32,7 +32,8 @@ public class CreateUserUseCase {
   public User create(CreateUser create) {
     var userExists = userRepository.existsByEmailPhoneOrUsername(
       create.email(),
-      create.mobilePhone().orElse(null), create.username()
+      create.username(),
+      create.mobilePhone().orElse(null)
     );
     if (userExists) {
       throw new UserExistsException();

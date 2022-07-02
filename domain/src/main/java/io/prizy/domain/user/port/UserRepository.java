@@ -24,7 +24,7 @@ public interface UserRepository {
 
   Boolean existsById(UUID id);
 
-  Boolean existsByEmailPhoneOrUsername(String email, @Nullable String username, String phone);
+  Boolean existsByEmailPhoneOrUsername(String email, String username, @Nullable String phone);
 
   Collection<User> list();
 }
