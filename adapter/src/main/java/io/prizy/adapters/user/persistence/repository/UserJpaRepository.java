@@ -13,7 +13,16 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 
 public interface UserJpaRepository extends JpaRepository<UserEntity, UUID> {
-  Boolean existsByEmailOrUsernameOrMobilePhone(String email, String username, String mobilePhone);
+  Boolean existsByEmailOrUsername(String email, String username);
+
+  Boolean existsByMobilePhone(String mobilePhone);
+
+  default Boolean existsByEmailOrUsernameOrMobilePhone(String email, String username, String mobilePhone) {
+    return existsByEmailOrUsername(email, username)
+      || Optional.ofNullable(mobilePhone)
+      .map(this::existsByMobilePhone)
+      .orElse(false);
+  }
 
   Optional<UserEntity> findByEmailOrUsername(String email, String username);
 
