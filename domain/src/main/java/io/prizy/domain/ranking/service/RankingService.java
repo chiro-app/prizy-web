@@ -70,7 +70,7 @@ public class RankingService {
       repository.byContestAndUser(contestId, userId).stream().max(Comparator.comparing(RankingRow::score)).orElseGet(() -> RankingRow.builder().score(0L).userId(userId).contestId(contestId).dateTime(Instant.now()).build());
 
     var newScore = transaction.type().apply(row.score(), amount);
-    log.info("User's {} score for contest {} is now {}, was {}", userId, contestId, newScore, row.score());
+    log.debug("User's {} score for contest {} is now {}, was {}", userId, contestId, newScore, row.score());
     row = row.withScore(newScore);
 
     repository.save(row);
