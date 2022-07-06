@@ -1,17 +1,16 @@
 package io.prizy.domain.game.service;
 
-import io.prizy.domain.game.model.GameBoard;
-import io.prizy.domain.game.properties.GameProperties;
-import lombok.RequiredArgsConstructor;
-import org.apache.commons.lang3.tuple.Pair;
-import org.springframework.stereotype.Component;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.IntStream;
+
+import io.prizy.domain.game.model.GameBoard;
+import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.tuple.Pair;
+import org.springframework.stereotype.Component;
 
 /**
  * @author Nidhal Dogga

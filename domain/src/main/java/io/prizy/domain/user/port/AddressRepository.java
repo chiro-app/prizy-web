@@ -1,9 +1,9 @@
 package io.prizy.domain.user.port;
 
-import io.prizy.domain.user.model.Address;
-
 import java.util.Optional;
 import java.util.UUID;
+
+import io.prizy.domain.user.model.Address;
 
 /**
  * @author Nidhal Dogga

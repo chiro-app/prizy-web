@@ -4,7 +4,6 @@ import io.prizy.domain.notification.event.SendEmail;
 import io.prizy.domain.notification.service.NotificationService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.event.TransactionalEventListener;
 
@@ -21,7 +20,6 @@ public class NotificationEventListener {
 
   private final NotificationService notificationService;
 
-  @Async
   @TransactionalEventListener
   public void onSendEmail(SendEmail event) {
     log.info("Sending email with subject {} to {}", event.email().subject(), event.email().userId());

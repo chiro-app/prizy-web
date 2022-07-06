@@ -1,12 +1,12 @@
 package io.prizy.domain.game.service;
 
+import java.util.UUID;
+
 import io.prizy.domain.game.properties.GameProperties;
 import io.prizy.domain.ranking.model.RankingRow;
 import io.prizy.domain.ranking.service.RankingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import java.util.UUID;
 
 /**
  * @author Nidhal Dogga

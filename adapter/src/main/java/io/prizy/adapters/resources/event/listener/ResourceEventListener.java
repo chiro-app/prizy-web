@@ -6,11 +6,9 @@ import io.prizy.domain.referral.event.ReferralCreated;
 import io.prizy.domain.resources.service.ResourceBonusService;
 import io.prizy.domain.resources.service.ResourceService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.event.TransactionalEventListener;
 
-@Async
 @Component
 @RequiredArgsConstructor
 public class ResourceEventListener {

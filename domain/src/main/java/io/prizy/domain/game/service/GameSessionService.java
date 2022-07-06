@@ -1,12 +1,12 @@
 package io.prizy.domain.game.service;
 
+import java.util.UUID;
+
 import io.prizy.domain.game.model.GameBoard;
 import io.prizy.domain.game.model.GameSession;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.stereotype.Service;
-
-import java.util.UUID;
 
 /**
  * @author Nidhal Dogga

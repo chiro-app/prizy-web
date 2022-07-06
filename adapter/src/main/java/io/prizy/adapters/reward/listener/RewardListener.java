@@ -10,7 +10,6 @@ import io.prizy.domain.reward.event.RewardCreated;
 import io.prizy.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.event.TransactionalEventListener;
 
@@ -31,7 +30,6 @@ public class RewardListener {
   private final ContestService contestService;
   private final UserService userService;
 
-  @Async
   @TransactionalEventListener
   public void onRewardCreated(RewardCreated event) {
     var contest = contestService.byPackId(event.reward().packId()).get();
