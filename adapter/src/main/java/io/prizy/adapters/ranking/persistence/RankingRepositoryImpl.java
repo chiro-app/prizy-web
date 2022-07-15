@@ -35,7 +35,7 @@ public class RankingRepositoryImpl implements RankingRepository {
       .findAllByContestId(contestId)
       .stream()
       .map(RankingRowMapper::map)
-      .sorted(Comparator.comparingLong(RankingRow::score))
+      .sorted(Comparator.comparingLong(RankingRow::score).reversed())
       .toList();
   }
 
