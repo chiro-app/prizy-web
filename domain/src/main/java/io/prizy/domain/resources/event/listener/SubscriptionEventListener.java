@@ -5,8 +5,8 @@ import io.prizy.domain.resources.properties.ResourceProperties;
 import io.prizy.domain.resources.service.ResourceBonusService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.event.TransactionalEventListener;
 
 /**
  * @author Nidhal Dogga
@@ -22,7 +22,7 @@ public class SubscriptionEventListener {
   private final ResourceBonusService bonusService;
   private final ResourceProperties resourceProperties;
 
-  @TransactionalEventListener
+  @EventListener
   public void onSubscriptionCreated(ContestSubscriptionCreated event) {
     var subscription = event.subscription();
     log.info("Attributing subscription bonus {}", subscription);

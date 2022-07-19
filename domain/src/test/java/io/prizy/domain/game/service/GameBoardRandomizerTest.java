@@ -30,7 +30,6 @@ class GameBoardRandomizerTest {
   void shouldRespectMinimumDistance() {
     var point = randomizer.randomAvailablePosition(board, 2, new Integer[]{0});
     assertThat(point).isIn(3, 7, 11, 12, 13, 14, 15);
-    point = randomizer.randomAvailablePosition(board, 2, new Integer[]{0});
   }
 
 }
