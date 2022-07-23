@@ -3,6 +3,7 @@ package io.prizy.publicapi.port.user.graphql
 import com.expediagroup.graphql.server.operations.Mutation
 import io.prizy.domain.user.service.DeviceService
 import io.prizy.domain.user.usecase.CreateUserUseCase
+import io.prizy.domain.user.usecase.DeleteUserUseCase
 import io.prizy.domain.user.usecase.UpdateUserAddressUseCase
 import io.prizy.domain.user.usecase.UpdateUserPreferencesUseCase
 import io.prizy.domain.user.usecase.UpdateUserUseCase
@@ -36,8 +37,9 @@ class UserMutation(
   private val deviceService: DeviceService,
   private val updateUserUseCase: UpdateUserUseCase,
   private val createUserUseCase: CreateUserUseCase,
+  private val deleteUserUseCase: DeleteUserUseCase,
   private val updateUserAddressUseCase: UpdateUserAddressUseCase,
-  private val updateUserPreferencesUseCase: UpdateUserPreferencesUseCase
+  private val updateUserPreferencesUseCase: UpdateUserPreferencesUseCase,
 ) : Mutation {
 
   suspend fun createUser(request: CreateUserDto): UserDto = withContext(Dispatchers.IO) {
@@ -83,4 +85,9 @@ class UserMutation(
         .update(UpdateUserPreferencesDtoMapper.map(request, ctx.principal.id))
         .let(UserPreferencesDtoMapper::map)
     }
+
+  @AuthorizedDirective
+  suspend fun deleteUser(ctx: GraphQLContext.Authenticated): Boolean = withContext(Dispatchers.IO) {
+    deleteUserUseCase.delete(ctx.principal.id)
+  }
 }

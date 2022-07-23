@@ -65,4 +65,9 @@ public class UserRepositoryImpl implements UserRepository {
     return jpaRepository.findAll().stream().map(UserMapper::map).toList();
   }
 
+  @Override
+  public void deleteById(UUID id) {
+    jpaRepository.deleteById(id);
+  }
+
 }

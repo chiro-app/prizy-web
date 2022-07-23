@@ -27,4 +27,6 @@ public interface UserRepository {
   Boolean existsByEmailPhoneOrUsername(String email, String username, @Nullable String phone);
 
   Collection<User> list();
+
+  void deleteById(UUID id);
 }
