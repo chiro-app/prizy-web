@@ -14,6 +14,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -85,7 +86,8 @@ public class UserEntity {
   private Instant created = Instant.now();
   @Column(name = "address_id", insertable = false, updatable = false)
   private UUID addressId;
-  @OneToOne(mappedBy = "user", fetch = FetchType.LAZY, cascade = {CascadeType.ALL}, orphanRemoval = true)
+  @OneToOne(fetch = FetchType.LAZY, cascade = {CascadeType.ALL}, orphanRemoval = true)
+  @JoinColumn(name = "address_id")
   private AddressEntity address;
 
 }

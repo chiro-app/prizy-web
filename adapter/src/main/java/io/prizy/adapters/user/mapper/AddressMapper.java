@@ -17,7 +17,6 @@ public class AddressMapper {
 
   public Address map(AddressEntity entity) {
     return Address.builder()
-      .userId(entity.getUserId())
       .street(entity.getStreet())
       .city(entity.getCity())
       .country(entity.getCountry())
@@ -29,7 +28,6 @@ public class AddressMapper {
 
   public AddressEntity map(Address address) {
     return AddressEntity.builder()
-      .userId(address.userId())
       .street(address.street())
       .city(address.city())
       .country(address.country())

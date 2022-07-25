@@ -33,8 +33,9 @@ public class AddressRepositoryImpl implements AddressRepository {
 
   @Override
   public Optional<Address> byUserId(UUID userId) {
-    return jpaRepository
-      .findByUserId(userId)
+    return userJpaRepository
+      .findById(userId)
+      .flatMap(user -> Optional.ofNullable(user.getAddress()))
       .map(AddressMapper::map);
   }
 
@@ -43,9 +44,7 @@ public class AddressRepositoryImpl implements AddressRepository {
     var entity = AddressMapper.map(address);
     var userEntity = userJpaRepository
       .findById(address.userId())
-      .map(user -> user
-        .withAddress(entity.withUser(user))
-      )
+      .map(user -> user.withAddress(entity))
       .get();
     userJpaRepository.save(userEntity);
     return AddressMapper.map(entity);

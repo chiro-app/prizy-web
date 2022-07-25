@@ -5,7 +5,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
@@ -32,8 +31,6 @@ public class AddressEntity {
   @Id
   @GeneratedValue
   private UUID id;
-  @Column(name = "user_id", updatable = false, insertable = false)
-  private UUID userId;
   @Column
   private String street;
   @Column
@@ -46,7 +43,5 @@ public class AddressEntity {
   private String extraLine1;
   @Column(name = "extra_line_2")
   private String extraLine2;
-  @OneToOne
-  private UserEntity user;
 
 }
