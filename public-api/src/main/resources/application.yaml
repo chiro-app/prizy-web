@@ -60,5 +60,8 @@ prizy:
     icon-asset-id: "random-board-icon"
     cover-asset-id: "random-board-cover"
 
+  push:
+    api-url: https://onesignal.com/api/v1/notifications
+
 spring.mail.properties:
   sender: L'équipe Chiro <info@prizy.io>

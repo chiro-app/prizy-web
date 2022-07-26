@@ -1,6 +1,7 @@
 package io.prizy.domain.notification.publisher;
 
 import io.prizy.domain.notification.event.SendEmail;
+import io.prizy.domain.notification.event.SendPushNotification;
 
 /**
  * @author Nidhal Dogga
@@ -9,5 +10,7 @@ import io.prizy.domain.notification.event.SendEmail;
 
 
 public interface NotificationPublisher {
-  void publish(SendEmail event);
+  void publishEmail(SendEmail event);
+
+  void publishPushNotification(SendPushNotification event);
 }

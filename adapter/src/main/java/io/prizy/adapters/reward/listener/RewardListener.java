@@ -35,7 +35,7 @@ public class RewardListener {
     var contest = contestService.byPackId(event.reward().packId()).get();
     var user = userService.byId(event.reward().userId()).get();
     log.info("Affected reward {} to user {} on contests {}", event.reward(), user.id(), contest.id());
-    notificationPublisher.publish(new SendEmail(new EmailNotification(
+    notificationPublisher.publishEmail(new SendEmail(new EmailNotification(
       event.reward().userId(),
       String.format(REWARD_EMAIL_SUBJECT, contest.merchant().name()),
       REWARD_EMAIL_TEMPLATE_NAME,

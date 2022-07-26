@@ -21,7 +21,7 @@ public class MustacheContestTemplateCompiler implements ContestTemplateCompiler 
   @Override
   public String rulesTemplate(Contest contest) {
     try {
-      return MustacheTemplateCompiler.compile("contest-rules.html", contest);
+      return MustacheTemplateCompiler.compileTemplate("contest-rules.html", contest);
     } catch (IOException e) {
       log.error("Error while compiling contest rules template", e);
       return null;

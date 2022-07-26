@@ -1,11 +1,12 @@
 package io.prizy.adapters.notification.listener;
 
 import io.prizy.domain.notification.event.SendEmail;
+import io.prizy.domain.notification.event.SendPushNotification;
 import io.prizy.domain.notification.service.NotificationService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.event.TransactionalEventListener;
 
 /**
  * @author Nidhal Dogga
@@ -20,10 +21,16 @@ public class NotificationEventListener {
 
   private final NotificationService notificationService;
 
-  @TransactionalEventListener
+  @EventListener
   public void onSendEmail(SendEmail event) {
     log.info("Sending email with subject {} to {}", event.email().subject(), event.email().userId());
     notificationService.send(event.email());
+  }
+
+  @EventListener
+  public void onSendPushNotification(SendPushNotification event) {
+    log.info("Sending push notification {}", event.push());
+    notificationService.send(event.push());
   }
 
 }

@@ -2,9 +2,10 @@ dependencies {
   implementation(project(":domain"))
   implementation(project(":toolbox"))
 
-  implementation("org.springframework.security:spring-security-crypto")
-  implementation("org.springframework.boot:spring-boot-starter-data-jpa")
   implementation("org.springframework.boot:spring-boot-starter-mail")
+  implementation("org.springframework.security:spring-security-crypto")
+  implementation("org.springframework.boot:spring-boot-starter-webflux")
+  implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 
   implementation("io.minio:minio")
   runtimeOnly("com.squareup.okhttp3:okhttp")

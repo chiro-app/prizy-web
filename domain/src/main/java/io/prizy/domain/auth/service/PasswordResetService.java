@@ -53,7 +53,7 @@ public class PasswordResetService {
     var user = maybeUser.get();
     var code = RandomStringUtils.random(RESET_CODE_LENGTH, RESET_CODE_ALPHABET);
     resetCodeRepository.save(new ResetCode(code, user.id(), Instant.now()));
-    notificationPublisher.publish(new SendEmail(
+    notificationPublisher.publishEmail(new SendEmail(
       new EmailNotification(
         user.id(),
         String.format(RESET_PASSWORD_SUBJECT, code),

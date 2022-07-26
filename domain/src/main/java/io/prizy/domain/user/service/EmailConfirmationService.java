@@ -45,7 +45,7 @@ public class EmailConfirmationService {
       .build()
     );
     var user = userRepository.byId(userId).get();
-    notificationPublisher.publish(new SendEmail(
+    notificationPublisher.publishEmail(new SendEmail(
       new EmailNotification(
         userId,
         String.format(CONFIRMATION_EMAIL_SUBJECT, code),

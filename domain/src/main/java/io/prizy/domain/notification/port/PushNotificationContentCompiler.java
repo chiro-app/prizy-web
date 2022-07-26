@@ -6,6 +6,6 @@ package io.prizy.domain.notification.port;
  */
 
 
-public interface EmailTemplateCompiler {
-  String compile(String template, Object data);
+public interface PushNotificationContentCompiler {
+  String compile(String content, Object data);
 }

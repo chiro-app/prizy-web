@@ -1,5 +1,6 @@
 package io.prizy.publicapi.application.properties
 
+import io.prizy.adapters.asset.MinioClientProperties
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.boot.context.properties.ConstructorBinding
 
@@ -17,4 +18,14 @@ data class StorageProperties(
   val secretKey: String,
   val serverUrl: String,
   val region: String?
-)
+) {
+
+  val toDomain: MinioClientProperties
+    get() = MinioClientProperties(
+      endpoint,
+      accessKey,
+      secretKey,
+      bucketName,
+      region
+    )
+}
