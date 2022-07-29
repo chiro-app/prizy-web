@@ -43,4 +43,8 @@ public class ContestSubscriptionService {
   public Integer subscribedReferralsCount(UUID contestId, UUID userId) {
     return subscribedReferrals(contestId, userId).size();
   }
+
+  public Collection<ContestSubscription> ofContest(UUID contestId) {
+    return subscriptionRepository.ofContest(contestId);
+  }
 }

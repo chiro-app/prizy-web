@@ -85,6 +85,15 @@ public class ContestRepositoryImpl implements ContestRepository {
   }
 
   @Override
+  public Collection<Contest> startedBeforeAndEndingAfter(Instant instant) {
+    return jpaRepository
+      .findAllByFromDateLessThanEqualAndToDateGreaterThanEqual(instant, instant)
+      .stream()
+      .map(ContestMapper::map)
+      .toList();
+  }
+
+  @Override
   public Collection<Contest> endedBefore(Instant instant) {
     return jpaRepository.findAllByToDateBefore(instant).stream().map(ContestMapper::map).toList();
   }

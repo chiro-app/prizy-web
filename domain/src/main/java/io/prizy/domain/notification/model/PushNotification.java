@@ -1,5 +1,6 @@
 package io.prizy.domain.notification.model;
 
+import java.util.Collection;
 import java.util.Map;
 import java.util.UUID;
 
@@ -32,6 +33,16 @@ public sealed interface PushNotification {
 
   @Builder
   record AllUsers(
+    String subject,
+    String content,
+    Map<String, Object> data
+  ) implements PushNotification {
+
+  }
+
+  @Builder
+  record MultipleUsers(
+    Collection<UUID> userIds,
     String subject,
     String content,
     Map<String, Object> data

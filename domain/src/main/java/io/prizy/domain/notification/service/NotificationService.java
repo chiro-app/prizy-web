@@ -35,9 +35,12 @@ public class NotificationService {
     var content = templateCompiler.compileRaw(push.content(), push.data());
     if (push instanceof PushNotification.SingleUser singleUser) {
       var user = userRepository.byId(singleUser.userId()).get();
-      pushNotificationSender.send(user, subject, content);
+      pushNotificationSender.send(user.id(), subject, content);
     } else if (push instanceof PushNotification.AllUsers) {
       pushNotificationSender.sendToAllUsers(subject, content);
+    } else if (push instanceof PushNotification.MultipleUsers multipleUsers) {
+      pushNotificationSender.sendToMultipleUsers(multipleUsers.userIds(), multipleUsers.subject(),
+        multipleUsers.content());
     }
   }
 

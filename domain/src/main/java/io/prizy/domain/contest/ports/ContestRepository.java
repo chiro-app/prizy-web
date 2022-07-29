@@ -31,6 +31,8 @@ public interface ContestRepository {
 
   Collection<Contest> endedBetween(Instant from, Instant to);
 
+  Collection<Contest> startedBeforeAndEndingAfter(Instant instant);
+
   Collection<Contest> endedBefore(Instant instant);
 
   Optional<Contest> byAccessCode(String accessCode);

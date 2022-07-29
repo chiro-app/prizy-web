@@ -15,7 +15,6 @@ import io.prizy.adapters.notification.push.model.OneSignalResponse;
 import io.prizy.adapters.notification.push.utils.OneSignalUtils;
 import io.prizy.domain.notification.port.PushNotificationSender;
 import io.prizy.domain.user.model.Device;
-import io.prizy.domain.user.model.User;
 import io.prizy.domain.user.port.DeviceRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -46,9 +45,9 @@ public class PushNotificationSenderImpl implements PushNotificationSender {
   private ObjectMapper objectMapper;
 
   @Override
-  public void send(User user, String subject, String content) {
+  public void send(UUID userId, String subject, String content) {
     var devices = deviceRepository
-      .byUserId(user.id())
+      .byUserId(userId)
       .stream()
       .map(Device::id)
       .map(UUID::fromString)
@@ -59,6 +58,17 @@ public class PushNotificationSenderImpl implements PushNotificationSender {
   @Override
   public void sendToAllUsers(String subject, String content) {
     sendPushNotification(subject, content, SUBSCRIBED_USERS_SEGMENT);
+  }
+
+  @Override
+  public void sendToMultipleUsers(Collection<UUID> userIds, String subject, String content) {
+    var devices = deviceRepository
+      .byUserIds(userIds)
+      .stream()
+      .map(Device::id)
+      .map(UUID::fromString)
+      .toList();
+    sendPushNotification(subject, content, devices);
   }
 
   @PostConstruct

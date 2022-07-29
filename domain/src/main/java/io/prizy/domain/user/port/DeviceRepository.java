@@ -14,6 +14,8 @@ import io.prizy.domain.user.model.Device;
 public interface DeviceRepository {
   Collection<Device> byUserId(UUID userId);
 
+  Collection<Device> byUserIds(Collection<UUID> userIds);
+
   Boolean save(Device device);
 
   Boolean delete(String deviceId);

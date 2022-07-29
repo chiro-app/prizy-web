@@ -1,5 +1,6 @@
 package io.prizy.domain.contest.service;
 
+import java.time.Instant;
 import java.util.Collection;
 import java.util.Optional;
 import java.util.UUID;
@@ -41,6 +42,10 @@ public class ContestService {
 
   public Collection<Contest> contests() {
     return contestRepository.list();
+  }
+
+  public Collection<Contest> activeContests() {
+    return contestRepository.startedBeforeAndEndingAfter(Instant.now());
   }
 
   public Collection<Contest> listAllContests() {

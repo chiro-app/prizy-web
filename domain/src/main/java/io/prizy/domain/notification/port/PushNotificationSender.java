@@ -1,6 +1,7 @@
 package io.prizy.domain.notification.port;
 
-import io.prizy.domain.user.model.User;
+import java.util.Collection;
+import java.util.UUID;
 
 /**
  * @author Nidhal Dogga
@@ -9,7 +10,9 @@ import io.prizy.domain.user.model.User;
 
 
 public interface PushNotificationSender {
-  void send(User user, String subject, String content);
+  void send(UUID userId, String subject, String content);
 
   void sendToAllUsers(String subject, String content);
+
+  void sendToMultipleUsers(Collection<UUID> userIds, String subject, String content);
 }

@@ -36,6 +36,15 @@ public class DeviceRepositoryImpl implements DeviceRepository {
   }
 
   @Override
+  public Collection<Device> byUserIds(Collection<UUID> userIds) {
+    return jpaRepository
+      .findAllByUserIdIn(userIds)
+      .stream()
+      .map(DeviceMapper::map)
+      .toList();
+  }
+
+  @Override
   public Boolean save(Device device) {
     try {
       jpaRepository.save(DeviceMapper.map(device));

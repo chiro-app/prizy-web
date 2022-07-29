@@ -17,6 +17,8 @@ import org.springframework.data.jpa.repository.Query;
 public interface ContestJpaRepository extends JpaRepository<ContestEntity, UUID> {
   Collection<ContestEntity> findAllByToDateBetween(Instant from, Instant to);
 
+  Collection<ContestEntity> findAllByFromDateLessThanEqualAndToDateGreaterThanEqual(Instant from, Instant to);
+
   Collection<ContestEntity> findAllByToDateBefore(Instant to);
 
   Optional<ContestEntity> findByAccessCode(String accessCode);
