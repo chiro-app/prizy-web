@@ -28,7 +28,7 @@ public class DailyResourceNotificationScheduler {
   private final ContestSubscriptionService subscriptionService;
   private final ContestService contestService;
 
-  @Scheduled(cron = "0 0 9 * * *") // Every day at 9 am
+  @Scheduled(cron = "0 0 9 * * *", zone = "CET") // Every day at 9 am
   public void notifyForDailyResourceBonus() {
     var subscribedUsersToActiveContests = contestService
       .activeContests()
