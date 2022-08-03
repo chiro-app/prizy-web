@@ -15,11 +15,11 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class SpringRewardPublisher implements RewardPublisher {
 
-    private final ApplicationEventPublisher aep;
+  private final ApplicationEventPublisher aep;
 
-    @Override
-    public void publish(RewardCreated event) {
-        aep.publishEvent(event);
-    }
+  @Override
+  public void publish(RewardCreated event) {
+    aep.publishEvent(event);
+  }
 
 }
