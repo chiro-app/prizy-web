@@ -5,6 +5,8 @@ import io.prizy.domain.game.model.GameBoard;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.RepeatedTest;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 /**
  * @author Nidhal Dogga
  * @created 18/07/2022 17:03
@@ -24,10 +26,23 @@ class GameBoardRandomizerTest {
     .build();
 
   @RepeatedTest(100)
-  @DisplayName("Should generate random points with minimum distance to excluded ones")
+  @DisplayName("Should generate random start end points with minimum distance of 1")
   void shouldRespectMinimumDistance() {
-//    var point = randomizer.randomAvailablePosition(board, 2, new Integer[]{0});
-//    assertThat(point).isIn(3, 7, 11, 12, 13, 14, 15);
+    var points = randomizer.randomStartEndPosition(board);
+
+    var start = points.getLeft();
+    var end = points.getRight();
+
+    var xs = start % board.rowSize();
+    var ys = Math.floorDiv(start, board.rowSize());
+
+    var xe = end % board.rowSize();
+    var ye = Math.floorDiv(end, board.rowSize());
+
+    var dx = Math.abs(xs - xe);
+    var dy = Math.abs(ys - ye);
+
+    assertThat(dx > 1 || dy > 1).isTrue();
   }
 
 }
