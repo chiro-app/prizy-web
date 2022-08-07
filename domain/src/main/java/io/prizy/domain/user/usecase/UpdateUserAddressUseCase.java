@@ -1,10 +1,15 @@
 package io.prizy.domain.user.usecase;
 
+import io.prizy.domain.user.mapper.UpdateAddressMapper;
 import io.prizy.domain.user.model.Address;
+import io.prizy.domain.user.model.UpdateAddress;
 import io.prizy.domain.user.port.AddressRepository;
+import io.prizy.domain.user.port.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
 
 /**
  * @author Nidhal Dogga
@@ -16,23 +21,24 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class UpdateUserAddressUseCase {
 
-
   private final AddressRepository addressRepository;
+  private final UserRepository userRepository;
 
   @Transactional
-  public Address update(Address address) {
-    return addressRepository.save(addressRepository
-      .byUserId(address.userId())
-      .map(old -> old
-        .withStreet(address.street())
-        .withCity(address.city())
-        .withCountry(address.country())
-        .withPostalCode(address.postalCode())
-        .withExtraLine1(address.extraLine1())
-        .withExtraLine2(address.extraLine2())
-      )
-      .orElse(address)
+  public Address update(UpdateAddress request) {
+    var user = userRepository.byId(request.userId()).get();
+    var address = addressRepository.save(
+      addressRepository
+        .byUserId(request.userId())
+        .map(old -> UpdateAddressMapper
+          .map(request)
+          .withId(old.id())
+        )
+        .orElseGet(() -> UpdateAddressMapper.map(request))
     );
+    user = user.withAddressId(Optional.of(address.id()));
+    user = userRepository.save(user);
+    return address;
   }
 
 }

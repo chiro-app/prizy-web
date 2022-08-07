@@ -72,3 +72,6 @@ prizy:
         EvbX4Nt2Ze4tv2o9DIbWVaUcjTvbpVVQKI9mImIeheAxsBRwZLBCtgjDYC9j0S5t
         6tGWVyiaPH1DXAJcd1MjdWm60x58Llwy1Xkkeg7Fd/ASMnIPchxg
         -----END RSA PRIVATE KEY-----
+
+logging.level.org.hibernate.SQL: DEBUG
+logging.level.org.hibernate.type.descriptor.sql.BasicBinder: TRACE

@@ -1,21 +1,20 @@
 package io.prizy.domain.user.model;
 
+import lombok.Builder;
+
 import java.util.Optional;
 import java.util.UUID;
 
-import lombok.Builder;
-import lombok.With;
-
 /**
  * @author Nidhal Dogga
- * @created 4/30/2022 3:00 PM
+ * @created 8/6/2022 10:46 PM
  */
 
 
-@With
 @Builder
-public record Address(
+public record UpdateAddress(
   UUID id,
+  UUID userId,
   String street,
   String country,
   String city,

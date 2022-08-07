@@ -1,13 +1,13 @@
 package io.prizy.publicapi.port.user.mapper
 
-import io.prizy.domain.user.model.Address
+import io.prizy.domain.user.model.UpdateAddress
 import io.prizy.publicapi.port.user.graphql.dto.UpdateAddressDto
 import java.util.Optional
 import java.util.UUID
 
 object UpdateAddressDtoMapper {
 
-  fun map(userId: UUID, address: UpdateAddressDto): Address = Address.builder()
+  fun map(userId: UUID, address: UpdateAddressDto): UpdateAddress = UpdateAddress.builder()
     .userId(userId)
     .street(address.street)
     .city(address.city)

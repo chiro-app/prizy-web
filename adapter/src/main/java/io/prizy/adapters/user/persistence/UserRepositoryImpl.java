@@ -19,7 +19,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 
 @Component
-@Transactional
 @RequiredArgsConstructor
 public class UserRepositoryImpl implements UserRepository {
 
