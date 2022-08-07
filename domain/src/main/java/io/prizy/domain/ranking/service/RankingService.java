@@ -61,7 +61,6 @@ public class RankingService {
   }
 
   public void applyTransaction(ResourceTransaction.ContestDependent transaction) {
-
     var amount = transaction.amount();
     var userId = transaction.userId();
     var contestId = transaction.contestId();

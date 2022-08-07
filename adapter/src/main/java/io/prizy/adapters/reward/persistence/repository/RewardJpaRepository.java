@@ -1,5 +1,6 @@
 package io.prizy.adapters.reward.persistence.repository;
 
+import java.time.Instant;
 import java.util.Collection;
 import java.util.Optional;
 import java.util.UUID;
@@ -18,7 +19,6 @@ public interface RewardJpaRepository extends JpaRepository<RewardEntity, UUID> {
 
   Collection<RewardEntity> findAllByUserId(UUID userId);
 
-
   @Query("""
       select reward from Reward reward
       join Pack pack on reward.packId = pack.id
@@ -26,4 +26,11 @@ public interface RewardJpaRepository extends JpaRepository<RewardEntity, UUID> {
       where contest.id = ?1
     """)
   Collection<RewardEntity> findAllByContestId(UUID contestId);
+
+  @Query("""
+      select reward from Reward reward
+      join Coupon coupon on reward.packId = coupon.id
+      where coupon.expiration <= ?1
+    """)
+  Collection<RewardEntity> findAllByPackExpiresBefore(Instant date);
 }

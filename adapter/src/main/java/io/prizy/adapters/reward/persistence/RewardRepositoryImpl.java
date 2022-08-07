@@ -1,5 +1,6 @@
 package io.prizy.adapters.reward.persistence;
 
+import java.time.Instant;
 import java.util.Collection;
 import java.util.Optional;
 import java.util.UUID;
@@ -44,6 +45,11 @@ public class RewardRepositoryImpl implements RewardRepository {
   @Override
   public Collection<Reward> byContestId(UUID contestId) {
     return jpaRepository.findAllByContestId(contestId).stream().map(RewardMapper::map).toList();
+  }
+
+  @Override
+  public Collection<Reward> couponRewardsExpiringBefore(Instant date) {
+    return jpaRepository.findAllByPackExpiresBefore(date).stream().map(RewardMapper::map).toList();
   }
 
 }

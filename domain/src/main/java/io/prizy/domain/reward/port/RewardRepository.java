@@ -1,5 +1,6 @@
 package io.prizy.domain.reward.port;
 
+import java.time.Instant;
 import java.util.Collection;
 import java.util.Optional;
 import java.util.UUID;
@@ -19,4 +20,6 @@ public interface RewardRepository {
   Collection<Reward> byUserId(UUID userId);
 
   Collection<Reward> byContestId(UUID contestId);
+
+  Collection<Reward> couponRewardsExpiringBefore(Instant date);
 }
