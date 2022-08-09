@@ -73,5 +73,6 @@ prizy:
         6tGWVyiaPH1DXAJcd1MjdWm60x58Llwy1Xkkeg7Fd/ASMnIPchxg
         -----END RSA PRIVATE KEY-----
 
-logging.level.org.hibernate.SQL: DEBUG
-logging.level.org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+logging.level.org.hibernate:
+  SQL: DEBUG
+  type.descriptor.sql.BasicBinder: TRACE

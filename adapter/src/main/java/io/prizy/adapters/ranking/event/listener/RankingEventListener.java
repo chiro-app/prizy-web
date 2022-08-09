@@ -1,11 +1,14 @@
 package io.prizy.adapters.ranking.event.listener;
 
+import io.prizy.domain.ranking.event.RankingChanged;
+import io.prizy.domain.ranking.notifier.RankingNotifier;
 import io.prizy.domain.ranking.service.RankingService;
 import io.prizy.domain.resources.event.ResourceTransactionCreated;
 import io.prizy.domain.resources.model.Currency;
 import io.prizy.domain.resources.model.ResourceTransaction;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.event.EventListener;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 /**
@@ -18,6 +21,7 @@ import org.springframework.stereotype.Component;
 public class RankingEventListener {
 
   private final RankingService rankingService;
+  private final RankingNotifier rankingNotifier;
 
   @EventListener
   public void onResourceTransactionCreate(ResourceTransactionCreated event) {
@@ -25,6 +29,12 @@ public class RankingEventListener {
       && event.transaction() instanceof ResourceTransaction.ContestDependent transaction) {
       rankingService.applyTransaction(transaction);
     }
+  }
+
+  @Async
+  @EventListener
+  public void onRankingChanged(RankingChanged event) {
+    rankingNotifier.notifyDerankingUsers(event.contestId(), event.newEntry(), event.oldEntry());
   }
 
 }

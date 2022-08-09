@@ -9,9 +9,11 @@ import java.util.stream.Collectors;
 
 import io.prizy.domain.contest.exception.ContestNotFoundException;
 import io.prizy.domain.contest.ports.ContestRepository;
+import io.prizy.domain.ranking.event.RankingChanged;
 import io.prizy.domain.ranking.model.RankingRow;
 import io.prizy.domain.ranking.model.RankingTable;
 import io.prizy.domain.ranking.port.RankingRepository;
+import io.prizy.domain.ranking.publisher.RankingPublisher;
 import io.prizy.domain.resources.model.ResourceTransaction;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -30,6 +32,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class RankingService {
 
+  private final RankingPublisher publisher;
   private final RankingRepository repository;
   private final ContestRepository contestRepository;
 
@@ -65,12 +68,30 @@ public class RankingService {
     var userId = transaction.userId();
     var contestId = transaction.contestId();
 
-    var row =
-      repository.byContestAndUser(contestId, userId).stream().max(Comparator.comparing(RankingRow::score)).orElseGet(() -> RankingRow.builder().score(0L).userId(userId).contestId(contestId).dateTime(Instant.now()).build());
+    var existingRow = repository
+      .byContestAndUser(contestId, userId)
+      .stream()
+      .max(Comparator.comparing(RankingRow::score));
+
+    var row = existingRow
+      .orElseGet(() -> RankingRow.builder()
+        .score(0L)
+        .userId(userId)
+        .contestId(contestId)
+        .dateTime(Instant.now())
+        .build()
+      );
 
     var newScore = transaction.type().apply(row.score(), amount);
     log.debug("User's {} score for contest {} is now {}, was {}", userId, contestId, newScore, row.score());
     row = row.withScore(newScore);
+
+    publisher.publish(RankingChanged.builder()
+      .oldEntry(existingRow)
+      .newEntry(row)
+      .contestId(contestId)
+      .build()
+    );
 
     repository.save(row);
   }
