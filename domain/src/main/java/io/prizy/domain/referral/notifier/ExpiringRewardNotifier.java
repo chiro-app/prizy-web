@@ -31,9 +31,10 @@ public class ExpiringRewardNotifier {
   private final NotificationPublisher notificationPublisher;
 
   public void notifyForExpiringRewards() {
-    var expirationDate = Instant.now().plus(5, ChronoUnit.DAYS);
+    var fromExpiration = Instant.now().plus(5, ChronoUnit.DAYS);
+    var toExpiration = Instant.now().plus(4, ChronoUnit.DAYS);
     var usersToNotify = rewardService
-      .couponRewardsExpiringBefore(expirationDate)
+      .couponRewardsExpiringBetween(fromExpiration, toExpiration)
       .stream()
       .map(Reward::userId)
       .toList();

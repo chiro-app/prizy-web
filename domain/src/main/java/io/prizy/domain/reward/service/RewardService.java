@@ -53,8 +53,8 @@ public class RewardService {
     return repository.byContestId(contest.id());
   }
 
-  public Collection<Reward> couponRewardsExpiringBefore(Instant date) {
-    return repository.couponRewardsExpiringBefore(date);
+  public Collection<Reward> couponRewardsExpiringBetween(Instant from, Instant to) {
+    return repository.couponRewardsExpiringBetween(from, to);
   }
 
   Collection<Reward> affectRewards(Contest contest) {

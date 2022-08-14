@@ -21,5 +21,5 @@ public interface RewardRepository {
 
   Collection<Reward> byContestId(UUID contestId);
 
-  Collection<Reward> couponRewardsExpiringBefore(Instant date);
+  Collection<Reward> couponRewardsExpiringBetween(Instant from, Instant to);
 }

@@ -48,8 +48,12 @@ public class RewardRepositoryImpl implements RewardRepository {
   }
 
   @Override
-  public Collection<Reward> couponRewardsExpiringBefore(Instant date) {
-    return jpaRepository.findAllByPackExpiresBefore(date).stream().map(RewardMapper::map).toList();
+  public Collection<Reward> couponRewardsExpiringBetween(Instant from, Instant to) {
+    return jpaRepository
+      .findAllByPackExpiresBetween(from, to)
+      .stream()
+      .map(RewardMapper::map)
+      .toList();
   }
 
 }

@@ -16,6 +16,7 @@ subprojects {
 
   apply {
     plugin("java")
+    plugin("jvm-test-suite")
     plugin("io.spring.dependency-management")
   }
 
@@ -62,6 +63,28 @@ subprojects {
     }
   }
 
+  testing {
+    suites {
+      val test by getting(JvmTestSuite::class) {
+        useJUnitJupiter()
+      }
+
+      val integrationTest by registering(JvmTestSuite::class) {
+        dependencies {
+          implementation(project)
+        }
+
+        targets {
+          all {
+            testTask.configure {
+              shouldRunAfter(test)
+            }
+          }
+        }
+      }
+    }
+  }
+
   configurations {
     compileOnly {
       extendsFrom(configurations.annotationProcessor.get())
@@ -73,10 +96,6 @@ subprojects {
       freeCompilerArgs = listOf("-Xjsr305=strict")
       jvmTarget = "17"
     }
-  }
-
-  tasks.withType<Test> {
-    useJUnitPlatform()
   }
 
 }

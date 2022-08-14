@@ -30,7 +30,7 @@ public interface RewardJpaRepository extends JpaRepository<RewardEntity, UUID> {
   @Query("""
       select reward from Reward reward
       join Coupon coupon on reward.packId = coupon.id
-      where coupon.expiration <= ?1
+      where coupon.expiration <= ?1 and coupon.expiration >= ?2
     """)
-  Collection<RewardEntity> findAllByPackExpiresBefore(Instant date);
+  Collection<RewardEntity> findAllByPackExpiresBetween(Instant from, Instant to);
 }
