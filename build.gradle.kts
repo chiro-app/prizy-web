@@ -8,6 +8,7 @@ plugins {
   id("ch.netzwerg.release")
 }
 
+group = "io.prizy"
 version = file("version.txt").readText().trim()
 
 subprojects {

@@ -1,0 +1,23 @@
+[
+  {
+    "name": "org.flywaydb.core.internal.logging.log4j2.Log4j2LogCreator",
+    "methods": [
+      {
+        "name": "<init>",
+        "parameterTypes": []
+      }
+    ]
+  },
+  {
+    "name": "org.flywaydb.core.api.MigrationVersion",
+    "allDeclaredMethods": true,
+    "allDeclaredFields": true,
+    "allDeclaredConstructors": true
+  },
+  {
+    "name": "org.flywaydb.core.api.MigrationInfo",
+    "allDeclaredMethods": true,
+    "allDeclaredFields": true,
+    "allDeclaredConstructors": true
+  }
+]
