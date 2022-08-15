@@ -38,9 +38,11 @@ subprojects {
       val okHttpVersion: String by project
       val mustacheVersion: String by project
       val commonsIOVersion: String by project
+      val assertJDBVersion: String by project
       val springBootVersion: String by project
       val graphqlJavaVersion: String by project
       val commonsLangVersion: String by project
+      val restAssuredVersion: String by project
       val bouncyCastleVersion: String by project
       val graphqlKotlinVersion: String by project
       val hibernateTypesVersion: String by project
@@ -52,7 +54,11 @@ subprojects {
       dependency("org.apache.commons:commons-lang3:$commonsLangVersion")
       dependency("org.bouncycastle:bcprov-jdk15on:$bouncyCastleVersion")
       dependency("org.bouncycastle:bcpkix-jdk15on:$bouncyCastleVersion")
+      dependency("io.rest-assured:rest-assured:$restAssuredVersion")
+      dependency("io.rest-assured:json-path:$restAssuredVersion")
+      dependency("io.rest-assured:xml-path:$restAssuredVersion")
       dependency("com.squareup.okhttp3:okhttp:$okHttpVersion")
+      dependency("org.assertj:assertj-db:$assertJDBVersion")
       dependency("commons-io:commons-io:$commonsIOVersion")
       dependency("io.minio:minio:$minioVersion")
 

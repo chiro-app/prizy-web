@@ -48,6 +48,24 @@ dependencies {
 
   testImplementation("org.springframework.boot:spring-boot-starter-test")
   testImplementation("org.springframework.security:spring-security-test")
+
+  integrationTestImplementation(project(":test-core"))
+
+  integrationTestCompileOnly("org.projectlombok:lombok")
+  integrationTestAnnotationProcessor("org.projectlombok:lombok")
+
+  integrationTestRuntimeOnly("com.h2database:h2")
+
+  integrationTestImplementation("org.assertj:assertj-db")
+  integrationTestImplementation("io.rest-assured:xml-path")
+  integrationTestImplementation("io.rest-assured:json-path")
+  integrationTestImplementation("io.rest-assured:rest-assured")
+
+  integrationTestImplementation("org.springframework.boot:spring-boot-starter-test")
+  integrationTestImplementation("org.springframework.security:spring-security-test")
+
+  integrationTestImplementation("com.fasterxml.jackson.core:jackson-core")
+  integrationTestImplementation("com.fasterxml.jackson.core:jackson-databind")
 }
 
 tasks.withType<BootJar> {

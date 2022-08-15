@@ -5,6 +5,8 @@ management:
   endpoints.web.exposure.include: "*"
 
 prizy:
+  bootstrap.enable-runners: true
+
   app.version:
     latest-app-version: 1.4.1
     minimum-app-version: 1.4.1
@@ -63,5 +65,7 @@ prizy:
   push:
     api-url: https://onesignal.com/api/v1/notifications
 
-spring.mail.properties:
-  sender: L'équipe Chiro <info@prizy.io>
+spring:
+  mail.properties:
+    sender: L'équipe Chiro <info@prizy.io>
+  flyway.locations: classpath:/db/migration/postgres

@@ -1,0 +1,11 @@
+{
+  "data": {
+    "appConfiguration": {
+      "minimumAppVersion": "1.4.1",
+      "latestAppVersion": "1.4.1",
+      "legalNoticeUrl": "https://prizy.fra1.digitaloceanspaces.com/legal-notice.html",
+      "privacyPolicyUrl": "https://prizy.fra1.digitaloceanspaces.com/privacy-policy.html",
+      "usageConditionsUrl": "https://prizy.fra1.digitaloceanspaces.com/usage-conditions.html"
+    }
+  }
+}

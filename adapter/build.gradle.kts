@@ -25,10 +25,4 @@ dependencies {
 
   testImplementation("org.springframework.boot:spring-boot-starter-test")
   testImplementation("org.springframework.security:spring-security-test")
-
-  integrationTestCompileOnly("org.projectlombok:lombok")
-  integrationTestAnnotationProcessor("org.projectlombok:lombok")
-
-  integrationTestImplementation("org.springframework.boot:spring-boot-starter-test")
-  integrationTestImplementation("org.springframework.security:spring-security-test")
 }

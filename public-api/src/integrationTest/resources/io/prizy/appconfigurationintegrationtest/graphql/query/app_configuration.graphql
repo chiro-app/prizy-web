@@ -1,0 +1,9 @@
+{
+  appConfiguration {
+    minimumAppVersion
+    latestAppVersion
+    legalNoticeUrl
+    privacyPolicyUrl
+    usageConditionsUrl
+  }
+}

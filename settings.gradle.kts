@@ -22,5 +22,6 @@ rootProject.name = "prizy-web"
 include("domain")
 include("toolbox")
 include("adapter")
+include("test-core")
 include("public-api")
 include("graphql-core")
