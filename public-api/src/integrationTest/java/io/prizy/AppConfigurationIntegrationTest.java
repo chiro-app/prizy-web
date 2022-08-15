@@ -1,6 +1,5 @@
 package io.prizy;
 
-import io.prizy.test.integration.IntegrationTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -16,9 +15,7 @@ public class AppConfigurationIntegrationTest extends IntegrationTest {
   @Test
   @DisplayName("Should return correct application configuration")
   void shouldReturnAppConfiguration() {
-    givenGraphQL()
-      .body(graphQLQuery("app_configuration"))
-      .post()
+    whenQuerying("app_configuration")
       .then()
       .assertThat()
       .body(jsonMatcher("json/app-configuration.json"));

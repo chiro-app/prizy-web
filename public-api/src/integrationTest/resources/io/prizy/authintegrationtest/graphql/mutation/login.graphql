@@ -1,0 +1,10 @@
+mutation {
+  login(request: {
+    login: "john.doe@email.com"
+    password: "HelloWorld"
+  }) {
+    token
+    refreshToken
+    type
+  }
+}

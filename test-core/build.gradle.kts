@@ -1,7 +1,7 @@
 dependencies {
   implementation(project(":toolbox"))
 
-  compileOnly(project(":public-api"))
+  implementation("org.springframework:spring-jdbc")
 
   compileOnly("org.projectlombok:lombok")
   annotationProcessor("org.projectlombok:lombok")

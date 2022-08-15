@@ -1,23 +1,17 @@
-package io.prizy.test.integration;
+package io.prizy.test.assertion;
 
 import java.io.IOException;
 import java.util.Map;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.prizy.test.extension.GraphQLExtension;
+import io.prizy.test.json.JSONMatcher;
 import io.restassured.http.ContentType;
+import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
-import lombok.RequiredArgsConstructor;
-import org.hamcrest.Description;
 import org.hamcrest.Matcher;
-import org.hamcrest.TypeSafeMatcher;
-import org.json.JSONException;
 import org.junit.jupiter.api.extension.RegisterExtension;
-import org.skyscreamer.jsonassert.JSONCompare;
 import org.skyscreamer.jsonassert.JSONCompareMode;
-import org.skyscreamer.jsonassert.JSONCompareResult;
-import org.skyscreamer.jsonassert.comparator.DefaultComparator;
-import org.skyscreamer.jsonassert.comparator.JSONComparator;
 import org.springframework.core.io.ClassPathResource;
 
 import static io.restassured.RestAssured.given;
@@ -38,7 +32,21 @@ public interface GraphQLAssertions {
   String GRAPHQL_PATH = "/graphql";
   ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
-  default RequestSpecification givenGraphQL() {
+  default Response whenMutating(String mutationName) {
+    return givenGraphQLRequest()
+      .body(graphQLMutation(mutationName))
+      .when()
+      .post();
+  }
+
+  default Response whenQuerying(String queryName) {
+    return givenGraphQLRequest()
+      .body(graphQLQuery(queryName))
+      .when()
+      .post();
+  }
+
+  default RequestSpecification givenGraphQLRequest() {
     return given()
       .basePath(GRAPHQL_PATH)
       .contentType(ContentType.JSON)
@@ -67,10 +75,14 @@ public interface GraphQLAssertions {
   }
 
   default Matcher<String> jsonMatcher(String fileName) {
+    return jsonMatcher(fileName, JSONCompareMode.LENIENT);
+  }
+
+  default Matcher<String> jsonMatcher(String fileName, JSONCompareMode mode) {
     try {
       var resource = new ClassPathResource(String.format("%s/%s", baseResourcePath(), fileName));
       var expectedJson = new String(resource.getInputStream().readAllBytes());
-      return new JsonMatcher(expectedJson);
+      return new JSONMatcher(expectedJson, mode);
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
@@ -80,35 +92,6 @@ public interface GraphQLAssertions {
     return String
       .format("%s.%s", getClass().getPackageName(), getClass().getSimpleName().toLowerCase())
       .replaceAll("\\.", "/");
-  }
-
-  @RequiredArgsConstructor
-  class JsonMatcher extends TypeSafeMatcher<String> {
-
-    private static final JSONComparator JSON_COMPARATOR = new DefaultComparator(JSONCompareMode.LENIENT);
-
-    private final String expectedJson;
-    private JSONCompareResult result;
-
-    @Override
-    public boolean matchesSafely(String item) {
-      try {
-        result = JSONCompare.compareJSON(expectedJson, item, JSON_COMPARATOR);
-        return result.passed();
-      } catch (JSONException e) {
-        throw new IllegalArgumentException(e);
-      }
-    }
-
-    @Override
-    public void describeTo(Description description) {
-      if (result != null) {
-        description.appendText(result.getMessage());
-      } else {
-        description.appendText("Valid JSON");
-      }
-    }
-
   }
 
 }

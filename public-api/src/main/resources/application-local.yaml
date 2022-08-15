@@ -25,8 +25,9 @@ prizy:
     server-url: http://localhost:8080
 
   push:
-    app-id: ""
-    api-key: ""
+    api-url: https://onesignal.com/api/v1/notifications
+    app-id: a4245a10-675a-4d6a-a340-87fee9e37998
+    api-key: YjM0NzJlOGYtMTE5Yy00OWI3LTg4OTktOWQzZmM4YjYzODM3
 
   security:
     jwt:
