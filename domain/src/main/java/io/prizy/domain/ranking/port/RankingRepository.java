@@ -1,6 +1,7 @@
 package io.prizy.domain.ranking.port;
 
 import java.util.Collection;
+import java.util.Optional;
 import java.util.UUID;
 
 import io.prizy.domain.ranking.model.RankingRow;
@@ -17,4 +18,6 @@ public interface RankingRepository {
   Collection<RankingRow> byContestId(UUID contestId);
 
   Collection<RankingRow> byContestAndUser(UUID contestId, UUID userId);
+
+  Optional<Integer> rankingOfUserInContest(UUID userId, UUID contestId);
 }

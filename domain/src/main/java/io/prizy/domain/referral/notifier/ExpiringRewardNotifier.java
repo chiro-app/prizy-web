@@ -2,6 +2,7 @@ package io.prizy.domain.referral.notifier;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
+import java.util.stream.Collectors;
 
 import io.prizy.domain.notification.event.SendPushNotification;
 import io.prizy.domain.notification.model.PushNotification;
@@ -37,7 +38,7 @@ public class ExpiringRewardNotifier {
       .couponRewardsExpiringBetween(fromExpiration, toExpiration)
       .stream()
       .map(Reward::userId)
-      .toList();
+      .collect(Collectors.toSet());
     var push = PushNotification.MultipleUsers.builder()
       .userIds(usersToNotify)
       .subject(PUSH_NOTIFICATION_SUBJECT)

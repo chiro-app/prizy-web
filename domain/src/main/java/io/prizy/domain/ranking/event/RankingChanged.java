@@ -1,10 +1,9 @@
 package io.prizy.domain.ranking.event;
 
-import io.prizy.domain.ranking.model.RankingRow;
-import lombok.Builder;
-
 import java.util.Optional;
 import java.util.UUID;
+
+import lombok.Builder;
 
 /**
  * @author Nidhal Dogga
@@ -15,7 +14,7 @@ import java.util.UUID;
 @Builder
 public record RankingChanged(
   UUID contestId,
-  RankingRow newEntry,
-  Optional<RankingRow> oldEntry
+  UUID userId,
+  Optional<Integer> previousRank
 ) {
 }

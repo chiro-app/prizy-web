@@ -1,7 +1,7 @@
 package io.prizy.domain.notification.model;
 
-import java.util.Collection;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 import lombok.Builder;
@@ -42,7 +42,7 @@ public sealed interface PushNotification {
 
   @Builder
   record MultipleUsers(
-    Collection<UUID> userIds,
+    Set<UUID> userIds,
     String subject,
     String content,
     Map<String, Object> data

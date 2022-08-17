@@ -13,6 +13,9 @@ dependencies {
   implementation("io.rest-assured:json-path")
   implementation("io.rest-assured:rest-assured")
 
+  implementation("org.mock-server:mockserver-netty")
+  implementation("org.mock-server:mockserver-client-java")
+
   implementation("org.springframework.boot:spring-boot-starter-test")
   implementation("org.springframework.security:spring-security-test")
 

@@ -46,21 +46,27 @@ subprojects {
       val bouncyCastleVersion: String by project
       val graphqlKotlinVersion: String by project
       val hibernateTypesVersion: String by project
+      val awaitilityVersion: String by project
+      val mockserverVersion: String by project
 
       dependency("com.graphql-java:graphql-java-extended-validation:$graphqlJavaVersion")
       dependency("com.expediagroup:graphql-kotlin-spring-server:$graphqlKotlinVersion")
       dependency("com.github.spullara.mustache.java:compiler:$mustacheVersion")
       dependency("com.vladmihalcea:hibernate-types-55:$hibernateTypesVersion")
+      dependency("org.mock-server:mockserver-client-java:$mockserverVersion")
       dependency("org.apache.commons:commons-lang3:$commonsLangVersion")
       dependency("org.bouncycastle:bcprov-jdk15on:$bouncyCastleVersion")
       dependency("org.bouncycastle:bcpkix-jdk15on:$bouncyCastleVersion")
       dependency("io.rest-assured:rest-assured:$restAssuredVersion")
+      dependency("org.mock-server:mockserver-netty:$mockserverVersion")
       dependency("io.rest-assured:json-path:$restAssuredVersion")
       dependency("io.rest-assured:xml-path:$restAssuredVersion")
+      dependency("org.awaitility:awaitility:$awaitilityVersion")
       dependency("com.squareup.okhttp3:okhttp:$okHttpVersion")
       dependency("org.assertj:assertj-db:$assertJDBVersion")
       dependency("commons-io:commons-io:$commonsIOVersion")
       dependency("io.minio:minio:$minioVersion")
+
 
       imports {
         mavenBom("org.springframework.boot:spring-boot-dependencies:$springBootVersion")

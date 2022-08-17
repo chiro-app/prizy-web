@@ -51,10 +51,16 @@ dependencies {
 
   integrationTestImplementation(project(":test-core"))
 
+  integrationTestCompileOnly(project(":domain"))
+
   integrationTestCompileOnly("org.projectlombok:lombok")
   integrationTestAnnotationProcessor("org.projectlombok:lombok")
 
   integrationTestRuntimeOnly("com.h2database:h2")
+
+  integrationTestImplementation("org.awaitility:awaitility")
+  integrationTestImplementation("org.mock-server:mockserver-netty")
+  integrationTestImplementation("org.mock-server:mockserver-client-java")
 
   integrationTestImplementation("org.assertj:assertj-db")
   integrationTestImplementation("io.rest-assured:xml-path")

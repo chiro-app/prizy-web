@@ -2,6 +2,7 @@ package io.prizy.adapters.ranking.persistence;
 
 import java.util.Collection;
 import java.util.Comparator;
+import java.util.Optional;
 import java.util.UUID;
 
 import io.prizy.adapters.ranking.mapper.RankingRowMapper;
@@ -42,6 +43,18 @@ public class RankingRepositoryImpl implements RankingRepository {
   @Override
   public Collection<RankingRow> byContestAndUser(UUID contestId, UUID userId) {
     return jpaRepository.findAllByContestIdAndUserId(contestId, userId).stream().map(RankingRowMapper::map).toList();
+  }
+
+  @Override
+  public Optional<Integer> rankingOfUserInContest(UUID userId, UUID contestId) {
+    var table = byContestId(contestId)
+      .stream()
+      .toList();
+    return table
+      .stream()
+      .filter(row -> row.userId().equals(userId) && row.contestId().equals(contestId))
+      .findAny()
+      .map(table::indexOf);
   }
 
 }

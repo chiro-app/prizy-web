@@ -1,5 +1,7 @@
 package io.prizy.adapters.resources.notifier;
 
+import java.util.stream.Collectors;
+
 import io.prizy.domain.contest.model.ContestSubscription;
 import io.prizy.domain.contest.service.ContestService;
 import io.prizy.domain.contest.service.ContestSubscriptionService;
@@ -54,8 +56,7 @@ public class ResourceBonusNotifier {
       .flatMap(contest -> subscriptionService.ofContest(contest.id()).stream())
       .filter(subscription -> bonusService.hasAvailableContestBonus(subscription.userId(), subscription.contestId()))
       .map(ContestSubscription::userId)
-      .distinct()
-      .toList();
+      .collect(Collectors.toSet());
     var notification = PushNotification.MultipleUsers.builder()
       .userIds(subscribedUsersToActiveContests)
       .subject(CONTEST_BONUS_PUSH_NOTIFICATION_SUBJECT)
@@ -69,7 +70,7 @@ public class ResourceBonusNotifier {
       .stream()
       .map(User::id)
       .filter(bonusService::hasAvailableKeysBonus)
-      .toList();
+      .collect(Collectors.toSet());
     var notification = PushNotification.MultipleUsers.builder()
       .userIds(usersWithPendingKeysBonus)
       .subject(KEYS_BONUS_PUSH_NOTIFICATION_SUBJECT)

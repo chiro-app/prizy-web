@@ -1,15 +1,14 @@
 package io.prizy.domain.ranking.notifier;
 
-import java.util.Collection;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
-import io.prizy.domain.contest.model.Pack;
 import io.prizy.domain.contest.service.ContestService;
 import io.prizy.domain.notification.event.SendPushNotification;
 import io.prizy.domain.notification.model.PushNotification;
 import io.prizy.domain.notification.publisher.NotificationPublisher;
-import io.prizy.domain.ranking.model.RankingRow;
 import io.prizy.domain.ranking.service.RankingService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -34,8 +33,8 @@ public class RankingNotifier {
   private final ContestService contestService;
   private final NotificationPublisher notificationPublisher;
 
-  public void notifyDerankingUsers(UUID contestId, RankingRow newEntry, Optional<RankingRow> oldEntry) {
-    var userIds = getDerankingUsers(contestId, newEntry, oldEntry);
+  public void notifyDerankingUsers(UUID contestId, UUID userId, Optional<Integer> previousRank) {
+    var userIds = getDerankingUsers(contestId, userId, previousRank);
     var push = PushNotification.MultipleUsers.builder()
       .userIds(userIds)
       .subject(PUSH_NOTIFICATION_SUBJECT)
@@ -44,29 +43,32 @@ public class RankingNotifier {
     notificationPublisher.publishPushNotification(new SendPushNotification(push));
   }
 
-  private Collection<UUID> getDerankingUsers(UUID contestId, RankingRow newEntry, Optional<RankingRow> oldEntry) {
+  private Set<UUID> getDerankingUsers(UUID contestId, UUID userId, Optional<Integer> previousRank) {
     var rows = rankingService
       .getForContest(contestId)
       .rows()
       .stream()
       .toList();
     var usersRow = rows.stream()
-      .filter(row -> row.userId().equals(newEntry.userId()))
+      .filter(row -> row.userId().equals(userId))
       .findAny()
       .get();
     var usersRank = rows.indexOf(usersRow);
     var contest = contestService.byId(contestId).get();
-    var shiftedMilestones = contest.packs()
+    var shiftingMilestones = contest.packs()
       .stream()
-      .filter(pack -> pack.lastWinnerPosition() >= usersRank)
-      .map(Pack::lastWinnerPosition)
+//      .filter(pack -> pack.lastWinnerPosition() >= usersRank)
+      .filter(pack -> pack.lastWinnerPosition() > usersRank)
+      .map(pack -> pack.lastWinnerPosition() - 1)
       .toList();
-    return shiftedMilestones
+    var userIds = shiftingMilestones
       .stream()
-      .map(milestone -> milestone - 1)
-      .filter(rank -> rows.size() > rank && rank != usersRank)
+//      .map(milestone -> milestone - 1)
+      .filter(milestone -> rows.size() > milestone)
+      .filter(milestone -> previousRank.isEmpty() || previousRank.get() > milestone)
       .map(rank -> rows.get(rank).userId())
-      .toList();
+      .collect(Collectors.toSet());
+    return userIds;
   }
 
 }

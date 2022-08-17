@@ -10,6 +10,7 @@ import org.springframework.test.context.jdbc.Sql;
  */
 
 
+@DisplayName("Auth")
 public class AuthIntegrationTest extends IntegrationTest {
 
   @Test

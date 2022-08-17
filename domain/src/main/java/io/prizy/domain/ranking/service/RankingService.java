@@ -68,12 +68,12 @@ public class RankingService {
     var userId = transaction.userId();
     var contestId = transaction.contestId();
 
-    var existingRow = repository
+    var previousRanking = repository.rankingOfUserInContest(contestId, userId);
+
+    var row = repository
       .byContestAndUser(contestId, userId)
       .stream()
-      .max(Comparator.comparing(RankingRow::score));
-
-    var row = existingRow
+      .max(Comparator.comparing(RankingRow::score))
       .orElseGet(() -> RankingRow.builder()
         .score(0L)
         .userId(userId)
@@ -87,9 +87,9 @@ public class RankingService {
     row = row.withScore(newScore);
 
     publisher.publish(RankingChanged.builder()
-      .oldEntry(existingRow)
-      .newEntry(row)
+      .userId(userId)
       .contestId(contestId)
+      .previousRank(previousRanking)
       .build()
     );
 

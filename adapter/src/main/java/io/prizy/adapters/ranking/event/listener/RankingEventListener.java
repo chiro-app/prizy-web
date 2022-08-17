@@ -8,7 +8,6 @@ import io.prizy.domain.resources.model.Currency;
 import io.prizy.domain.resources.model.ResourceTransaction;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.event.EventListener;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 /**
@@ -31,10 +30,9 @@ public class RankingEventListener {
     }
   }
 
-  @Async
   @EventListener
   public void onRankingChanged(RankingChanged event) {
-    rankingNotifier.notifyDerankingUsers(event.contestId(), event.newEntry(), event.oldEntry());
+    rankingNotifier.notifyDerankingUsers(event.contestId(), event.userId(), event.previousRank());
   }
 
 }
