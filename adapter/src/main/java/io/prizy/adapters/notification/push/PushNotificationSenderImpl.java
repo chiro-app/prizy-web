@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -52,6 +53,10 @@ public class PushNotificationSenderImpl implements PushNotificationSender {
       .map(Device::id)
       .map(UUID::fromString)
       .toList();
+    if (devices.isEmpty()) {
+      log.warn("User {} has no registered devices, maybe didn't allow notifications ?", userId);
+      return;
+    }
     sendPushNotification(subject, content, devices);
   }
 
@@ -62,13 +67,21 @@ public class PushNotificationSenderImpl implements PushNotificationSender {
 
   @Override
   public void sendToMultipleUsers(Collection<UUID> userIds, String subject, String content) {
-    var devices = deviceRepository
-      .byUserIds(userIds)
+    var devices = deviceRepository.byUserIds(userIds);
+    var deviceIds = devices.stream().map(Device::id).map(UUID::fromString).toList();
+    devices
       .stream()
-      .map(Device::id)
-      .map(UUID::fromString)
-      .toList();
-    sendPushNotification(subject, content, devices);
+      .collect(Collectors.groupingBy(Device::userId))
+      .forEach((userId, userDevices) -> {
+        if (userDevices.isEmpty()) {
+          log.warn("User {} has no registered devices, maybe didn't allow notifications ?", userId);
+        }
+      });
+    if (deviceIds.isEmpty()) {
+      log.warn("Users {} have no registered devices, maybe didn't allow notifications ?", userIds);
+      return;
+    }
+    sendPushNotification(subject, content, deviceIds);
   }
 
   @PostConstruct
