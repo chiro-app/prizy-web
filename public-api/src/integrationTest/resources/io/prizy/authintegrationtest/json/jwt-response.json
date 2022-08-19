@@ -1,9 +1,10 @@
 {
-  "data": {
-    "login": {
-      "token": "^[A-Za-z0-9-_=]+\\.[A-Za-z0-9-_=]+\\.?[A-Za-z0-9-_.+/=]*$",
-      "refreshToken": "[a-zA-Z]{64}",
-      "type": "Bearer"
+  "data" : {
+    "login" : {
+      "token" : "{#regex:^[A-Za-z0-9-_=]+\\.[A-Za-z0-9-_=]+\\.?[A-Za-z0-9-_.+/=]*$#}",
+      "refreshToken" : "{#regex:^[a-zA-Z]{64}$#}",
+      "type" : "Bearer",
+      "expiresAt" : "{#date_time_format:iso_instant#}"
     }
   }
 }

@@ -34,6 +34,7 @@ subprojects {
   dependencyManagement {
     dependencies {
 
+      val jcvVersion: String by project
       val minioVersion: String by project
       val okHttpVersion: String by project
       val mustacheVersion: String by project
@@ -63,6 +64,7 @@ subprojects {
       dependency("io.rest-assured:xml-path:$restAssuredVersion")
       dependency("org.awaitility:awaitility:$awaitilityVersion")
       dependency("com.squareup.okhttp3:okhttp:$okHttpVersion")
+      dependency("com.ekino.oss.jcv:jcv-hamcrest:$jcvVersion")
       dependency("org.assertj:assertj-db:$assertJDBVersion")
       dependency("commons-io:commons-io:$commonsIOVersion")
       dependency("io.minio:minio:$minioVersion")

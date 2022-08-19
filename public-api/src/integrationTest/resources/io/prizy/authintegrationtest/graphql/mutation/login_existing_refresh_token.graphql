@@ -6,5 +6,6 @@ mutation {
     token
     refreshToken
     type
+    expiresAt
   }
 }

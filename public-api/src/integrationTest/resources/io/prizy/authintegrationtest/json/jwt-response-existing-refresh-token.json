@@ -1,9 +1,10 @@
 {
-  "data": {
-    "login": {
-      "token": "^[A-Za-z0-9-_=]+\\.[A-Za-z0-9-_=]+\\.?[A-Za-z0-9-_.+/=]*$",
-      "refreshToken": "VhLhMrtpGvgZgVRCZaEgaHcQXAPQNopTefGnGJoUSsUWohIIpTxEsOBuZIyGwHvm",
-      "type": "Bearer"
+  "data" : {
+    "login" : {
+      "refreshToken" : "VhLhMrtpGvgZgVRCZaEgaHcQXAPQNopTefGnGJoUSsUWohIIpTxEsOBuZIyGwHvm",
+      "token" : "{#regex:^[A-Za-z0-9-_=]+\\.[A-Za-z0-9-_=]+\\.?[A-Za-z0-9-_.+/=]*$#}",
+      "type" : "Bearer",
+      "expiresAt" : "{#date_time_format:iso_instant#}"
     }
   }
 }

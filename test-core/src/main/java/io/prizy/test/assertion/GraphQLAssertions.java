@@ -3,15 +3,15 @@ package io.prizy.test.assertion;
 import java.io.IOException;
 import java.util.Map;
 
+import com.ekino.oss.jcv.assertion.hamcrest.JsonMatchers;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.prizy.test.extension.GraphQLExtension;
-import io.prizy.test.json.JSONMatcher;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
+import lombok.SneakyThrows;
 import org.hamcrest.Matcher;
 import org.junit.jupiter.api.extension.RegisterExtension;
-import org.skyscreamer.jsonassert.JSONCompareMode;
 import org.springframework.core.io.ClassPathResource;
 
 import static io.restassured.RestAssured.given;
@@ -74,18 +74,11 @@ public interface GraphQLAssertions {
     return graphQLRequest(mutationName, MUTATION_REQUEST_TYPE);
   }
 
+  @SneakyThrows
   default Matcher<String> jsonMatcher(String fileName) {
-    return jsonMatcher(fileName, JSONCompareMode.LENIENT);
-  }
-
-  default Matcher<String> jsonMatcher(String fileName, JSONCompareMode mode) {
-    try {
-      var resource = new ClassPathResource(String.format("%s/%s", baseResourcePath(), fileName));
-      var expectedJson = new String(resource.getInputStream().readAllBytes());
-      return new JSONMatcher(expectedJson, mode);
-    } catch (IOException e) {
-      throw new RuntimeException(e);
-    }
+    var resource = new ClassPathResource(String.format("%s/%s", baseResourcePath(), fileName));
+    var expectedJson = new String(resource.getInputStream().readAllBytes());
+    return JsonMatchers.jsonMatcher(expectedJson);
   }
 
   default String baseResourcePath() {
