@@ -1,8 +1,8 @@
-package io.prizy.publicapi.auth.websocket
+package io.prizy.auth.websocket
 
 import com.fasterxml.jackson.core.JacksonException
 import io.netty.handler.codec.http.HttpResponseStatus
-import io.prizy.graphql.exception.AuthenticationRequiredException
+import io.prizy.toolbox.exception.AuthenticationRequiredException
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.core.io.buffer.NettyDataBufferFactory
@@ -10,7 +10,6 @@ import org.springframework.http.server.reactive.ServerHttpResponseDecorator.getN
 import org.springframework.security.oauth2.jwt.Jwt
 import org.springframework.security.oauth2.jwt.ReactiveJwtDecoder
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken
-import org.springframework.stereotype.Component
 import org.springframework.web.reactive.socket.HandshakeInfo
 import org.springframework.web.reactive.socket.WebSocketHandler
 import org.springframework.web.reactive.socket.adapter.ReactorNettyWebSocketSession
@@ -26,7 +25,6 @@ import java.util.function.Supplier
  *  @created 5/6/2022 10:16 PM
  */
 
-@Component
 class AuthenticatedRequestUpgradeStrategy(private val jwtDecoder: ReactiveJwtDecoder) : RequestUpgradeStrategy {
 
   companion object {

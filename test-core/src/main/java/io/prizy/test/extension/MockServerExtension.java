@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import io.prizy.test.annotation.WithMockServer;
 import org.junit.jupiter.api.extension.AfterAllCallback;
 import org.junit.jupiter.api.extension.AfterEachCallback;
 import org.junit.jupiter.api.extension.BeforeAllCallback;
@@ -20,14 +21,18 @@ import static org.mockserver.model.HttpRequest.request;
  * @created 17/08/2022 11:07
  */
 
-public class MockServerExtension implements AfterAllCallback, BeforeAllCallback, AfterEachCallback {
+public class MockServerExtension implements BeforeAllCallback, AfterAllCallback, AfterEachCallback {
 
   private final Collection<Expectation> expectations = new ArrayList<>();
   private ClientAndServer mockserver;
 
   @Override
   public void beforeAll(ExtensionContext context) {
-    mockserver = ClientAndServer.startClientAndServer(25099);
+    var clazz = context.getElement().get().getClass();
+    var port = clazz.isAnnotationPresent(WithMockServer.class)
+      ? clazz.getAnnotation(WithMockServer.class).port()
+      : WithMockServer.DEFAULT_PORT;
+    mockserver = ClientAndServer.startClientAndServer(port);
   }
 
   @Override

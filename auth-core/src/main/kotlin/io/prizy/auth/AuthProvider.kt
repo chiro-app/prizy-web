@@ -1,35 +1,40 @@
-package io.prizy.publicapi.auth
+package io.prizy.auth
 
 import com.nimbusds.jose.JWSAlgorithm
 import com.nimbusds.jose.JWSHeader
 import com.nimbusds.jose.crypto.RSASSASigner
 import com.nimbusds.jwt.JWTClaimsSet
 import com.nimbusds.jwt.SignedJWT
+import io.prizy.auth.exception.InvalidCredentialsException
+import io.prizy.auth.properties.JwtProperties
 import io.prizy.domain.auth.service.RefreshTokenService
 import io.prizy.domain.user.model.User
 import io.prizy.domain.user.model.UserStatus
 import io.prizy.domain.user.port.PasswordHasher
 import io.prizy.domain.user.service.UserService
-import io.prizy.publicapi.application.properties.JwtProperties
-import io.prizy.publicapi.auth.exception.InvalidCredentialsException
-import org.springframework.stereotype.Component
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.future.future
 import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneOffset
-import java.util.Date
+import java.util.*
+import java.util.concurrent.CompletableFuture
 
 /**
  *  @author Nidhal Dogga
  *  @created 4/30/2022 8:41 PM
  */
 
-@Component
 class AuthProvider(
   private val userService: UserService,
   private val jwtProperties: JwtProperties,
   private val passwordHasher: PasswordHasher,
   private val refreshTokenService: RefreshTokenService
 ) {
+
+  fun authenticate(userId: UUID): CompletableFuture<JwtToken> = GlobalScope.future {
+    buildJwtToken(userService.byId(userId).get())
+  }
 
   suspend fun authenticate(login: String, password: String): JwtToken {
     val user = userService

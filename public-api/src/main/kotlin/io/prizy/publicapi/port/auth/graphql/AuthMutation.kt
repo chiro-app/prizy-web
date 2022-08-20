@@ -1,11 +1,11 @@
 package io.prizy.publicapi.port.auth.graphql
 
 import com.expediagroup.graphql.server.operations.Mutation
+import io.prizy.auth.AuthProvider
 import io.prizy.domain.auth.service.PasswordResetService
 import io.prizy.domain.user.usecase.ConfirmUserEmailUseCase
 import io.prizy.graphql.context.GraphQLContext
 import io.prizy.graphql.directives.AuthorizedDirective
-import io.prizy.publicapi.auth.AuthProvider
 import io.prizy.publicapi.port.auth.dto.AuthTokenDto
 import io.prizy.publicapi.port.auth.dto.LoginDto
 import io.prizy.publicapi.port.auth.mapper.AuthTokenDtoMapper

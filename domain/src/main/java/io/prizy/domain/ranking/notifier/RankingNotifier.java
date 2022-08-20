@@ -57,13 +57,11 @@ public class RankingNotifier {
     var contest = contestService.byId(contestId).get();
     var shiftingMilestones = contest.packs()
       .stream()
-//      .filter(pack -> pack.lastWinnerPosition() >= usersRank)
       .filter(pack -> pack.lastWinnerPosition() > usersRank)
       .map(pack -> pack.lastWinnerPosition() - 1)
       .toList();
     var userIds = shiftingMilestones
       .stream()
-//      .map(milestone -> milestone - 1)
       .filter(milestone -> rows.size() > milestone)
       .filter(milestone -> previousRank.isEmpty() || previousRank.get() > milestone)
       .map(rank -> rows.get(rank).userId())

@@ -1,4 +1,4 @@
-package io.prizy.publicapi.auth.exception
+package io.prizy.auth.exception
 
 import io.prizy.toolbox.exception.ErrorCode
 

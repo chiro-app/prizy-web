@@ -2,6 +2,7 @@ package io.prizy.test.assertion;
 
 import java.io.IOException;
 import java.util.Map;
+import java.util.UUID;
 
 import com.ekino.oss.jcv.assertion.hamcrest.JsonMatchers;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -9,7 +10,6 @@ import io.prizy.test.extension.GraphQLExtension;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
-import lombok.SneakyThrows;
 import org.hamcrest.Matcher;
 import org.junit.jupiter.api.extension.RegisterExtension;
 import org.springframework.core.io.ClassPathResource;
@@ -39,6 +39,13 @@ public interface GraphQLAssertions {
       .post();
   }
 
+  default Response whenMutating(String mutationName, UUID userId) {
+    return givenAuthenticatedGraphQLRequest(userId)
+      .body(graphQLMutation(mutationName))
+      .when()
+      .post();
+  }
+
   default Response whenQuerying(String queryName) {
     return givenGraphQLRequest()
       .body(graphQLQuery(queryName))
@@ -46,11 +53,25 @@ public interface GraphQLAssertions {
       .post();
   }
 
+  default Response whenQuerying(String queryName, UUID userId) {
+    return givenAuthenticatedGraphQLRequest(userId)
+      .body(graphQLQuery(queryName))
+      .when()
+      .post();
+
+  }
+
   default RequestSpecification givenGraphQLRequest() {
     return given()
       .basePath(GRAPHQL_PATH)
       .contentType(ContentType.JSON)
       .accept(ContentType.JSON);
+  }
+
+  default RequestSpecification givenAuthenticatedGraphQLRequest(UUID userId) {
+    return givenGraphQLRequest()
+      .auth()
+      .oauth2(GRAPHQL_EXTENSION.getTokenForUser(userId));
   }
 
   default String graphQLRequest(String extensionlessFileName, String requestType) {
@@ -74,11 +95,14 @@ public interface GraphQLAssertions {
     return graphQLRequest(mutationName, MUTATION_REQUEST_TYPE);
   }
 
-  @SneakyThrows
   default Matcher<String> jsonMatcher(String fileName) {
-    var resource = new ClassPathResource(String.format("%s/%s", baseResourcePath(), fileName));
-    var expectedJson = new String(resource.getInputStream().readAllBytes());
-    return JsonMatchers.jsonMatcher(expectedJson);
+    try {
+      var resource = new ClassPathResource(String.format("%s/%s", baseResourcePath(), fileName));
+      String expectedJson = new String(resource.getInputStream().readAllBytes());
+      return JsonMatchers.jsonMatcher(expectedJson);
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
   }
 
   default String baseResourcePath() {

@@ -1,6 +1,6 @@
 package io.prizy.publicapi.port.auth.mapper
 
-import io.prizy.publicapi.auth.JwtToken
+import io.prizy.auth.JwtToken
 import io.prizy.publicapi.port.auth.dto.AuthTokenDto
 
 /**

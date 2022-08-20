@@ -25,7 +25,7 @@ public class RankingIntegrationTest extends IntegrationTest {
   @DisplayName("Should notify deranking users when overtaken by first time players")
   void shouldNotifyDerankingUsersWhenOvertakenByFirstTimePlayers() {
     // Given
-    mockOneSignal();
+    stubOneSignal();
 
     var contestId = UUID.fromString("00000000-0000-0000-0000-000000000000");
     var userId = UUID.fromString("00000000-0000-0000-0000-000000000005");
@@ -57,7 +57,7 @@ public class RankingIntegrationTest extends IntegrationTest {
   @DisplayName("Should notify deranking users when overtaken by already ranked players")
   void shouldNotifyDerankingUsersWhenOvertakenByRankedPlayers() {
     // Given
-    mockOneSignal();
+    stubOneSignal();
 
     var contestId = UUID.fromString("00000000-0000-0000-0000-000000000000");
     var userId = UUID.fromString("00000000-0000-0000-0000-000000000005");

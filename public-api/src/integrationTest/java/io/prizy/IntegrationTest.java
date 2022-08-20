@@ -1,6 +1,7 @@
 package io.prizy;
 
 import io.prizy.publicapi.application.Application;
+import io.prizy.test.annotation.WithMockServer;
 import io.prizy.test.assertion.DatabaseAssertions;
 import io.prizy.test.assertion.GraphQLAssertions;
 import io.prizy.test.assertion.MockServerAssertions;
@@ -24,6 +25,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  */
 
 
+@WithMockServer
 @ActiveProfiles("test")
 @RecordApplicationEvents
 @AutoConfigureTestDatabase

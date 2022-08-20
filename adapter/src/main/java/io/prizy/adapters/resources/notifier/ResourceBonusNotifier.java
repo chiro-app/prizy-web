@@ -13,7 +13,6 @@ import io.prizy.domain.user.model.User;
 import io.prizy.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 /**
@@ -43,7 +42,6 @@ public class ResourceBonusNotifier {
   private final ResourceBonusService bonusService;
   private final UserService userService;
 
-  @Async
   public void notifyForBonus() {
     notifyForContestBonuses();
     notifyForKeys();

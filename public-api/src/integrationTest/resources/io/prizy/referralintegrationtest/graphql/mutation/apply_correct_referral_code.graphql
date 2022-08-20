@@ -1,0 +1,3 @@
+mutation {
+  success: submitReferrer(code: "XXYYZZ")
+}

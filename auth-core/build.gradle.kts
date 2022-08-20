@@ -1,8 +1,18 @@
+plugins {
+  kotlin("jvm")
+  kotlin("kapt")
+}
+
 dependencies {
+  implementation(project(":domain"))
   implementation(project(":toolbox"))
-  implementation(project(":auth-core"))
 
   implementation("org.springframework:spring-jdbc")
+  implementation("org.springframework:spring-webflux")
+  implementation("org.springframework.security:spring-security-oauth2-jose")
+  implementation("org.springframework.security:spring-security-oauth2-resource-server")
+
+  implementation("io.projectreactor.netty:reactor-netty-http")
 
   compileOnly("org.projectlombok:lombok")
   annotationProcessor("org.projectlombok:lombok")
@@ -23,4 +33,6 @@ dependencies {
 
   implementation("com.fasterxml.jackson.core:jackson-core")
   implementation("com.fasterxml.jackson.core:jackson-databind")
+
+  implementation("org.jetbrains.kotlinx:kotlinx-coroutines-jdk8")
 }

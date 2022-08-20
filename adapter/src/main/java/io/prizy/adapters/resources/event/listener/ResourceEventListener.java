@@ -24,6 +24,7 @@ public class ResourceEventListener {
   @EventListener
   public void onReferralCreated(ReferralCreated event) {
     resourceBonusService.creditReferralBonus(event.userId());
+    resourceBonusService.creditReferralBonus(event.referrerId());
   }
 
   @EventListener

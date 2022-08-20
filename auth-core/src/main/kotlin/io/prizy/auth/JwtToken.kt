@@ -1,4 +1,4 @@
-package io.prizy.publicapi.auth
+package io.prizy.auth
 
 import java.time.Instant
 
