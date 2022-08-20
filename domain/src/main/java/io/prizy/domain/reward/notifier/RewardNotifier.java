@@ -1,5 +1,7 @@
 package io.prizy.domain.reward.notifier;
 
+import java.util.Map;
+
 import io.prizy.domain.contest.model.Contest;
 import io.prizy.domain.contest.model.Pack;
 import io.prizy.domain.contest.service.ContestService;
@@ -15,8 +17,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.util.Map;
-
 /**
  * @author Nidhal Dogga
  * @created 8/7/2022 11:52 AM
@@ -31,11 +31,11 @@ public class RewardNotifier {
   private static final String REWARD_EMAIL_SUBJECT = "Ton cadeau %s t'attends ! \uD83E\uDD73";
   private static final String REWARD_EMAIL_TEMPLATE_NAME = "rewarding-email.html";
   private static final String PRODUCT_PUSH_NOTIFICATION_SUBJECT = "Félicitations ! Tu as remporté le concours {{ " +
-    "merchantName }} " +
+    "title }} " +
     "\uD83C\uDF89";
   private static final String PRODUCT_PUSH_NOTIFICATION_CONTENT = "Viens vite récupérer ta récompense \uD83C\uDF81";
   private static final String COUPON_PUSH_NOTIFICATION_SUBJECT = "Bravo ! Tu viens de remporter {{ couponName }} chez" +
-    " {{ merchantName }} !";
+    " {{ title }} !";
   private static final String COUPON_PUSH_NOTIFICATION_CONTENT = "Profites en dès maintenant ! \uD83C\uDF81";
 
   private final NotificationPublisher notificationPublisher;
@@ -71,15 +71,13 @@ public class RewardNotifier {
       builder
         .subject(PRODUCT_PUSH_NOTIFICATION_SUBJECT)
         .content(PRODUCT_PUSH_NOTIFICATION_CONTENT)
-        .data(Map.of(
-          "merchantName", contest.merchant().name()
-        ));
+        .data(Map.of("title", contest.name()));
     } else if (pack instanceof Pack.Coupon coupon) {
       builder
         .subject(COUPON_PUSH_NOTIFICATION_SUBJECT)
         .content(COUPON_PUSH_NOTIFICATION_CONTENT)
         .data(Map.of(
-          "merchantName", contest.merchant().name(),
+          "title", contest.name(),
           "couponName", coupon.name()
         ));
     }
