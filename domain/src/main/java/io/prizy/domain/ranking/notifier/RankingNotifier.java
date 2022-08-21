@@ -49,10 +49,14 @@ public class RankingNotifier {
       .rows()
       .stream()
       .toList();
-    var usersRow = rows.stream()
+    var maybeUsersRow = rows.stream()
       .filter(row -> row.userId().equals(userId))
-      .findAny()
-      .get();
+      .findAny();
+    if (maybeUsersRow.isEmpty()) {
+      log.error("Can not find user's {} ranking row in contest {}", userId, contestId);
+      return Set.of();
+    }
+    var usersRow = maybeUsersRow.get();
     var usersRank = rows.indexOf(usersRow);
     var contest = contestService.byId(contestId).get();
     var shiftingMilestones = contest.packs()
@@ -60,13 +64,12 @@ public class RankingNotifier {
       .filter(pack -> pack.lastWinnerPosition() > usersRank)
       .map(pack -> pack.lastWinnerPosition() - 1)
       .toList();
-    var userIds = shiftingMilestones
+    return shiftingMilestones
       .stream()
       .filter(milestone -> rows.size() > milestone)
       .filter(milestone -> previousRank.isEmpty() || previousRank.get() > milestone)
       .map(rank -> rows.get(rank).userId())
       .collect(Collectors.toSet());
-    return userIds;
   }
 
 }

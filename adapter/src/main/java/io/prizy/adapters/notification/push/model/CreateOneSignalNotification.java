@@ -15,19 +15,21 @@ public record CreateOneSignalNotification(
   String appId,
   Map<OneSignalLocale, String> contents,
   Map<OneSignalLocale, String> headings,
-  @JsonProperty("include_player_ids")
-  Collection<UUID> deviceIds,
   @JsonProperty("included_segments")
   Collection<String> segments,
-  Optional<UUID> templateId,
   @JsonProperty("data")
   Optional<Map<String, Object>> variables,
   @JsonProperty("android_accent_color")
-  String androidAccentColor
+  String androidAccentColor,
+  @JsonProperty("include_external_user_ids")
+  Collection<UUID> userIds,
+  @JsonProperty("channel_for_external_user_ids")
+  String channel
 ) {
 
   public CreateOneSignalNotification {
     androidAccentColor = "FF872FFF";
+    channel = "push";
   }
 
 }

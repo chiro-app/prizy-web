@@ -47,17 +47,7 @@ public class PushNotificationSenderImpl implements PushNotificationSender {
 
   @Override
   public void send(UUID userId, String subject, String content) {
-    var devices = deviceRepository
-      .byUserId(userId)
-      .stream()
-      .map(Device::id)
-      .map(UUID::fromString)
-      .toList();
-    if (devices.isEmpty()) {
-      log.warn("User {} has no registered devices, maybe didn't allow notifications ?", userId);
-      return;
-    }
-    sendPushNotification(subject, content, devices);
+    sendPushNotification(subject, content, List.of(userId));
   }
 
   @Override
@@ -67,21 +57,7 @@ public class PushNotificationSenderImpl implements PushNotificationSender {
 
   @Override
   public void sendToMultipleUsers(Collection<UUID> userIds, String subject, String content) {
-    var devices = deviceRepository.byUserIds(userIds);
-    var deviceIds = devices.stream().map(Device::id).map(UUID::fromString).toList();
-    devices
-      .stream()
-      .collect(Collectors.groupingBy(Device::userId))
-      .forEach((userId, userDevices) -> {
-        if (userDevices.isEmpty()) {
-          log.warn("User {} has no registered devices, maybe didn't allow notifications ?", userId);
-        }
-      });
-    if (deviceIds.isEmpty()) {
-      log.warn("Users {} have no registered devices, maybe didn't allow notifications ?", userIds);
-      return;
-    }
-    sendPushNotification(subject, content, deviceIds);
+    sendPushNotification(subject, content, userIds);
   }
 
   @PostConstruct
@@ -115,8 +91,8 @@ public class PushNotificationSenderImpl implements PushNotificationSender {
     }
   }
 
-  private void sendPushNotification(String subject, String content, Collection<UUID> devices) {
-    sendPushNotification(subject, content, builder -> builder.deviceIds(devices));
+  private void sendPushNotification(String subject, String content, Collection<UUID> userIds) {
+    sendPushNotification(subject, content, builder -> builder.userIds(userIds));
   }
 
   private void sendPushNotification(String subject, String content, String... segments) {
