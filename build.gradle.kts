@@ -65,6 +65,7 @@ subprojects {
       dependency("org.awaitility:awaitility:$awaitilityVersion")
       dependency("com.squareup.okhttp3:okhttp:$okHttpVersion")
       dependency("com.ekino.oss.jcv:jcv-hamcrest:$jcvVersion")
+      dependency("com.ekino.oss.jcv:jcv-assertj:$jcvVersion")
       dependency("org.assertj:assertj-db:$assertJDBVersion")
       dependency("commons-io:commons-io:$commonsIOVersion")
       dependency("io.minio:minio:$minioVersion")

@@ -13,6 +13,8 @@ dependencies {
   implementation("io.rest-assured:xml-path")
   implementation("io.rest-assured:json-path")
   implementation("io.rest-assured:rest-assured")
+
+  implementation("com.ekino.oss.jcv:jcv-assertj")
   implementation("com.ekino.oss.jcv:jcv-hamcrest")
 
   implementation("org.mock-server:mockserver-netty")

@@ -24,8 +24,8 @@ prizy:
     server-url: http://localhost:8080
 
   push:
-    app-id: "ea6de854-1641-4319-b764-cc364d1cb78d"
-    api-key: "778b2f80-bf4f-45ef-8838-5cc83fdb31fe"
+    app-id: "00000000-0000-0000-0000-000000000000"
+    api-key: "00000000-0000-0000-0000-000000000000"
     api-url: http://localhost:25099
 
   security:

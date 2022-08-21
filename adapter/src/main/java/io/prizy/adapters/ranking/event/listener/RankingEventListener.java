@@ -9,8 +9,6 @@ import io.prizy.domain.resources.model.ResourceTransaction;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.event.TransactionPhase;
-import org.springframework.transaction.event.TransactionalEventListener;
 
 /**
  * @author Nidhal Dogga
@@ -32,7 +30,7 @@ public class RankingEventListener {
     }
   }
 
-  @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
+  @EventListener
   public void onRankingChanged(RankingChanged event) {
     rankingNotifier.notifyDerankingUsers(event.contestId(), event.userId(), event.previousRank());
   }

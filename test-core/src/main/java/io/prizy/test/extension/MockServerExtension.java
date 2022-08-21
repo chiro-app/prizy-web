@@ -1,10 +1,12 @@
 package io.prizy.test.extension;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
 import io.prizy.test.annotation.WithMockServer;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.extension.AfterAllCallback;
 import org.junit.jupiter.api.extension.AfterEachCallback;
 import org.junit.jupiter.api.extension.BeforeAllCallback;
@@ -14,6 +16,8 @@ import org.mockserver.mock.Expectation;
 import org.mockserver.model.HttpRequest;
 import org.mockserver.model.HttpResponse;
 
+import static com.ekino.oss.jcv.assertion.hamcrest.JsonMatchers.jsonMatcher;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockserver.model.HttpRequest.request;
 
 /**
@@ -21,6 +25,8 @@ import static org.mockserver.model.HttpRequest.request;
  * @created 17/08/2022 11:07
  */
 
+
+@Slf4j
 public class MockServerExtension implements BeforeAllCallback, AfterAllCallback, AfterEachCallback {
 
   private final Collection<Expectation> expectations = new ArrayList<>();
@@ -42,15 +48,27 @@ public class MockServerExtension implements BeforeAllCallback, AfterAllCallback,
 
   @Override
   public void afterEach(ExtensionContext context) {
-    expectations.forEach(expectation -> mockserver.clear(expectation.getId()));
+    expectations.forEach(expectation -> {
+      try {
+        mockserver.clear(expectation.getId());
+      } catch (Throwable ignored) {
+      }
+    });
   }
 
-  public void mockAnyRequest(HttpResponse response) {
+  public void stubAllRequests(HttpResponse response) {
     expectations.addAll(List.of(mockserver.when(request()).respond(response)));
   }
 
-  public void mockRequest(HttpRequest request, HttpResponse response) {
+  public void stubRequest(HttpRequest request, HttpResponse response) {
     expectations.addAll(List.of(mockserver.when(request).respond(response)));
+  }
+
+  public void assertRequestedWithBody(String path, String jsonBody) {
+    var requests = mockserver.retrieveRecordedRequests(request(path));
+    assertThat(Arrays.stream(requests)
+      .anyMatch(request -> jsonMatcher(jsonBody).matches(request.getBodyAsJsonOrXmlString()))
+    ).isTrue();
   }
 
 }

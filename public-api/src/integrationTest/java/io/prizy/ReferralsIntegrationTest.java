@@ -11,7 +11,8 @@ import org.springframework.test.context.jdbc.Sql;
  * @created 8/19/2022 8:46 PM
  */
 
-public class ReferralIntegrationTest extends IntegrationTest {
+@DisplayName("Referrals")
+public class ReferralsIntegrationTest extends IntegrationTest {
 
   private static final UUID USER_ID_00 = UUID.fromString("00000000-0000-0000-0000-000000000000");
   private static final UUID USER_ID_01 = UUID.fromString("00000000-0000-0000-0000-000000000001");
@@ -20,6 +21,8 @@ public class ReferralIntegrationTest extends IntegrationTest {
   @Sql("referralintegrationtest/sql/users.sql")
   @DisplayName("Should apply correct referral code")
   void shouldApplyReferralCode() {
+    stubOneSignal();
+
     whenMutating("apply_correct_referral_code", USER_ID_00)
       .then()
       .body(jsonMatcher("json/success-response.json"));
@@ -38,6 +41,8 @@ public class ReferralIntegrationTest extends IntegrationTest {
       .value("user_id").isEqualTo(USER_ID_01)
       .value("currency").isEqualTo("KEYS")
       .value("amount").isEqualTo(6);
+
+    assertRequestedWithBody("", resourceFile("onesignal/referral-push-notification.json"));
   }
 
   @Test

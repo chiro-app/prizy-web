@@ -19,11 +19,11 @@ public interface MockServerAssertions {
   MockServerExtension MOCK_SERVER_EXTENSION = new MockServerExtension();
 
   default void stubAllRequests(HttpResponse response) {
-    MOCK_SERVER_EXTENSION.mockAnyRequest(response);
+    MOCK_SERVER_EXTENSION.stubAllRequests(response);
   }
 
   default void stubRequest(HttpRequest request, HttpResponse response) {
-    MOCK_SERVER_EXTENSION.mockRequest(request, response);
+    MOCK_SERVER_EXTENSION.stubRequest(request, response);
   }
 
   default void stubOneSignal() {
@@ -39,6 +39,11 @@ public interface MockServerAssertions {
         }
         """)
     );
+  }
+
+  default void assertRequestedWithBody(String path, String jsonBody) {
+    MOCK_SERVER_EXTENSION.assertRequestedWithBody(path, jsonBody);
+
   }
 
 }

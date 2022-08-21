@@ -7,12 +7,12 @@ import java.util.UUID;
 import com.ekino.oss.jcv.assertion.hamcrest.JsonMatchers;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.prizy.test.extension.GraphQLExtension;
+import io.prizy.test.util.ResourceUtils;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 import org.hamcrest.Matcher;
 import org.junit.jupiter.api.extension.RegisterExtension;
-import org.springframework.core.io.ClassPathResource;
 
 import static io.restassured.RestAssured.given;
 
@@ -75,11 +75,10 @@ public interface GraphQLAssertions {
   }
 
   default String graphQLRequest(String extensionlessFileName, String requestType) {
-    var fullPath = String.format("%s/graphql/%s/%s.graphql", baseResourcePath(), requestType, extensionlessFileName);
-    var resource = new ClassPathResource(fullPath);
     try {
       var operation = Map.of(
-        "query", new String(resource.getInputStream().readAllBytes())
+        "query", ResourceUtils.resourceFile(getClass(), String.format("graphql/%s/%s.graphql", requestType,
+          extensionlessFileName))
       );
       return OBJECT_MAPPER.writeValueAsString(operation);
     } catch (IOException exception) {
@@ -96,19 +95,7 @@ public interface GraphQLAssertions {
   }
 
   default Matcher<String> jsonMatcher(String fileName) {
-    try {
-      var resource = new ClassPathResource(String.format("%s/%s", baseResourcePath(), fileName));
-      String expectedJson = new String(resource.getInputStream().readAllBytes());
-      return JsonMatchers.jsonMatcher(expectedJson);
-    } catch (IOException e) {
-      throw new RuntimeException(e);
-    }
-  }
-
-  default String baseResourcePath() {
-    return String
-      .format("%s.%s", getClass().getPackageName(), getClass().getSimpleName().toLowerCase())
-      .replaceAll("\\.", "/");
+    return JsonMatchers.jsonMatcher(ResourceUtils.resourceFile(getClass(), fileName));
   }
 
 }

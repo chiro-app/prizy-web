@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -15,8 +14,6 @@ import io.prizy.adapters.notification.push.model.CreateOneSignalNotification.Cre
 import io.prizy.adapters.notification.push.model.OneSignalResponse;
 import io.prizy.adapters.notification.push.utils.OneSignalUtils;
 import io.prizy.domain.notification.port.PushNotificationSender;
-import io.prizy.domain.user.model.Device;
-import io.prizy.domain.user.port.DeviceRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
@@ -40,7 +37,6 @@ public class PushNotificationSenderImpl implements PushNotificationSender {
   private static final String SUBSCRIBED_USERS_SEGMENT = "Subscribed Users";
 
   private final PushNotificationProperties properties;
-  private final DeviceRepository deviceRepository;
 
   private RestTemplate restTemplate;
   private ObjectMapper objectMapper;
