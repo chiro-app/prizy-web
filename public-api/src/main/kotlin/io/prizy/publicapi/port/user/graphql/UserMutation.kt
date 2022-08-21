@@ -1,7 +1,6 @@
 package io.prizy.publicapi.port.user.graphql
 
 import com.expediagroup.graphql.server.operations.Mutation
-import io.prizy.domain.user.service.DeviceService
 import io.prizy.domain.user.usecase.CreateUserUseCase
 import io.prizy.domain.user.usecase.DeleteUserUseCase
 import io.prizy.domain.user.usecase.UpdateUserAddressUseCase
@@ -34,7 +33,6 @@ import org.springframework.stereotype.Component
 
 @Component
 class UserMutation(
-  private val deviceService: DeviceService,
   private val updateUserUseCase: UpdateUserUseCase,
   private val createUserUseCase: CreateUserUseCase,
   private val deleteUserUseCase: DeleteUserUseCase,
@@ -65,14 +63,16 @@ class UserMutation(
     }
 
   @AuthorizedDirective
+  @Deprecated("To be removed, devices will be manged by onesignal")
   suspend fun registerDevice(ctx: GraphQLContext.Authenticated, deviceId: String): Boolean =
     withContext(Dispatchers.IO) {
-      deviceService.register(ctx.principal.id, deviceId)
+      true
     }
 
+  @Deprecated("To be removed, devices will be manged by onesignal")
   suspend fun unregisterDevice(deviceId: String): Boolean =
     withContext(Dispatchers.IO) {
-      deviceService.unregister(deviceId)
+      true
     }
 
   @AuthorizedDirective

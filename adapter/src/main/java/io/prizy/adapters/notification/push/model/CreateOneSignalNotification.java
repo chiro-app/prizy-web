@@ -24,12 +24,15 @@ public record CreateOneSignalNotification(
   @JsonProperty("include_external_user_ids")
   Collection<UUID> userIds,
   @JsonProperty("channel_for_external_user_ids")
-  String channel
+  String channel,
+  @JsonProperty("large_icon")
+  String androidLargeIcon
 ) {
 
   public CreateOneSignalNotification {
     androidAccentColor = "FF872FFF";
     channel = "push";
+    androidLargeIcon = "ic_onesignal_large";
   }
 
 }

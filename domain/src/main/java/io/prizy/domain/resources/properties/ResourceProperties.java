@@ -7,7 +7,6 @@ package io.prizy.domain.resources.properties;
 
 
 public record ResourceProperties(
-  Integer referrerKeysBonus,
   Integer referralKeysBonus,
   Integer dailyDiamondsBonus,
   Integer dailyLivesBonus,

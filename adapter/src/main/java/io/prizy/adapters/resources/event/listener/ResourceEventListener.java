@@ -1,7 +1,6 @@
 package io.prizy.adapters.resources.event.listener;
 
 import io.prizy.domain.contest.event.ContestSubscriptionCreated;
-import io.prizy.domain.referral.event.ReferralConfirmed;
 import io.prizy.domain.referral.event.ReferralCreated;
 import io.prizy.domain.resources.service.ResourceBonusService;
 import io.prizy.domain.resources.service.ResourceService;
@@ -25,11 +24,6 @@ public class ResourceEventListener {
   public void onReferralCreated(ReferralCreated event) {
     resourceBonusService.creditReferralBonus(event.userId());
     resourceBonusService.creditReferralBonus(event.referrerId());
-  }
-
-  @EventListener
-  public void onReferralConfirmed(ReferralConfirmed event) {
-    resourceBonusService.creditReferrerBonus(event.referrerId());
   }
 
 }

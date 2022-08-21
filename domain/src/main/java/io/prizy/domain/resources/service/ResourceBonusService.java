@@ -91,8 +91,4 @@ public class ResourceBonusService {
     resourceRepository.alterKeys(userId, resourceProperties.referralKeysBonus().longValue(), TransactionType.CREDIT);
   }
 
-  public void creditReferrerBonus(UUID userId) {
-    resourceRepository.alterKeys(userId, resourceProperties.referrerKeysBonus().longValue(), TransactionType.CREDIT);
-  }
-
 }

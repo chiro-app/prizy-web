@@ -11,7 +11,6 @@ import org.springframework.boot.context.properties.ConstructorBinding
 @ConstructorBinding
 @ConfigurationProperties("prizy.resources")
 data class ResourceProperties(
-  val referrerKeyBonus: Int,
   val referralKeyBonus: Int,
   val dailyDiamondsBonus: Int,
   val dailyLivesBonus: Int,
@@ -25,7 +24,6 @@ data class ResourceProperties(
 
   val toDomain: io.prizy.domain.resources.properties.ResourceProperties
     get() = io.prizy.domain.resources.properties.ResourceProperties(
-      referrerKeyBonus,
       referralKeyBonus,
       dailyDiamondsBonus,
       dailyLivesBonus,
