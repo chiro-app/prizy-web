@@ -18,7 +18,7 @@ public class ReferralsIntegrationTest extends IntegrationTest {
   private static final UUID USER_ID_01 = UUID.fromString("00000000-0000-0000-0000-000000000001");
 
   @Test
-  @Sql("referralintegrationtest/sql/users.sql")
+  @Sql("referralsintegrationtest/sql/users.sql")
   @DisplayName("Should apply correct referral code")
   void shouldApplyReferralCode() {
     stubOneSignal();
@@ -46,7 +46,7 @@ public class ReferralsIntegrationTest extends IntegrationTest {
   }
 
   @Test
-  @Sql("referralintegrationtest/sql/users.sql")
+  @Sql("referralsintegrationtest/sql/users.sql")
   @DisplayName("Should return false against incorrect referral code")
   void shouldIgnoreIncorrectReferralCode() {
     whenMutating("apply_incorrect_referral_code", USER_ID_00)

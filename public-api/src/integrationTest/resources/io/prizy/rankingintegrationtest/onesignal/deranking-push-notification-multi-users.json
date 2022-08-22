@@ -13,5 +13,6 @@
   "headings" : {
     "en" : "Mince ! Tu viens de te faire dépasser !",
     "fr" : "Mince ! Tu viens de te faire dépasser !"
-  }
+  },
+  "large_icon": "ic_onesignal_large"
 }

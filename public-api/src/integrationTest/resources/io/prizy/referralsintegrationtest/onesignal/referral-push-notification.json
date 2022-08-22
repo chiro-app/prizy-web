@@ -12,5 +12,6 @@
   "headings" : {
     "fr" : "Félicitations ton code parrain a été activé ! 🎉🤗",
     "en" : "Félicitations ton code parrain a été activé ! 🎉🤗"
-  }
+  },
+  "large_icon": "ic_onesignal_large"
 }

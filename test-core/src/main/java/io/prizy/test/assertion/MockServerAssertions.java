@@ -43,7 +43,6 @@ public interface MockServerAssertions {
 
   default void assertRequestedWithBody(String path, String jsonBody) {
     MOCK_SERVER_EXTENSION.assertRequestedWithBody(path, jsonBody);
-
   }
 
 }
