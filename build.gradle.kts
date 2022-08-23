@@ -46,6 +46,7 @@ subprojects {
       val restAssuredVersion: String by project
       val bouncyCastleVersion: String by project
       val graphqlKotlinVersion: String by project
+      val testContainersVersion: String by project
       val hibernateTypesVersion: String by project
       val awaitilityVersion: String by project
       val mockserverVersion: String by project
@@ -55,6 +56,9 @@ subprojects {
       dependency("com.github.spullara.mustache.java:compiler:$mustacheVersion")
       dependency("com.vladmihalcea:hibernate-types-55:$hibernateTypesVersion")
       dependency("org.mock-server:mockserver-client-java:$mockserverVersion")
+      dependency("org.testcontainers:testcontainers:$testContainersVersion")
+      dependency("org.testcontainers:junit-jupiter:$testContainersVersion")
+      dependency("org.testcontainers:postgresql:$testContainersVersion")
       dependency("org.apache.commons:commons-lang3:$commonsLangVersion")
       dependency("org.bouncycastle:bcprov-jdk15on:$bouncyCastleVersion")
       dependency("org.bouncycastle:bcpkix-jdk15on:$bouncyCastleVersion")

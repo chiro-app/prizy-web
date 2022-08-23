@@ -29,7 +29,7 @@ values ('00000000-0000-0000-0000-000000000000', 'Apple Inc', '123456789', 1024, 
         '00000000-0000-0000-0000-000000000000');
 
 insert into game_boards (id, name, cells, row_size)
-values ('00000000-0000-0000-0000-000000000000', 'Default', '[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]', 4);
+values ('00000000-0000-0000-0000-000000000000', 'Default', '{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}', 4);
 
 
 insert into contests (id, name, from_date, to_date, description, category, cover_asset_id, cost, access_code,

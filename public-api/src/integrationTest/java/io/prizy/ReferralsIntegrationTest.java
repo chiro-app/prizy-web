@@ -2,6 +2,7 @@ package io.prizy;
 
 import java.util.UUID;
 
+import org.awaitility.Awaitility;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.test.context.jdbc.Sql;
@@ -42,7 +43,10 @@ public class ReferralsIntegrationTest extends IntegrationTest {
       .value("currency").isEqualTo("KEYS")
       .value("amount").isEqualTo(6);
 
-    assertRequestedWithBody("", resourceFile("onesignal/referral-push-notification.json"));
+    Awaitility
+      .await()
+      .untilAsserted(() -> assertRequestedWithBody("/onesignal", resourceFile("onesignal/referral-push-notification" +
+        ".json")));
   }
 
   @Test

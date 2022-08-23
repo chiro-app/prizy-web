@@ -1,0 +1,16 @@
+{
+  "data" : {
+    "user" : {
+      "id" : "{#uuid#}",
+      "firstName" : "John",
+      "lastName" : "Doe",
+      "email" : "john.doe@email.com",
+      "username" : "jdoe",
+      "birthDate" : "1990-10-10",
+      "status" : "PENDING",
+      "gender" : "MALE",
+      "created" : "{#date_time_format:iso_instant#}",
+      "referralCode" : "{#regex:^[A-Z0-9]{6}$#}"
+    }
+  }
+}

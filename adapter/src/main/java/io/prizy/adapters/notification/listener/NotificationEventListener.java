@@ -22,6 +22,7 @@ public class NotificationEventListener {
 
   private final NotificationService notificationService;
 
+  @Async
   @EventListener
   public void onSendEmail(SendEmail event) {
     log.info("Sending email with subject {} to {}", event.email().subject(), event.email().userId());

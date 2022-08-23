@@ -25,7 +25,7 @@ public class AuthIntegrationTest extends IntegrationTest {
     assertThatTable("refresh_tokens", "user_id")
       .hasNumberOfRows(2)
       .row(0)
-      .value("user_id").isEqualTo("85c97ad0-e87c-4068-a10e-d5f97072362f");
+      .value("user_id").isEqualTo("00000000-0000-0000-0000-000000000000");
   }
 
   @Test

@@ -9,7 +9,6 @@ import io.prizy.test.util.ResourceUtils;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.context.ApplicationEventPublisher;
@@ -24,7 +23,6 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 @WithMockServer
 @ActiveProfiles("test")
-@AutoConfigureTestDatabase
 @ExtendWith({SpringExtension.class, MockitoExtension.class})
 @SpringBootTest(classes = Application.class, webEnvironment = WebEnvironment.RANDOM_PORT)
 public abstract class IntegrationTest implements GraphQLAssertions, DatabaseAssertions, MockServerAssertions {

@@ -17,5 +17,5 @@ data class CreateUserDto(
   val lastName: String,
   val gender: GenderDto,
   val birthDate: LocalDate,
-  val mobilePhone: String?
+  val mobilePhone: String? = null
 )

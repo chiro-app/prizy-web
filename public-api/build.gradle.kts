@@ -57,7 +57,7 @@ dependencies {
   integrationTestCompileOnly("org.projectlombok:lombok")
   integrationTestAnnotationProcessor("org.projectlombok:lombok")
 
-  integrationTestRuntimeOnly("com.h2database:h2")
+  integrationTestRuntimeOnly("org.testcontainers:postgresql")
 
   integrationTestImplementation("org.awaitility:awaitility")
   integrationTestImplementation("org.mock-server:mockserver-netty")
@@ -73,6 +73,9 @@ dependencies {
 
   integrationTestImplementation("com.fasterxml.jackson.core:jackson-core")
   integrationTestImplementation("com.fasterxml.jackson.core:jackson-databind")
+
+  integrationTestImplementation("org.testcontainers:junit-jupiter")
+  integrationTestImplementation("org.testcontainers:testcontainers")
 }
 
 tasks.withType<BootJar> {

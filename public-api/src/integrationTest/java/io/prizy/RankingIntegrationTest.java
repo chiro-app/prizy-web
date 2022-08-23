@@ -4,6 +4,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import io.prizy.domain.ranking.event.RankingChanged;
+import org.awaitility.Awaitility;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.test.context.jdbc.Sql;
@@ -31,7 +32,10 @@ public class RankingIntegrationTest extends IntegrationTest {
     publishEvent(RankingChanged.builder().contestId(CONTEST_ID).userId(USER_ID).previousRank(Optional.empty()).build());
 
     // Then
-    assertRequestedWithBody("/", resourceFile("onesignal/deranking-push-notification-multi-users.json"));
+    Awaitility
+      .await()
+      .untilAsserted(() -> assertRequestedWithBody("/onesignal", resourceFile("onesignal/deranking-push-notification" +
+        "-multi-users.json")));
   }
 
   @Test
@@ -45,7 +49,10 @@ public class RankingIntegrationTest extends IntegrationTest {
     publishEvent(RankingChanged.builder().contestId(CONTEST_ID).userId(USER_ID).previousRank(Optional.of(2)).build());
 
     // Then
-    assertRequestedWithBody("/", resourceFile("onesignal/deranking-push-notification-single-user.json"));
+    Awaitility
+      .await()
+      .untilAsserted(() -> assertRequestedWithBody("/onesignal", resourceFile("onesignal/deranking-push-notification" +
+        "-single-user.json")));
   }
 
 }

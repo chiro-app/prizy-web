@@ -13,6 +13,6 @@ data class UpdateAddressDto(
   val country: String,
   val city: String,
   val postalCode: String,
-  val extraLine1: String?,
-  val extraLine2: String?
+  val extraLine1: String? = null,
+  val extraLine2: String? = null
 )

@@ -46,23 +46,27 @@ public class DatabaseExtension implements TestInstancePostProcessor, BeforeAllCa
   }
 
   private void truncateTables(ExtensionContext context) {
-    // TODO(Nidhal): Make this driver agnostic (Postgres ...)
+    // TODO(Nidhal): Make this driver agnostic
     var jdbcTemplate = SpringExtension.getApplicationContext(context).getBean(JdbcTemplate.class);
     var tableNames = jdbcTemplate
-      .queryForList("select table_name from information_schema.tables where table_schema = 'PUBLIC'")
+      .queryForList("""
+        select tablename as table_name
+        from pg_tables
+        where schemaname = 'public'
+          and tablename != 'schema_version'
+          and tablename != 'flyway_schema_history';
+        """)
       .stream()
       .map(map -> (String) map.get("table_name"))
-      .filter(tableName -> !"flyway_schema_history".equalsIgnoreCase(tableName))
       .toList();
-    var deleteQueries = tableNames
+    var truncateQueries = tableNames
       .stream()
-      .map(tableName -> String.format("delete from %s;", tableName))
+      .map(tableName -> String.format("truncate table %s restart identity cascade;", tableName))
       .toList();
     jdbcTemplate.execute(String.format("""
-      set referential_integrity false;
+      set session_replication_role = replica;
       %s
-      set referential_integrity true;
-      commit;
-      """, String.join("\n", deleteQueries)));
+      set session_replication_role = default;
+      """, String.join("\n", truncateQueries)));
   }
 }
