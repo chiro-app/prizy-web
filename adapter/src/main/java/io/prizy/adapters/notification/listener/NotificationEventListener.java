@@ -6,6 +6,7 @@ import io.prizy.domain.notification.service.NotificationService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.event.EventListener;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 /**
@@ -27,6 +28,7 @@ public class NotificationEventListener {
     notificationService.send(event.email());
   }
 
+  @Async
   @EventListener
   public void onSendPushNotification(SendPushNotification event) {
     log.info("Sending push notification {}", event.push());

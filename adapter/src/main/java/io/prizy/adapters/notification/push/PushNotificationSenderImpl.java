@@ -83,7 +83,6 @@ public class PushNotificationSenderImpl implements PushNotificationSender {
       log.info("Notification sent through OneSignal {}", oneSignalResponse);
     } catch (Exception exception) {
       log.error(exception.getMessage(), exception);
-      throw exception;
     }
   }
 
