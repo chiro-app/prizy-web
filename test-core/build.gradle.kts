@@ -25,4 +25,7 @@ dependencies {
 
   implementation("com.fasterxml.jackson.core:jackson-core")
   implementation("com.fasterxml.jackson.core:jackson-databind")
+
+  implementation("com.icegreen:greenmail")
+  implementation("com.icegreen:greenmail-junit5")
 }

@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.event.TransactionalEventListener;
 
 /**
  * @author Nidhal Dogga
@@ -23,7 +24,7 @@ public class NotificationEventListener {
   private final NotificationService notificationService;
 
   @Async
-  @EventListener
+  @TransactionalEventListener
   public void onSendEmail(SendEmail event) {
     log.info("Sending email with subject {} to {}", event.email().subject(), event.email().userId());
     notificationService.send(event.email());

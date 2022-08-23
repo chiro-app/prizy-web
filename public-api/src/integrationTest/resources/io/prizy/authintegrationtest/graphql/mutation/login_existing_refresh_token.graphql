@@ -1,5 +1,5 @@
 mutation {
-  login(request: {
+  credentials: login(request: {
     login: "john.doe+2@email.com"
     password: "HelloWorld"
   }) {

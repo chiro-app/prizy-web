@@ -4,6 +4,7 @@ import io.prizy.publicapi.application.Application;
 import io.prizy.test.annotation.WithMockServer;
 import io.prizy.test.assertion.DatabaseAssertions;
 import io.prizy.test.assertion.GraphQLAssertions;
+import io.prizy.test.assertion.MailAssertions;
 import io.prizy.test.assertion.MockServerAssertions;
 import io.prizy.test.util.ResourceUtils;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -25,7 +26,8 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 @ActiveProfiles("test")
 @ExtendWith({SpringExtension.class, MockitoExtension.class})
 @SpringBootTest(classes = Application.class, webEnvironment = WebEnvironment.RANDOM_PORT)
-public abstract class IntegrationTest implements GraphQLAssertions, DatabaseAssertions, MockServerAssertions {
+public abstract class IntegrationTest implements GraphQLAssertions, DatabaseAssertions, MockServerAssertions,
+  MailAssertions {
 
   @Autowired
   private ApplicationEventPublisher aep;

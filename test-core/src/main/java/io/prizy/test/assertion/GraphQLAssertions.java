@@ -82,7 +82,7 @@ public interface GraphQLAssertions {
       );
       return OBJECT_MAPPER.writeValueAsString(operation);
     } catch (IOException exception) {
-      throw new IllegalArgumentException(exception);
+      throw new IllegalStateException(exception);
     }
   }
 

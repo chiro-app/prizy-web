@@ -1,0 +1,22 @@
+mutation {
+  user: createUser(request: {
+    firstName: "John"
+    lastName: "Doe"
+    email: "john.doe@email.com"
+    username: "jdoedoe"
+    password: "123456"
+    gender: MALE
+    birthDate: "1990-10-10"
+  }) {
+    id
+    firstName
+    lastName
+    email
+    username
+    gender
+    birthDate
+    status
+    created
+    referralCode
+  }
+}

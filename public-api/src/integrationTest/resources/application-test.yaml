@@ -3,11 +3,7 @@ spring:
     url: jdbc:tc:postgresql:14.5:///prizy-web-test
   mail:
     host: localhost
-    port: 25
-
-graphql:
-  playground:
-    enabled: true
+    port: 3025
 
 prizy:
   bootstrap.enable-runners: false
@@ -72,7 +68,3 @@ prizy:
         EvbX4Nt2Ze4tv2o9DIbWVaUcjTvbpVVQKI9mImIeheAxsBRwZLBCtgjDYC9j0S5t
         6tGWVyiaPH1DXAJcd1MjdWm60x58Llwy1Xkkeg7Fd/ASMnIPchxg
         -----END RSA PRIVATE KEY-----
-
-logging.level.org.hibernate:
-  SQL: DEBUG
-  type.descriptor.sql.BasicBinder: TRACE

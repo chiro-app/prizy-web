@@ -59,4 +59,24 @@ public class AuthIntegrationTest extends IntegrationTest {
     assertThatTable("refresh_tokens").hasNumberOfRows(1);
   }
 
+  @Test
+  @Sql("authintegrationtest/sql/users.sql")
+  @DisplayName("Should return jwt against valid refresh token")
+  void shouldReturnJwtAgainstValidRefreshToken() {
+    whenMutating("refresh_credentials")
+      .then()
+      .assertThat()
+      .body(jsonMatcher("json/jwt-response-existing-refresh-token.json"));
+  }
+
+  @Test
+  @Sql("authintegrationtest/sql/users.sql")
+  @DisplayName("Should return error against invalid refresh token")
+  void shouldReturnErrorAgainstInvalidRefreshToken() {
+    whenMutating("refresh_invalid_credentials")
+      .then()
+      .assertThat()
+      .body(jsonMatcher("json/invalid-credentials.json"));
+  }
+
 }

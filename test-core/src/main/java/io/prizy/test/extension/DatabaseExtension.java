@@ -1,14 +1,15 @@
 package io.prizy.test.extension;
 
+import java.util.List;
+import java.util.Map;
 import javax.sql.DataSource;
 
 import lombok.Getter;
 import org.junit.jupiter.api.extension.AfterEachCallback;
 import org.junit.jupiter.api.extension.BeforeAllCallback;
-import org.junit.jupiter.api.extension.BeforeEachCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
-import org.junit.jupiter.api.extension.TestInstancePostProcessor;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 /**
@@ -18,36 +19,39 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 
 @Getter
-public class DatabaseExtension implements TestInstancePostProcessor, BeforeAllCallback, BeforeEachCallback,
-  AfterEachCallback {
+public class DatabaseExtension implements BeforeAllCallback, AfterEachCallback {
 
   private DataSource dataSource;
-
-  @Override
-  public void postProcessTestInstance(Object testInstance, ExtensionContext context) {
-    dataSource = SpringExtension.getApplicationContext(context).getBean(DataSource.class);
-  }
-
-  @Override
-  public void beforeEach(ExtensionContext context) {
-    dataSource = SpringExtension.getApplicationContext(context).getBean(DataSource.class);
-  }
+  private JdbcTemplate jdbcTemplate;
 
   @Override
   public void afterEach(ExtensionContext context) {
     // Clean up tables after each test
-    truncateTables(context);
+    truncateTables();
   }
 
   @Override
   public void beforeAll(ExtensionContext context) {
     // Clean up tables before all tests
-    truncateTables(context);
+    dataSource = SpringExtension.getApplicationContext(context).getBean(DataSource.class);
+    jdbcTemplate = SpringExtension.getApplicationContext(context).getBean(JdbcTemplate.class);
+    truncateTables();
   }
 
-  private void truncateTables(ExtensionContext context) {
+  public List<Map<String, Object>> queryForList(String sql) {
+    return jdbcTemplate.queryForList(sql);
+  }
+
+  public <T> T queryForObject(String sql, Class<T> cls) {
+    return jdbcTemplate.queryForObject(sql, cls);
+  }
+
+  public SqlRowSet queryForRowSet(String sql) {
+    return jdbcTemplate.queryForRowSet(sql);
+  }
+
+  private void truncateTables() {
     // TODO(Nidhal): Make this driver agnostic
-    var jdbcTemplate = SpringExtension.getApplicationContext(context).getBean(JdbcTemplate.class);
     var tableNames = jdbcTemplate
       .queryForList("""
         select tablename as table_name
