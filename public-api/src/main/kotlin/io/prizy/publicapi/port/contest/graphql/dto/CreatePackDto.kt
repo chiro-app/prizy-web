@@ -20,7 +20,7 @@ data class CreatePackDto(
     val firstWinnerPosition: Int,
     val lastWinnerPosition: Int,
     val quantity: Int,
-    val value: Float,
+    val value: Double,
     val assetId: String,
   )
 

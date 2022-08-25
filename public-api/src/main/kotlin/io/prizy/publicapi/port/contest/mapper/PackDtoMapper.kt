@@ -18,9 +18,10 @@ object PackDtoMapper {
         lastWinnerPosition = dto.lastWinnerPosition,
         firstWinnerPosition = dto.firstWinnerPosition,
         quantity = dto.quantity,
-        value = dto.value,
+        value = dto.value.toDouble(),
         assetId = dto.assetId,
       )
+
       is Pack.Coupon -> PackDto.Coupon(
         id = dto.id,
         name = dto.name,
@@ -29,6 +30,7 @@ object PackDtoMapper {
         code = dto.code,
         expiration = dto.expiration
       )
+
       else -> throw IllegalArgumentException("Unknown pack type ${dto::class.simpleName}")
     }
   }

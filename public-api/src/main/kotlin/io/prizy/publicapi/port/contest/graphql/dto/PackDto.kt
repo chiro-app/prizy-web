@@ -31,7 +31,7 @@ sealed interface PackDto {
     override val lastWinnerPosition: Int,
     override val firstWinnerPosition: Int,
     val quantity: Int,
-    val value: Float,
+    val value: Double,
     @GraphQLIgnore
     val assetId: String
   ) : PackDto {

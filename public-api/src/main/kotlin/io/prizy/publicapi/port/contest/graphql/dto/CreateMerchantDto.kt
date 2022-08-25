@@ -11,7 +11,7 @@ import com.expediagroup.graphql.generator.annotations.GraphQLName
 data class CreateMerchantDto(
   val name: String,
   val siren: String,
-  val capital: Float,
+  val capital: Double,
   val address: String,
   val logoAssetId: String
 )

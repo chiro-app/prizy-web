@@ -18,7 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired
 data class MerchantDto(
   val name: String,
   val siren: String,
-  val capital: Float,
+  val capital: Double,
   val address: String,
   @GraphQLIgnore
   val logoAssetId: String

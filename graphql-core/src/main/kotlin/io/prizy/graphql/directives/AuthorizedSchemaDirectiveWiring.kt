@@ -72,12 +72,13 @@ class AuthorizedSchemaDirectiveWiring : KotlinSchemaDirectiveWiring {
 
         originalDataFetcher.get(dfe)
       } catch (exception: Throwable) {
+        log.error(exception.message, exception)
         DataFetcherResult
           .newResult<Any?>()
           .error(
             GraphQLException(
               locations = listOf(dfe.operationDefinition.sourceLocation),
-              errorCode = exception::class.findAnnotation<ErrorCode>()?.value ?: "INTERNAL_SERVER",
+              errorCode = exception::class.findAnnotation<ErrorCode>()?.value ?: "INTERNAL_SERVER_ERROR",
             )
           )
           .build()

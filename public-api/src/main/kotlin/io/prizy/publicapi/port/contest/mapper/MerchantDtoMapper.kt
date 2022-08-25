@@ -14,7 +14,7 @@ object MerchantDtoMapper {
     return Merchant.builder()
       .name(dto.name)
       .siren(dto.siren)
-      .capital(dto.capital)
+      .capital(dto.capital.toFloat())
       .address(dto.address)
       .logoAssetId(dto.logoAssetId)
       .build()
@@ -26,7 +26,7 @@ object MerchantDtoMapper {
       address = dto.address,
       siren = dto.siren,
       logoAssetId = dto.logoAssetId,
-      capital = dto.capital,
+      capital = dto.capital.toDouble(),
     )
   }
 }

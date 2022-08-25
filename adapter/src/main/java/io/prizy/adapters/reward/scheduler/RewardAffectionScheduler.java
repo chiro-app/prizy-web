@@ -19,7 +19,7 @@ public class RewardAffectionScheduler {
 
   private final RewardService rewardService;
 
-  @Scheduled(cron = "0 0 * * * *") // every hour
+  @Scheduled(cron = "0 5 * * * *") // every hour
   public void scheduleRewardAffection() {
     log.info("Looking for finished contests waiting for reward attribution");
     rewardService.affectRewardsToFinishedContests();

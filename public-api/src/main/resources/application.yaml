@@ -16,7 +16,6 @@ prizy:
 
   resources:
     referral-key-bonus: 6
-    referrer-key-bonus: 6
     daily-diamonds-bonus: 25
     daily-lives-bonus: 8
     initial-diamonds-bonus: 100

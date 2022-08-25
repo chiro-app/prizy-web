@@ -64,8 +64,8 @@ public class UsersIntegrationTest extends IntegrationTest {
       .body(jsonMatcher("json/user-exists-error.json"));
 
     assertThatTable("users").hasNumberOfRows(1);
-    assertThatTable("referral_nodes").hasNumberOfRows(0);
-    assertThatTable("confirmation_codes").hasNumberOfRows(0);
+    assertThatTable("referral_nodes").isEmpty();
+    assertThatTable("confirmation_codes").isEmpty();
   }
 
   @Test
@@ -77,8 +77,8 @@ public class UsersIntegrationTest extends IntegrationTest {
       .body(jsonMatcher("json/user-exists-error.json"));
 
     assertThatTable("users").hasNumberOfRows(1);
-    assertThatTable("referral_nodes").hasNumberOfRows(0);
-    assertThatTable("confirmation_codes").hasNumberOfRows(0);
+    assertThatTable("referral_nodes").isEmpty();
+    assertThatTable("confirmation_codes").isEmpty();
   }
 
 }

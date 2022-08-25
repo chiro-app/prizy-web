@@ -17,9 +17,10 @@ object CreatePackDtoMapper {
       .firstWinnerPosition(dto.product.firstWinnerPosition)
       .lastWinnerPosition(dto.product.lastWinnerPosition)
       .quantity(dto.product.quantity)
-      .value(dto.product.value)
+      .value(dto.product.value.toFloat())
       .assetId(dto.product.assetId)
       .build()
+
     dto.coupon != null -> CreatePack.Coupon.builder()
       .name(dto.coupon.name)
       .firstWinnerPosition(dto.coupon.firstWinnerPosition)
@@ -27,6 +28,7 @@ object CreatePackDtoMapper {
       .code(dto.coupon.code)
       .expiration(dto.coupon.expiration)
       .build()
+
     else -> throw IllegalArgumentException("Cannot create a pack without a coupon or product")
   }
 }
