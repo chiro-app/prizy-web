@@ -44,7 +44,8 @@ public class ResourceBonusNotifier {
 
   public void notifyForBonus() {
     notifyForContestBonuses();
-    notifyForKeys();
+//    TODO(Nidhal): Re-enable after adjusting rules
+//    notifyForKeys();
   }
 
   private void notifyForContestBonuses() {
