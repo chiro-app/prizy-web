@@ -1,5 +1,7 @@
 package io.prizy;
 
+import java.sql.Timestamp;
+
 import io.prizy.publicapi.application.Application;
 import io.prizy.test.annotation.WithMockServer;
 import io.prizy.test.assertion.DatabaseAssertions;
@@ -7,6 +9,7 @@ import io.prizy.test.assertion.GraphQLAssertions;
 import io.prizy.test.assertion.MailAssertions;
 import io.prizy.test.assertion.MockServerAssertions;
 import io.prizy.test.util.ResourceUtils;
+import org.assertj.db.type.DateTimeValue;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +41,10 @@ public abstract class IntegrationTest implements GraphQLAssertions, DatabaseAsse
 
   protected String resourceFile(String name) {
     return ResourceUtils.resourceFile(getClass(), name);
+  }
+
+  protected DateTimeValue dateTimeValue(String raw) {
+    return DateTimeValue.from(Timestamp.valueOf(raw));
   }
 
 }
