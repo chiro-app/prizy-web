@@ -30,4 +30,6 @@ public interface ResourceRepository {
 
   Collection<ResourceTransaction> byUserIdAndTypeAndCurrencyAndDateTimeBetween(
     UUID userId, TransactionType type, Currency currency, Instant from, Instant to);
+
+  Optional<ResourceTransaction.Absolute> getLastByUserId(UUID userId);
 }

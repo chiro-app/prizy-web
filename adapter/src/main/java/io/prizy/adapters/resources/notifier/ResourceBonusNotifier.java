@@ -1,5 +1,7 @@
 package io.prizy.adapters.resources.notifier;
 
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.stream.Collectors;
 
 import io.prizy.domain.contest.model.ContestSubscription;
@@ -9,6 +11,7 @@ import io.prizy.domain.notification.event.SendPushNotification;
 import io.prizy.domain.notification.model.PushNotification;
 import io.prizy.domain.notification.publisher.NotificationPublisher;
 import io.prizy.domain.resources.service.ResourceBonusService;
+import io.prizy.domain.resources.service.ResourceService;
 import io.prizy.domain.user.model.User;
 import io.prizy.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -28,24 +31,22 @@ public class ResourceBonusNotifier {
 
   private static final String CONTEST_BONUS_PUSH_NOTIFICATION_SUBJECT = "Ding Ding Ding \uD83D\uDC8E\n";
   private static final String CONTEST_BONUS_PUSH_NOTIFICATION_CONTENT = "Tes diamants et tes vies sont prêts à être " +
-    "récoltés " +
-    "\uD83E\uDD29";
+    "récoltés \uD83E\uDD29";
 
   private static final String KEYS_BONUS_PUSH_NOTIFICATION_SUBJECT = "Tes clés sont arrivées ! \uD83D\uDE0A";
   private static final String KEYS_BONUS_PUSH_NOTIFICATION_CONTENT = "Viens vite les récupérer pour participer aux " +
-    "nouveaux" +
-    " concours.";
+    "nouveaux concours";
 
   private final NotificationPublisher notificationPublisher;
   private final ContestSubscriptionService subscriptionService;
   private final ContestService contestService;
   private final ResourceBonusService bonusService;
   private final UserService userService;
+  private final ResourceService resourceService;
 
   public void notifyForBonus() {
     notifyForContestBonuses();
-//    TODO(Nidhal): Re-enable after adjusting rules
-//    notifyForKeys();
+    notifyForKeys();
   }
 
   private void notifyForContestBonuses() {
@@ -67,8 +68,13 @@ public class ResourceBonusNotifier {
   private void notifyForKeys() {
     var usersWithPendingKeysBonus = userService.listUsers()
       .stream()
+      .filter(user -> bonusService.hasAvailableKeysBonus(user.id()))
+      .filter(user -> resourceService
+        .lastKeysTransaction(user.id())
+        .map(transaction -> Instant.now().minus(1, ChronoUnit.DAYS).isBefore(transaction.dateTime()))
+        .orElseGet(() -> Instant.now().minus(1, ChronoUnit.DAYS).isBefore(user.created()))
+      )
       .map(User::id)
-      .filter(bonusService::hasAvailableKeysBonus)
       .collect(Collectors.toSet());
     var notification = PushNotification.MultipleUsers.builder()
       .userIds(usersWithPendingKeysBonus)

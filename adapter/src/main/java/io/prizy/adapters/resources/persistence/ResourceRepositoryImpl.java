@@ -104,7 +104,14 @@ public class ResourceRepositoryImpl implements ResourceRepository {
       .toList();
   }
 
-  @Override
+    @Override
+    public Optional<ResourceTransaction.Absolute> getLastByUserId(UUID userId) {
+      return absoluteJpaRepository
+        .findTop1ByUserIdOrderByDateTimeDesc(userId)
+        .map(entity -> (ResourceTransaction.Absolute) ResourceTransactionMapper.map(entity));
+    }
+
+    @Override
   public ResourceTransaction alterKeys(UUID userId, Long amount, TransactionType txType) {
     var transaction = ResourceTransactionEntity.Absolute.builder()
       .type(txType)

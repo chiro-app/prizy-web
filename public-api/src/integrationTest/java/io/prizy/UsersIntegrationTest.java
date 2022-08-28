@@ -52,7 +52,11 @@ public class UsersIntegrationTest extends IntegrationTest {
 
     Awaitility
       .await()
-      .untilAsserted(() -> assertThatEmailSent("john.doe@email.com", expectedSubject));
+      .untilAsserted(() -> assertThatEmail()
+        .hasNumberOfEmails(1)
+        .atIndex(0)
+        .hasRecipient("john.doe@email.com")
+        .hasSubject(expectedSubject));
   }
 
   @Test

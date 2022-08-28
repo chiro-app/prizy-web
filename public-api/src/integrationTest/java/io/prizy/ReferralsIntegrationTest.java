@@ -1,5 +1,6 @@
 package io.prizy;
 
+import java.util.List;
 import java.util.UUID;
 
 import org.awaitility.Awaitility;
@@ -45,8 +46,11 @@ public class ReferralsIntegrationTest extends IntegrationTest {
 
     Awaitility
       .await()
-      .untilAsserted(() -> assertRequestedWithBody("/onesignal", resourceFile("onesignal/referral-push-notification" +
-        ".json")));
+      .untilAsserted(() -> assertThatPushNotification()
+        .hasContent("Pour te récompenser nous t'offrons 6 clés \uD83D\uDD11")
+        .hasSubject("Félicitations ton code parrain a été activé ! \uD83C\uDF89\uD83E\uDD17")
+        .hasRecipients(List.of(USER_ID_01))
+      );
   }
 
   @Test

@@ -60,4 +60,8 @@ public class MockServerExtension implements BeforeAllCallback, AfterAllCallback,
     return List.of(mockserver.retrieveRecordedRequests(request(path)));
   }
 
+  public Collection<HttpRequest> retrieveRequests() {
+    return List.of(mockserver.retrieveRecordedRequests(request()));
+  }
+
 }

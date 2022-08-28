@@ -1,5 +1,6 @@
 package io.prizy.domain.resources.service;
 
+import java.util.Optional;
 import java.util.UUID;
 
 import io.prizy.domain.contest.exception.ContestNotFoundException;
@@ -7,6 +8,7 @@ import io.prizy.domain.contest.ports.ContestRepository;
 import io.prizy.domain.resources.event.ResourceTransactionCreated;
 import io.prizy.domain.resources.model.Currency;
 import io.prizy.domain.resources.model.ResourceBalance;
+import io.prizy.domain.resources.model.ResourceTransaction;
 import io.prizy.domain.resources.model.TransactionType;
 import io.prizy.domain.resources.ports.ResourcePublisher;
 import io.prizy.domain.resources.ports.ResourceRepository;
@@ -71,5 +73,9 @@ public class ResourceService {
       .orElseThrow(() -> new ContestNotFoundException(contestId));
     var transaction = repository.alterKeys(userId, contest.cost().longValue(), TransactionType.DEBIT);
     resourcePublisher.publish(new ResourceTransactionCreated(transaction));
+  }
+
+  public Optional<ResourceTransaction.Absolute> lastKeysTransaction(UUID userId) {
+    return repository.getLastByUserId(userId);
   }
 }

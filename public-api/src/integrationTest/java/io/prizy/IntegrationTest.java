@@ -8,6 +8,8 @@ import io.prizy.test.assertion.DatabaseAssertions;
 import io.prizy.test.assertion.GraphQLAssertions;
 import io.prizy.test.assertion.MailAssertions;
 import io.prizy.test.assertion.MockServerAssertions;
+import io.prizy.test.assertion.PushNotificationAssertions;
+import io.prizy.test.assertion.ScheduledTasksAssertions;
 import io.prizy.test.util.ResourceUtils;
 import org.assertj.db.type.DateTimeValue;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -30,7 +32,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 @ExtendWith({SpringExtension.class, MockitoExtension.class})
 @SpringBootTest(classes = Application.class, webEnvironment = WebEnvironment.RANDOM_PORT)
 public abstract class IntegrationTest implements GraphQLAssertions, DatabaseAssertions, MockServerAssertions,
-  MailAssertions {
+  MailAssertions, PushNotificationAssertions, ScheduledTasksAssertions {
 
   @Autowired
   private ApplicationEventPublisher aep;
