@@ -53,6 +53,7 @@ dependencies {
   integrationTestImplementation(project(":test-core"))
 
   integrationTestCompileOnly(project(":domain"))
+  integrationTestCompileOnly(project(":adapter"))
 
   integrationTestCompileOnly("org.projectlombok:lombok")
   integrationTestAnnotationProcessor("org.projectlombok:lombok")

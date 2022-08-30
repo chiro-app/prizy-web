@@ -33,7 +33,12 @@ public class PushNotificationIntegrationTest extends IntegrationTest {
     stubOneSignal();
 
     // When
-    publishEvent(RankingChanged.builder().contestId(CONTEST_ID).userId(USER_ID).previousRank(Optional.empty()).build());
+    publishEvent(RankingChanged.builder()
+      .contestId(CONTEST_ID)
+      .userId(USER_ID)
+      .previousRank(Optional.empty())
+      .build()
+    );
 
     // Then
     Awaitility
@@ -57,7 +62,12 @@ public class PushNotificationIntegrationTest extends IntegrationTest {
     stubOneSignal();
 
     // When
-    publishEvent(RankingChanged.builder().contestId(CONTEST_ID).userId(USER_ID).previousRank(Optional.of(2)).build());
+    publishEvent(RankingChanged.builder()
+      .contestId(CONTEST_ID)
+      .userId(USER_ID)
+      .previousRank(Optional.of(2))
+      .build()
+    );
 
     // Then
     Awaitility

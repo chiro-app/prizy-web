@@ -24,22 +24,6 @@ public interface MailAssertions {
   @RegisterExtension
   GreenMailExtension GREEN_MAIL_EXTENSION = new GreenMailExtension(SMTP);
 
-  default void assertThatEmailSent(String recipient, String subject) {
-    assertThat(GREEN_MAIL_EXTENSION.getReceivedMessages())
-      .anyMatch(mimeMessage -> {
-          try {
-            return mimeMessage.getSubject().equals(subject) &&
-              Arrays
-                .stream(mimeMessage.getAllRecipients())
-                .anyMatch(address -> address.toString().equals(recipient));
-          } catch (MessagingException e) {
-            fail(e.getMessage());
-          }
-          return false;
-        }
-      );
-  }
-
   default GreenMailMultipleAssertion assertThatEmail() {
     return new GreenMailMultipleAssertion(GREEN_MAIL_EXTENSION.getReceivedMessages());
   }
