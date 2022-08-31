@@ -47,6 +47,8 @@ public class ReferralsIntegrationTest extends IntegrationTest {
     Awaitility
       .await()
       .untilAsserted(() -> assertThatPushNotification()
+        .hasNumberOfNotifications(1)
+        .atIndex(0)
         .hasContent("Pour te récompenser nous t'offrons 6 clés \uD83D\uDD11")
         .hasSubject("Félicitations ton code parrain a été activé ! \uD83C\uDF89\uD83E\uDD17")
         .hasRecipients(List.of(USER_ID_01))

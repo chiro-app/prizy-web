@@ -1,8 +1,8 @@
 package io.prizy.test.extension;
 
-import org.junit.jupiter.api.extension.AfterAllCallback;
 import org.junit.jupiter.api.extension.BeforeAllCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
+import org.springframework.context.ApplicationContext;
 import org.springframework.scheduling.config.CronTask;
 import org.springframework.scheduling.config.ScheduledTask;
 import org.springframework.scheduling.config.ScheduledTaskHolder;
@@ -15,29 +15,17 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
  */
 
 
-public class ScheduledTasksExtension implements BeforeAllCallback, AfterAllCallback {
+public class ScheduledTasksExtension implements BeforeAllCallback {
 
-  private ScheduledTaskHolder holder;
-
-
-  @Override
-  public void afterAll(ExtensionContext context) {
-
-  }
+  private ApplicationContext applicationContext;
 
   @Override
   public void beforeAll(ExtensionContext context) {
-    holder = SpringExtension.getApplicationContext(context).getBean(ScheduledTaskHolder.class);
-  }
-
-  public void invokeScheduledTasks() {
-    holder.getScheduledTasks()
-      .stream()
-      .map(ScheduledTask::getTask)
-      .forEach(task -> task.getRunnable().run());
+    applicationContext = SpringExtension.getApplicationContext(context);
   }
 
   public <T> void invokeScheduledTask(Class<T> cls, String methodName) {
+    var holder = applicationContext.getBean(ScheduledTaskHolder.class);
     var cronTask = holder.getScheduledTasks()
       .stream()
       .map(ScheduledTask::getTask)

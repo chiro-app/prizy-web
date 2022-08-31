@@ -2,14 +2,17 @@ package io.prizy.test.assertion;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Builder;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.mockserver.model.HttpRequest;
 import org.mockserver.model.MediaType;
@@ -42,8 +45,8 @@ public interface PushNotificationAssertions {
     );
   }
 
-  default OneSignalPushNotificationAssertion assertThatPushNotification() {
-    return new OneSignalPushNotificationAssertion(MOCK_SERVER_EXTENSION.retrieveRequests(ONESIGNAL_PATH));
+  default OneSignalMultiplePushNotificationsAssertion assertThatPushNotification() {
+    return new OneSignalMultiplePushNotificationsAssertion(MOCK_SERVER_EXTENSION.retrieveRequests(ONESIGNAL_PATH));
   }
 
   enum OneSignalLocale {
@@ -53,14 +56,44 @@ public interface PushNotificationAssertions {
     ENGLISH
   }
 
+
+  @RequiredArgsConstructor
+  class OneSignalSinglePushNotificationAssertion {
+
+    private final CreateOneSignalNotification notification;
+
+    public OneSignalSinglePushNotificationAssertion hasSubject(String subject) {
+      assertThat(subject).isIn(notification.headings.get(OneSignalLocale.FRENCH),
+        notification.headings.get(OneSignalLocale.ENGLISH));
+      return this;
+    }
+
+    public OneSignalSinglePushNotificationAssertion hasContent(String content) {
+      assertThat(content).isIn(notification.contents.get(OneSignalLocale.FRENCH),
+        notification.contents.get(OneSignalLocale.ENGLISH));
+      return this;
+    }
+
+    public OneSignalSinglePushNotificationAssertion hasRecipients(Collection<UUID> recipients) {
+      assertThat(Set.of(recipients)).isEqualTo(Set.of(notification.userIds));
+      return this;
+    }
+
+    public OneSignalSinglePushNotificationAssertion withVariables(Map<String, Object> variables) {
+      assertThat(variables).isEqualTo(notification.variables.orElse(Map.of()));
+      return this;
+    }
+
+  }
+
   @Slf4j
-  class OneSignalPushNotificationAssertion extends MockServerAssertions.MockServerRequestAssertion {
+  class OneSignalMultiplePushNotificationsAssertion extends MockServerAssertions.MockServerRequestAssertion {
 
     private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
-    private final Collection<CreateOneSignalNotification> notifications;
+    private final List<CreateOneSignalNotification> notifications;
 
-    public OneSignalPushNotificationAssertion(Collection<HttpRequest> recordedRequests) {
+    public OneSignalMultiplePushNotificationsAssertion(Collection<HttpRequest> recordedRequests) {
       super(recordedRequests);
       notifications = recordedRequests.stream()
         .map(request -> {
@@ -75,33 +108,17 @@ public interface PushNotificationAssertions {
         .toList();
     }
 
-    public OneSignalPushNotificationAssertion hasSubject(String subject) {
-      assertThat(notifications)
-        .anyMatch(notification -> subject.equals(notification.headings.get(OneSignalLocale.FRENCH))
-          || subject.equals(notification.headings.get(OneSignalLocale.ENGLISH)));
+    public OneSignalMultiplePushNotificationsAssertion hasNumberOfNotifications(int size) {
+      assertThat(notifications).hasSize(size);
       return this;
     }
 
-    public OneSignalPushNotificationAssertion hasContent(String content) {
-      assertThat(notifications)
-        .anyMatch(notification -> content.equals(notification.contents.get(OneSignalLocale.FRENCH))
-          || content.equals(notification.contents.get(OneSignalLocale.ENGLISH)));
-      return this;
+    public void isEmpty() {
+      assertThat(notifications).isEmpty();
     }
 
-    public OneSignalPushNotificationAssertion hasRecipients(Collection<UUID> recipients) {
-      assertThat(notifications)
-        .anyMatch(notification -> recipients.equals(notification.userIds));
-      return this;
-    }
-
-    public OneSignalPushNotificationAssertion withVariables(Map<String, Object> variables) {
-      assertThat(notifications)
-        .anyMatch(notification -> notification.variables
-          .map(variables::equals)
-          .orElse(true)
-        );
-      return this;
+    public OneSignalSinglePushNotificationAssertion atIndex(int index) {
+      return new OneSignalSinglePushNotificationAssertion(notifications.get(index));
     }
 
   }

@@ -48,7 +48,9 @@ public class RankingService {
         .max(Comparator.comparing(RankingRow::score))
         .get()
       )
-      .sorted(Comparator.comparing(RankingRow::score))
+      .sorted(Comparator.comparing(RankingRow::score)
+        .thenComparing((lhs, rhs) -> (int) (rhs.dateTime().getEpochSecond() - lhs.dateTime().getEpochSecond()))
+      )
       .collect(Collectors.collectingAndThen(Collectors.toList(), table -> {
         Collections.reverse(table);
         return table;

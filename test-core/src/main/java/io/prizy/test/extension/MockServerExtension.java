@@ -45,7 +45,8 @@ public class MockServerExtension implements BeforeAllCallback, AfterAllCallback,
 
   @Override
   public void afterTestExecution(ExtensionContext context) {
-    // TODO(Nidhal): Clean expectations after each test method
+    expectations.stream().map(Expectation::getId).forEach(mockserver::clear);
+    expectations.removeAll(expectations);
   }
 
   public void stubAllRequests(String path, HttpResponse response) {

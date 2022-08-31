@@ -34,7 +34,7 @@ public class SubmitReferralCodeUseCase {
       .byReferralCode(referralCode)
       .map(ReferralNode::userId);
     if (referrerId.isEmpty()) {
-      log.warn("Can't find user with referral code {}", referrerId);
+      log.warn("Can't find user with referral code {}", referralCode);
       return false;
     }
     var referralNode = referralRepository

@@ -13,10 +13,6 @@ public interface ScheduledTasksAssertions {
   @RegisterExtension
   ScheduledTasksExtension SCHEDULED_TASKS_EXTENSION = new ScheduledTasksExtension();
 
-  default void invokeScheduledTasks() {
-    SCHEDULED_TASKS_EXTENSION.invokeScheduledTasks();
-  }
-
   default <T> void invokeScheduledTask(Class<T> cls, String methodName) {
     SCHEDULED_TASKS_EXTENSION.invokeScheduledTask(cls, methodName);
   }

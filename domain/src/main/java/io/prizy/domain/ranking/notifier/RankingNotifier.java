@@ -35,6 +35,10 @@ public class RankingNotifier {
 
   public void notifyDerankingUsers(UUID contestId, UUID userId, Optional<Integer> previousRank) {
     var userIds = getDerankingUsers(contestId, userId, previousRank);
+    if (userIds.isEmpty()) {
+      log.info("No deranking players when user's {} last ranking was {} on contest {}", userId, previousRank, contestId);
+      return;
+    }
     var push = PushNotification.MultipleUsers.builder()
       .userIds(userIds)
       .subject(PUSH_NOTIFICATION_SUBJECT)
