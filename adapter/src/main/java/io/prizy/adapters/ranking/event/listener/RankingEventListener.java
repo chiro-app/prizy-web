@@ -32,7 +32,8 @@ public class RankingEventListener {
 
   @EventListener
   public void onRankingChanged(RankingChanged event) {
-    rankingNotifier.notifyDerankingUsers(event.contestId(), event.userId(), event.previousRank());
+//    TODO(Nidhal): Re-enable after debugging
+//    rankingNotifier.notifyDerankingUsers(event.contestId(), event.userId(), event.previousRank());
   }
 
 }
