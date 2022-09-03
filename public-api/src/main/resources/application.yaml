@@ -51,7 +51,7 @@ prizy:
         to: 39062500
         obstacles: 10
       - from: 39062500
-        obstacles: 12
+        obstacles: 18
 
   game-description:
     id: "random-board"
