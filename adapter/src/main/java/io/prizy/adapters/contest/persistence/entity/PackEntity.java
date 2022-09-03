@@ -49,7 +49,7 @@ public abstract class PackEntity {
   public static class Product extends PackEntity {
 
     @Column
-    private Float value;
+    private Double value;
     @Column(name = "asset_id")
     private String assetId;
     @Column

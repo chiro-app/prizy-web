@@ -23,7 +23,7 @@ public sealed interface CreatePack {
     Integer firstWinnerPosition,
     Integer lastWinnerPosition,
     Integer quantity,
-    Float value,
+    Double value,
     String assetId
   ) implements CreatePack {
   }

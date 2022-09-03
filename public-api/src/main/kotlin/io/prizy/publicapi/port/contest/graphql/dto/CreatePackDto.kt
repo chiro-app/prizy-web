@@ -10,8 +10,8 @@ import java.time.Instant
 
 @GraphQLName("CreatePack")
 data class CreatePackDto(
-  val coupon: Coupon? = null,
-  val product: Product? = null,
+  val coupon: Coupon?,
+  val product: Product?,
 ) {
 
   @GraphQLName("CreateProduct")

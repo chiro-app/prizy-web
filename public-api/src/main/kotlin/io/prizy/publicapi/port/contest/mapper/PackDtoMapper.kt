@@ -18,7 +18,7 @@ object PackDtoMapper {
         lastWinnerPosition = dto.lastWinnerPosition,
         firstWinnerPosition = dto.firstWinnerPosition,
         quantity = dto.quantity,
-        value = dto.value.toDouble(),
+        value = dto.value,
         assetId = dto.assetId,
       )
 

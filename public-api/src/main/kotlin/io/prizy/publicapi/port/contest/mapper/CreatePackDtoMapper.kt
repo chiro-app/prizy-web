@@ -17,7 +17,7 @@ object CreatePackDtoMapper {
       .firstWinnerPosition(dto.product.firstWinnerPosition)
       .lastWinnerPosition(dto.product.lastWinnerPosition)
       .quantity(dto.product.quantity)
-      .value(dto.product.value.toFloat())
+      .value(dto.product.value)
       .assetId(dto.product.assetId)
       .build()
 

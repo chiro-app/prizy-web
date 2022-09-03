@@ -63,7 +63,7 @@ public class ContestsIntegrationTest extends IntegrationTest {
       .row(1)
         .value("dtype").isEqualTo("Product")
         .value("name").isEqualTo("Product")
-        .value("value").isEqualTo(123)
+        .value("value").isEqualTo(123.99)
         .value("quantity").isEqualTo(1)
         .value("code").isNull()
         .value("expiration_date").isNull();

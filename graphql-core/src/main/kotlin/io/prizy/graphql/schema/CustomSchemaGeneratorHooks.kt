@@ -14,7 +14,7 @@ import io.prizy.graphql.scalars.UUIDScalar
 import org.springframework.stereotype.Component
 import java.time.Instant
 import java.time.LocalDate
-import java.util.UUID
+import java.util.*
 import kotlin.reflect.KClass
 import kotlin.reflect.KType
 

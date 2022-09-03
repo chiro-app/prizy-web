@@ -18,7 +18,7 @@
           "__typename": "Product",
           "id": "{#uuid#}",
           "name": "Product",
-          "value": 123,
+          "value": 123.99,
           "quantity": 1,
           "firstWinnerPosition": 2,
           "lastWinnerPosition": 6,
