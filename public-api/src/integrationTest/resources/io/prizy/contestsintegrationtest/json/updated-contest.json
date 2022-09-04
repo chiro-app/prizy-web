@@ -1,0 +1,58 @@
+{
+  "data": {
+    "contest": {
+      "id": "{#uuid#}",
+      "name": "Test Contest",
+      "description": "Lorem Ipsum",
+      "packs": [
+        {
+          "__typename": "Coupon",
+          "id": "{#uuid#}",
+          "name": "Coupon",
+          "code": "AABBC",
+          "expiration": "2024-01-01T00:00:00Z",
+          "firstWinnerPosition": 1,
+          "lastWinnerPosition": 2
+        },
+        {
+          "__typename": "Product",
+          "id": "{#uuid#}",
+          "name": "Product",
+          "value": 123.99,
+          "quantity": 1,
+          "firstWinnerPosition": 2,
+          "lastWinnerPosition": 6,
+          "asset": {
+            "id": "00000000-0000-0000-0000-000000000000"
+          }
+        }
+      ],
+      "newsletterSubscription": false,
+      "adultOnly": false,
+      "toDate": "2023-01-01T00:00:00Z",
+      "fromDate": "2022-01-01T00:00:00Z",
+      "category": "FASHION",
+      "merchant": {
+        "name": "Some Inc",
+        "logo": {
+          "id": "00000000-0000-0000-0000-000000000000"
+        },
+        "capital": 123,
+        "address": "123 Rue Avenue Boulevard",
+        "siren": "123456789"
+      },
+      "cost": 3,
+      "board": {
+        "id": "00000000-0000-0000-0000-000000000000"
+      },
+      "cover": {
+        "id": "00000000-0000-0000-0000-000000000000"
+      },
+      "assets": [
+        {
+          "id": "00000000-0000-0000-0000-000000000000"
+        }
+      ]
+    }
+  }
+}

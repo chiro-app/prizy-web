@@ -1,0 +1,19 @@
+{
+  "errors": [
+    {
+      "message": "",
+      "locations": [
+        {
+          "line": 2,
+          "column": 3
+        }
+      ],
+      "path": [
+        "contest"
+      ],
+      "extensions": {
+        "errorCode": "CONTEST_NOT_FOUND"
+      }
+    }
+  ]
+}

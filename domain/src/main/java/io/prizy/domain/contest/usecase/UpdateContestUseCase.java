@@ -1,6 +1,9 @@
 package io.prizy.domain.contest.usecase;
 
+import java.time.Instant;
+
 import io.prizy.domain.contest.event.ContestUpdated;
+import io.prizy.domain.contest.exception.ContestAlreadyEndedException;
 import io.prizy.domain.contest.exception.ContestNotFoundException;
 import io.prizy.domain.contest.mapper.UpdateContestMapper;
 import io.prizy.domain.contest.model.Contest;
@@ -29,7 +32,11 @@ public class UpdateContestUseCase {
     if (!contestRepository.exists(update.id())) {
       throw new ContestNotFoundException(update.id());
     }
-    var contest = contestRepository.update(UpdateContestMapper.map(update));
+    var contest = contestRepository.byId(update.id()).get();
+    if (contest.toDate().isBefore(Instant.now())) {
+      throw new ContestAlreadyEndedException(contest.id());
+    }
+    contest = contestRepository.update(UpdateContestMapper.map(update));
     contestPublisher.publish(new ContestUpdated(contest));
     return contest;
   }

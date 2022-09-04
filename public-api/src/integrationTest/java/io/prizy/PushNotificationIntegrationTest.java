@@ -8,7 +8,6 @@ import java.util.concurrent.TimeUnit;
 import io.prizy.adapters.resources.schduler.DailyResourceNotificationScheduler;
 import io.prizy.domain.ranking.event.RankingChanged;
 import org.awaitility.Awaitility;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.test.context.jdbc.Sql;
@@ -30,7 +29,7 @@ public class PushNotificationIntegrationTest extends IntegrationTest {
   private static final UUID USER_ID_0A = UUID.fromString("00000000-0000-0000-0000-00000000000a");
 
   @Test
-  @Disabled
+//  @Disabled
   @Sql("pushnotificationintegrationtest/sql/ranking_push_notification.sql")
   @DisplayName("Should notify deranking users when overtaken by first time players")
   void shouldNotifyDerankingUsersWhenOvertakenByFirstTimePlayers() {
@@ -59,7 +58,7 @@ public class PushNotificationIntegrationTest extends IntegrationTest {
   }
 
   @Test
-  @Disabled
+//  @Disabled
   @Sql("pushnotificationintegrationtest/sql/ranking_push_notification.sql")
   @DisplayName("Should notify deranking users when overtaken by already ranked players")
   void shouldNotifyDerankingUsersWhenOvertakenByRankedPlayers() {
