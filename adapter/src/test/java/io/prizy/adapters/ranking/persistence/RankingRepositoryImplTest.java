@@ -15,7 +15,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 /**
@@ -27,6 +26,14 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 class RankingRepositoryImplTest {
 
+  private static final UUID CONTEST_ID = UUID.fromString("00000000-0000-0000-0000-000000000000");
+
+  private static final UUID USER_ID_00 = UUID.fromString("00000000-0000-0000-0000-000000000000");
+  private static final UUID USER_ID_01 = UUID.fromString("00000000-0000-0000-0000-000000000001");
+  private static final UUID USER_ID_02 = UUID.fromString("00000000-0000-0000-0000-000000000002");
+  private static final UUID USER_ID_03 = UUID.fromString("00000000-0000-0000-0000-000000000003");
+  private static final UUID USER_ID_04 = UUID.fromString("00000000-0000-0000-0000-000000000004");
+
   @Mock
   private RankingRowJpaRepository jpaRepository;
 
@@ -35,23 +42,27 @@ class RankingRepositoryImplTest {
 
   @BeforeEach
   void setup() {
-    when(jpaRepository.findAllByContestId(any()))
+    when(jpaRepository.findAllByContestId(CONTEST_ID))
       .thenReturn(List.of(
         RankingRowEntity.builder()
           .score(123L)
-          .userId(UUID.randomUUID())
+          .contestId(CONTEST_ID)
+          .userId(USER_ID_00)
           .build(),
         RankingRowEntity.builder()
           .score(0L)
-          .userId(UUID.randomUUID())
+          .contestId(CONTEST_ID)
+          .userId(USER_ID_01)
           .build(),
         RankingRowEntity.builder()
           .score(10_000_000_000L)
-          .userId(UUID.randomUUID())
+          .contestId(CONTEST_ID)
+          .userId(USER_ID_02)
           .build(),
         RankingRowEntity.builder()
           .score(1L)
-          .userId(UUID.randomUUID())
+          .contestId(CONTEST_ID)
+          .userId(USER_ID_03)
           .build()
       ));
   }
@@ -59,7 +70,7 @@ class RankingRepositoryImplTest {
   @Test
   @DisplayName("Should sort rows correctly")
   void shouldSortRows() {
-    var rows = (List<RankingRow>) repository.byContestId(UUID.randomUUID());
+    var rows = (List<RankingRow>) repository.byContestId(CONTEST_ID);
     var firstRow = rows.get(0);
     var secondRow = rows.get(1);
     var thirdRow = rows.get(2);
@@ -69,4 +80,14 @@ class RankingRepositoryImplTest {
     assertThat(thirdRow.score()).isGreaterThanOrEqualTo(fourthRow.score());
   }
 
+  @Test
+  @DisplayName("Should return correct user ranking")
+  void shouldReturnCorrectUserRanking() {
+    var userRanking = repository.rankingOfUserInContest(USER_ID_00, CONTEST_ID);
+    assertThat(userRanking)
+      .isNotEmpty()
+      .hasValue(1);
+    userRanking = repository.rankingOfUserInContest(USER_ID_04, UUID.randomUUID());
+    assertThat(userRanking).isEmpty();
+  }
 }

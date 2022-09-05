@@ -70,7 +70,7 @@ public class RankingService {
     var userId = transaction.userId();
     var contestId = transaction.contestId();
 
-    var previousRanking = repository.rankingOfUserInContest(contestId, userId);
+    var previousRanking = repository.rankingOfUserInContest(userId, contestId);
 
     var row = repository
       .byContestAndUser(contestId, userId)

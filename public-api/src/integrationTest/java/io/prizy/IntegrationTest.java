@@ -10,14 +10,11 @@ import io.prizy.test.assertion.MailAssertions;
 import io.prizy.test.assertion.MockServerAssertions;
 import io.prizy.test.assertion.PushNotificationAssertions;
 import io.prizy.test.assertion.ScheduledTasksAssertions;
-import io.prizy.test.util.ResourceUtils;
 import org.assertj.db.type.DateTimeValue;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
@@ -33,17 +30,6 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 @SpringBootTest(classes = Application.class, webEnvironment = WebEnvironment.RANDOM_PORT)
 public abstract class IntegrationTest implements GraphQLAssertions, DatabaseAssertions, MockServerAssertions,
   MailAssertions, PushNotificationAssertions, ScheduledTasksAssertions {
-
-  @Autowired
-  private ApplicationEventPublisher aep;
-
-  protected void publishEvent(Object event) {
-    aep.publishEvent(event);
-  }
-
-  protected String resourceFile(String name) {
-    return ResourceUtils.resourceFile(getClass(), name);
-  }
 
   protected DateTimeValue dateTimeValue(String raw) {
     return DateTimeValue.from(Timestamp.valueOf(raw));

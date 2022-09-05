@@ -1,12 +1,10 @@
 package io.prizy;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 import io.prizy.adapters.resources.schduler.DailyResourceNotificationScheduler;
-import io.prizy.domain.ranking.event.RankingChanged;
 import org.awaitility.Awaitility;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -21,15 +19,14 @@ import org.springframework.test.context.jdbc.Sql;
 @DisplayName("Push notifications")
 public class PushNotificationIntegrationTest extends IntegrationTest {
 
-  private static final UUID CONTEST_ID = UUID.fromString("00000000-0000-0000-0000-000000000000");
   private static final UUID USER_ID_00 = UUID.fromString("00000000-0000-0000-0000-000000000000");
-  private static final UUID USER_ID_01 = UUID.fromString("00000000-0000-0000-0000-000000000001");
-  private static final UUID USER_ID_03 = UUID.fromString("00000000-0000-0000-0000-000000000003");
-  private static final UUID USER_ID_06 = UUID.fromString("00000000-0000-0000-0000-000000000006");
+  private static final UUID USER_ID_02 = UUID.fromString("00000000-0000-0000-0000-000000000002");
+  private static final UUID USER_ID_05 = UUID.fromString("00000000-0000-0000-0000-000000000005");
+  private static final UUID USER_ID_09 = UUID.fromString("00000000-0000-0000-0000-000000000009");
   private static final UUID USER_ID_0A = UUID.fromString("00000000-0000-0000-0000-00000000000a");
+  private static final UUID USER_ID_0D = UUID.fromString("00000000-0000-0000-0000-00000000000d");
 
   @Test
-//  @Disabled
   @Sql("pushnotificationintegrationtest/sql/ranking_push_notification.sql")
   @DisplayName("Should notify deranking users when overtaken by first time players")
   void shouldNotifyDerankingUsersWhenOvertakenByFirstTimePlayers() {
@@ -37,12 +34,9 @@ public class PushNotificationIntegrationTest extends IntegrationTest {
     stubOneSignal();
 
     // When
-    publishEvent(RankingChanged.builder()
-      .contestId(CONTEST_ID)
-      .userId(USER_ID_01)
-      .previousRank(Optional.empty())
-      .build()
-    );
+    whenMutating("claim_contest_bonus", USER_ID_0D)
+      .then()
+      .body(jsonMatcher("json/contest-balance-post-bonus.json"));
 
     // Then
     Awaitility
@@ -53,12 +47,11 @@ public class PushNotificationIntegrationTest extends IntegrationTest {
         .atIndex(0)
         .hasContent("Reviens vite te positionner pour gagner ta récompense \uD83D\uDCAA")
         .hasSubject("Mince ! Tu viens de te faire dépasser !")
-        .hasRecipients(List.of(USER_ID_03, USER_ID_06, USER_ID_0A))
+        .hasRecipients(List.of(USER_ID_02, USER_ID_05, USER_ID_09))
       );
   }
 
   @Test
-//  @Disabled
   @Sql("pushnotificationintegrationtest/sql/ranking_push_notification.sql")
   @DisplayName("Should notify deranking users when overtaken by already ranked players")
   void shouldNotifyDerankingUsersWhenOvertakenByRankedPlayers() {
@@ -66,12 +59,9 @@ public class PushNotificationIntegrationTest extends IntegrationTest {
     stubOneSignal();
 
     // When
-    publishEvent(RankingChanged.builder()
-      .contestId(CONTEST_ID)
-      .userId(USER_ID_01)
-      .previousRank(Optional.of(8))
-      .build()
-    );
+    whenMutating("claim_contest_bonus", USER_ID_0A)
+      .then()
+      .body(jsonMatcher("json/contest-balance-post-bonus.json"));
 
     // Then
     Awaitility
@@ -82,7 +72,7 @@ public class PushNotificationIntegrationTest extends IntegrationTest {
         .atIndex(0)
         .hasContent("Reviens vite te positionner pour gagner ta récompense \uD83D\uDCAA")
         .hasSubject("Mince ! Tu viens de te faire dépasser !")
-        .hasRecipients(List.of(USER_ID_03, USER_ID_06))
+        .hasRecipients(List.of(USER_ID_02, USER_ID_05))
       );
   }
 
@@ -94,12 +84,9 @@ public class PushNotificationIntegrationTest extends IntegrationTest {
     stubOneSignal();
 
     // When
-    publishEvent(RankingChanged.builder()
-      .contestId(CONTEST_ID)
-      .userId(USER_ID_01)
-      .previousRank(Optional.of(2))
-      .build()
-    );
+    whenMutating("claim_contest_bonus", USER_ID_00)
+      .then()
+      .body(jsonMatcher("json/contest-balance-post-bonus.json"));
 
     // Then
     Thread.sleep(5000);
