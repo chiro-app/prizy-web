@@ -1,6 +1,6 @@
 package io.prizy.graphql.context
 
-import com.expediagroup.graphql.server.spring.execution.SpringGraphQLContextFactory
+import com.expediagroup.graphql.server.spring.execution.DefaultSpringGraphQLContextFactory
 import io.prizy.graphql.auth.Authorizations
 import io.prizy.graphql.auth.JwtClaimExtractor
 import kotlinx.coroutines.reactor.awaitSingleOrNull
@@ -11,30 +11,28 @@ import org.springframework.stereotype.Component
 import org.springframework.web.reactive.function.server.ServerRequest
 
 @Component
-class CustomGraphQLContextFactory : SpringGraphQLContextFactory<GraphQLContext>() {
+class GraphQLContextFactory : DefaultSpringGraphQLContextFactory() {
 
   companion object {
-    private val log = LoggerFactory.getLogger(CustomGraphQLContextFactory::class.java)
+    private val log = LoggerFactory.getLogger(GraphQLContextFactory::class.java)
   }
 
-  @Deprecated("Use `getContext` instead")
-  override suspend fun generateContext(request: ServerRequest): GraphQLContext {
-    return when (val context = ReactiveSecurityContextHolder.getContext().awaitSingleOrNull()) {
-      null -> GraphQLContext.Anonymous(request)
+  override suspend fun generateContextMap(request: ServerRequest): Map<*, Any> = super.generateContextMap(request) +
+    when (val context = ReactiveSecurityContextHolder.getContext().awaitSingleOrNull()) {
+      null -> mapOf()
       else -> when (val jwtToken = (context.authentication as? JwtAuthenticationToken)) {
         null -> {
           log.warn("Unexpected authentication type: ${context.authentication.javaClass.name}")
-          GraphQLContext.Anonymous(request)
+          mapOf()
         }
-        else -> GraphQLContext.Authenticated(
-          request,
-          JwtClaimExtractor.getPrincipal(jwtToken.token),
-          Authorizations(
+
+        else -> mapOf(
+          PRINCIPAL_CONTEXT_PATH to JwtClaimExtractor.getPrincipal(jwtToken.token),
+          AUTHORIZATIONS_CONTEXT_PATH to Authorizations(
             roles = JwtClaimExtractor.getRoles(jwtToken.token),
             permissions = JwtClaimExtractor.getPermissions(jwtToken.token)
           )
         )
       }
     }
-  }
 }

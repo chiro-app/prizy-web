@@ -16,6 +16,16 @@ prizy:
   server:
     url: http://localhost:8080
 
+  graphql:
+    logging:
+      enabled: true
+      scheme: https
+      host: elastic.ndogga.com
+      port: 443
+      username: elastic
+      password: A68f73m99@
+      index: prizy-web-logs-local
+
   storage:
     region: local
     access-key: minioadmin

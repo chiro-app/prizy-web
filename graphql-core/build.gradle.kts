@@ -17,6 +17,10 @@ dependencies {
 
   implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 
+  implementation("co.elastic.clients:elasticsearch-java")
+  implementation("com.fasterxml.jackson.core:jackson-databind")
+  implementation("jakarta.json:jakarta.json-api:2.1.1")
+
   implementation("de.slub-dresden:urnlib:2.0.1")
 
   implementation("org.jetbrains.kotlin:kotlin-reflect")

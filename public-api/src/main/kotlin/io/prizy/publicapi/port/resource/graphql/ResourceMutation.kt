@@ -1,10 +1,11 @@
 package io.prizy.publicapi.port.resource.graphql
 
 import com.expediagroup.graphql.server.operations.Mutation
+import graphql.schema.DataFetchingEnvironment
 import io.prizy.domain.resources.service.ResourceService
 import io.prizy.domain.resources.usecase.ClaimContestBonusUseCase
 import io.prizy.domain.resources.usecase.ClaimKeysBonusUseCase
-import io.prizy.graphql.context.GraphQLContext
+import io.prizy.graphql.context.principal
 import io.prizy.graphql.directives.AuthorizedDirective
 import io.prizy.publicapi.port.resource.graphql.dto.ResourceBalanceDto
 import io.prizy.publicapi.port.resource.mapper.ResourceBalanceDtoMapper
@@ -26,19 +27,22 @@ class ResourceMutation(
 ) : Mutation {
 
   @AuthorizedDirective
-  suspend fun claimKeysBonus(ctx: GraphQLContext.Authenticated): Int = withContext(Dispatchers.IO) {
-    claimKeysBonusUseCase.claim(ctx.principal.id)
+  suspend fun claimKeysBonus(dfe: DataFetchingEnvironment): Int = withContext(Dispatchers.IO) {
+    claimKeysBonusUseCase.claim(dfe.principal().id)
     resourceService
-      .getAbsoluteBalance(ctx.principal.id)
+      .getAbsoluteBalance(dfe.principal().id)
       .keys
   }
 
   @AuthorizedDirective
-  suspend fun claimContestBonus(ctx: GraphQLContext.Authenticated, contestId: UUID): ResourceBalanceDto =
+  suspend fun claimContestBonus(dfe: DataFetchingEnvironment, contestId: UUID): ResourceBalanceDto =
     withContext(Dispatchers.IO) {
-      claimContestBonusUseCase.claim(ctx.principal.id, contestId)
+      claimContestBonusUseCase.claim(dfe.principal().id, contestId)
       resourceService
-        .getContestDependentBalance(ctx.principal.id, contestId)
+        .getContestDependentBalance(
+          dfe
+            .principal().id, contestId
+        )
         .let(ResourceBalanceDtoMapper::map)
     }
 }

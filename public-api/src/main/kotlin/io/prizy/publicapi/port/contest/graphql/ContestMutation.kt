@@ -1,11 +1,12 @@
 package io.prizy.publicapi.port.contest.graphql
 
 import com.expediagroup.graphql.server.operations.Mutation
+import graphql.schema.DataFetchingEnvironment
 import io.prizy.domain.auth.model.Roles
 import io.prizy.domain.contest.usecase.CreateContestUseCase
 import io.prizy.domain.contest.usecase.SubscribeToContestUseCase
 import io.prizy.domain.contest.usecase.UpdateContestUseCase
-import io.prizy.graphql.context.GraphQLContext
+import io.prizy.graphql.context.principal
 import io.prizy.graphql.directives.AuthorizedDirective
 import io.prizy.publicapi.port.contest.graphql.dto.ContestDto
 import io.prizy.publicapi.port.contest.graphql.dto.ContestSubscriptionDto
@@ -47,10 +48,10 @@ class ContestMutation(
   }
 
   @AuthorizedDirective
-  suspend fun createContestSubscription(ctx: GraphQLContext.Authenticated, contestId: UUID): ContestSubscriptionDto =
+  suspend fun createContestSubscription(dfe: DataFetchingEnvironment, contestId: UUID): ContestSubscriptionDto =
     withContext(Dispatchers.IO) {
       subscribeToContestUseCase
-        .subscribe(contestId, ctx.principal.id)
+        .subscribe(contestId, dfe.principal().id)
         .let(ContestSubscriptionDtoMapper::map)
     }
 }

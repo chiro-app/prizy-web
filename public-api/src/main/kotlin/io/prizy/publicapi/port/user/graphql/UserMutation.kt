@@ -1,12 +1,13 @@
 package io.prizy.publicapi.port.user.graphql
 
 import com.expediagroup.graphql.server.operations.Mutation
+import graphql.schema.DataFetchingEnvironment
 import io.prizy.domain.user.usecase.CreateUserUseCase
 import io.prizy.domain.user.usecase.DeleteUserUseCase
 import io.prizy.domain.user.usecase.UpdateUserAddressUseCase
 import io.prizy.domain.user.usecase.UpdateUserPreferencesUseCase
 import io.prizy.domain.user.usecase.UpdateUserUseCase
-import io.prizy.graphql.context.GraphQLContext
+import io.prizy.graphql.context.principal
 import io.prizy.graphql.directives.AuthorizedDirective
 import io.prizy.publicapi.port.user.graphql.dto.AddressDto
 import io.prizy.publicapi.port.user.graphql.dto.CreateUserDto
@@ -47,24 +48,24 @@ class UserMutation(
   }
 
   @AuthorizedDirective
-  suspend fun updateUser(ctx: GraphQLContext.Authenticated, request: UpdateUserDto): UserDto =
+  suspend fun updateUser(dfe: DataFetchingEnvironment, request: UpdateUserDto): UserDto =
     withContext(Dispatchers.IO) {
       updateUserUseCase
-        .update(UpdateUserDtoMapper.map(request, ctx.principal.id))
+        .update(UpdateUserDtoMapper.map(request, dfe.principal().id))
         .let(UserDtoMapper::map)
     }
 
   @AuthorizedDirective
-  suspend fun updateAddress(ctx: GraphQLContext.Authenticated, request: UpdateAddressDto): AddressDto =
+  suspend fun updateAddress(dfe: DataFetchingEnvironment, request: UpdateAddressDto): AddressDto =
     withContext(Dispatchers.IO) {
       updateUserAddressUseCase
-        .update(UpdateAddressDtoMapper.map(ctx.principal.id, request))
+        .update(UpdateAddressDtoMapper.map(dfe.principal().id, request))
         .let(AddressDtoMapper::map)
     }
 
   @AuthorizedDirective
   @Deprecated("To be removed, devices will be manged by onesignal")
-  suspend fun registerDevice(ctx: GraphQLContext.Authenticated, deviceId: String): Boolean =
+  suspend fun registerDevice(dfe: DataFetchingEnvironment, deviceId: String): Boolean =
     withContext(Dispatchers.IO) {
       true
     }
@@ -77,17 +78,17 @@ class UserMutation(
 
   @AuthorizedDirective
   suspend fun updatePreferences(
-    ctx: GraphQLContext.Authenticated,
+    dfe: DataFetchingEnvironment,
     request: UpdateUserPreferencesDto
   ): UserPreferencesDto =
     withContext(Dispatchers.IO) {
       updateUserPreferencesUseCase
-        .update(UpdateUserPreferencesDtoMapper.map(request, ctx.principal.id))
+        .update(UpdateUserPreferencesDtoMapper.map(request, dfe.principal().id))
         .let(UserPreferencesDtoMapper::map)
     }
 
   @AuthorizedDirective
-  suspend fun deleteUser(ctx: GraphQLContext.Authenticated): Boolean = withContext(Dispatchers.IO) {
-    deleteUserUseCase.delete(ctx.principal.id)
+  suspend fun deleteUser(dfe: DataFetchingEnvironment): Boolean = withContext(Dispatchers.IO) {
+    deleteUserUseCase.delete(dfe.principal().id)
   }
 }

@@ -1,10 +1,11 @@
 package io.prizy.publicapi.port.auth.graphql
 
 import com.expediagroup.graphql.server.operations.Mutation
+import graphql.schema.DataFetchingEnvironment
 import io.prizy.auth.AuthProvider
 import io.prizy.domain.auth.service.PasswordResetService
 import io.prizy.domain.user.usecase.ConfirmUserEmailUseCase
-import io.prizy.graphql.context.GraphQLContext
+import io.prizy.graphql.context.principal
 import io.prizy.graphql.directives.AuthorizedDirective
 import io.prizy.publicapi.port.auth.dto.AuthTokenDto
 import io.prizy.publicapi.port.auth.dto.LoginDto
@@ -49,10 +50,10 @@ class AuthMutation(
 
   @AuthorizedDirective
   suspend fun editPassword(
-    ctx: GraphQLContext.Authenticated,
+    dfe: DataFetchingEnvironment,
     request: EditPasswordDto
   ): Boolean = withContext(Dispatchers.IO) {
-    passwordResetService.editPassword(ctx.principal.id, EditPasswordDtoMapper.map(request))
+    passwordResetService.editPassword(dfe.principal().id, EditPasswordDtoMapper.map(request))
   }
 
   suspend fun confirmEmail(code: String): Boolean = withContext(Dispatchers.IO) {

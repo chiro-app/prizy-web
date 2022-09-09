@@ -1,8 +1,9 @@
 package io.prizy.publicapi.port.reward.graphql
 
 import com.expediagroup.graphql.server.operations.Query
+import graphql.schema.DataFetchingEnvironment
 import io.prizy.domain.reward.service.RewardService
-import io.prizy.graphql.context.GraphQLContext
+import io.prizy.graphql.context.principal
 import io.prizy.graphql.directives.AuthorizedDirective
 import io.prizy.publicapi.port.reward.graphql.dto.RewardDto
 import io.prizy.publicapi.port.reward.mapper.RewardDtoMapper
@@ -19,8 +20,8 @@ import org.springframework.stereotype.Component
 class RewardQuery(private val rewardService: RewardService) : Query {
 
   @AuthorizedDirective
-  suspend fun rewards(ctx: GraphQLContext.Authenticated): List<RewardDto> = withContext(Dispatchers.IO) {
-    rewardService.userRewards(ctx.principal.id).map(RewardDtoMapper::map)
+  suspend fun rewards(dfe: DataFetchingEnvironment): List<RewardDto> = withContext(Dispatchers.IO) {
+    rewardService.userRewards(dfe.principal().id).map(RewardDtoMapper::map)
   }
 
   suspend fun rewardsByAccessCode(accessCode: String): List<RewardDto> = withContext(Dispatchers.IO) {

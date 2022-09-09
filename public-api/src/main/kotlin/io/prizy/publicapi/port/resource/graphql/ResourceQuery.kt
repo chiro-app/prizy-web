@@ -1,13 +1,14 @@
 package io.prizy.publicapi.port.resource.graphql
 
 import com.expediagroup.graphql.server.operations.Query
+import graphql.schema.DataFetchingEnvironment
 import io.prizy.domain.resources.usecase.GetAvailableContestBonusUseCase
 import io.prizy.domain.resources.usecase.GetContestBalanceUseCase
 import io.prizy.domain.resources.usecase.GetContestBonusStatusUseCase
 import io.prizy.domain.resources.usecase.GetContestBoostUseCase
 import io.prizy.domain.resources.usecase.GetKeysBalanceUseCase
 import io.prizy.domain.resources.usecase.GetKeysBonusStatusUseCase
-import io.prizy.graphql.context.GraphQLContext
+import io.prizy.graphql.context.principal
 import io.prizy.graphql.directives.AuthorizedDirective
 import io.prizy.publicapi.port.resource.graphql.dto.ResourceBalanceDto
 import io.prizy.publicapi.port.resource.graphql.dto.ResourceBonusStatusDto
@@ -34,48 +35,48 @@ class ResourceQuery(
 ) : Query {
 
   @AuthorizedDirective
-  suspend fun keys(ctx: GraphQLContext.Authenticated): Int = withContext(Dispatchers.IO) {
-    getKeysBalanceUseCase.get(ctx.principal.id).keys
+  suspend fun keys(dfe: DataFetchingEnvironment): Int = withContext(Dispatchers.IO) {
+    getKeysBalanceUseCase.get(dfe.principal().id).keys
   }
 
   @AuthorizedDirective
-  suspend fun contestBalance(ctx: GraphQLContext.Authenticated, contestId: UUID): ResourceBalanceDto =
+  suspend fun contestBalance(dfe: DataFetchingEnvironment, contestId: UUID): ResourceBalanceDto =
     withContext(Dispatchers.IO) {
       getContestBalanceUseCase
-        .get(ctx.principal.id, contestId)
+        .get(dfe.principal().id, contestId)
         .let(ResourceBalanceDtoMapper::map)
     }
 
   @AuthorizedDirective
-  suspend fun hasAvailableContestBonus(ctx: GraphQLContext.Authenticated, contestId: UUID): ResourceBonusStatusDto =
+  suspend fun hasAvailableContestBonus(dfe: DataFetchingEnvironment, contestId: UUID): ResourceBonusStatusDto =
     withContext(Dispatchers.IO) {
       getContestBonusStatusUseCase
-        .get(ctx.principal.id, contestId)
+        .get(dfe.principal().id, contestId)
         .let(ResourceBonusStatusDtoMapper::map)
     }
 
   @AuthorizedDirective
-  suspend fun hasAvailableKeys(ctx: GraphQLContext.Authenticated): ResourceBonusStatusDto =
+  suspend fun hasAvailableKeys(dfe: DataFetchingEnvironment): ResourceBonusStatusDto =
     withContext(Dispatchers.IO) {
       getKeysBonusStatusUseCase
-        .get(ctx.principal.id)
+        .get(dfe.principal().id)
         .let(ResourceBonusStatusDtoMapper::map)
     }
 
   @AuthorizedDirective
-  suspend fun availableContestBonus(ctx: GraphQLContext.Authenticated, contestId: UUID): ResourceBalanceDto? =
+  suspend fun availableContestBonus(dfe: DataFetchingEnvironment, contestId: UUID): ResourceBalanceDto? =
     withContext(Dispatchers.IO) {
       getAvailableContestBonusUseCase
-        .get(ctx.principal.id, contestId)
+        .get(dfe.principal().id, contestId)
         .map(ResourceBalanceDtoMapper::map)
         .orElse(null)
     }
 
   @AuthorizedDirective
-  suspend fun boost(ctx: GraphQLContext.Authenticated, contestId: UUID): ResourceBalanceDto =
+  suspend fun boost(dfe: DataFetchingEnvironment, contestId: UUID): ResourceBalanceDto =
     withContext(Dispatchers.IO) {
       getContestBoostUseCase
-        .get(ctx.principal.id, contestId)
+        .get(dfe.principal().id, contestId)
         .let(ResourceBalanceDtoMapper::map)
     }
 }

@@ -1,8 +1,9 @@
 package io.prizy.publicapi.port.user.graphql
 
 import com.expediagroup.graphql.server.operations.Query
+import graphql.schema.DataFetchingEnvironment
 import io.prizy.domain.user.service.UserService
-import io.prizy.graphql.context.GraphQLContext
+import io.prizy.graphql.context.principal
 import io.prizy.graphql.directives.AuthorizedDirective
 import io.prizy.publicapi.port.user.graphql.dto.UserDto
 import io.prizy.publicapi.port.user.mapper.UserDtoMapper
@@ -20,9 +21,9 @@ import org.springframework.stereotype.Component
 class UserQuery(private val userService: UserService) : Query {
 
   @AuthorizedDirective
-  suspend fun me(ctx: GraphQLContext.Authenticated): UserDto = withContext(Dispatchers.IO) {
+  suspend fun me(dfe: DataFetchingEnvironment): UserDto = withContext(Dispatchers.IO) {
     userService
-      .byId(ctx.principal.id)
+      .byId(dfe.principal().id)
       .map(UserDtoMapper::map)
       .orElseThrow { InternalServerException() }
   }

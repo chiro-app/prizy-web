@@ -8,10 +8,9 @@ import graphql.schema.DataFetchingEnvironment
 import graphql.schema.GraphQLFieldDefinition
 import graphql.schema.GraphQLInputObjectField
 import graphql.schema.GraphQLNonNull
-import io.prizy.graphql.context.GraphQLContext
+import io.prizy.graphql.context.authorizations
 import io.prizy.graphql.exception.GraphQLException
 import io.prizy.graphql.exception.InsufficientCredentialsException
-import io.prizy.toolbox.exception.AuthenticationRequiredException
 import io.prizy.toolbox.exception.ErrorCode
 import io.prizy.toolbox.exception.InternalServerException
 import org.slf4j.LoggerFactory
@@ -38,13 +37,7 @@ class AuthorizedSchemaDirectiveWiring : KotlinSchemaDirectiveWiring {
 
     environment.setDataFetcher { dfe ->
       try {
-        val permissions = dfe.getContext<GraphQLContext>().let { context ->
-          when (context) {
-            is GraphQLContext.Authenticated -> context.authorizations
-            else -> throw AuthenticationRequiredException()
-          }
-        }
-
+        val permissions = dfe.authorizations()
         val requiredRoles = authorizedDirective.getArgument("roles").argumentValue.value as Array<String>
         val targetResource = authorizedDirective.getArgument("resource").argumentValue.value as String
         val requiredScope = authorizedDirective.getArgument("scope").argumentValue.value as String

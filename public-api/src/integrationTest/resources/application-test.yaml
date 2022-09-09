@@ -7,6 +7,7 @@ spring:
 
 prizy:
   bootstrap.enable-runners: false
+  graphql.logging.enabled: false
 
   server:
     url: http://localhost:8080
