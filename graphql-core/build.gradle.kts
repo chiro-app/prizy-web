@@ -14,12 +14,9 @@ dependencies {
   implementation("org.springframework.boot:spring-boot-starter-security")
   implementation("org.springframework.boot:spring-boot-starter-oauth2-resource-server")
   implementation("org.springframework.security:spring-security-oauth2-jose")
+  implementation("org.springframework.boot:spring-boot-starter-data-elasticsearch")
 
   implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
-
-  implementation("co.elastic.clients:elasticsearch-java")
-  implementation("com.fasterxml.jackson.core:jackson-databind")
-  implementation("jakarta.json:jakarta.json-api:2.1.1")
 
   implementation("de.slub-dresden:urnlib:2.0.1")
 

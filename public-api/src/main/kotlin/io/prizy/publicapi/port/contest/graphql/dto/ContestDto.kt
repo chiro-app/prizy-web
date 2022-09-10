@@ -2,11 +2,13 @@ package io.prizy.publicapi.port.contest.graphql.dto
 
 import com.expediagroup.graphql.generator.annotations.GraphQLIgnore
 import com.expediagroup.graphql.generator.annotations.GraphQLName
+import graphql.schema.DataFetchingEnvironment
 import io.prizy.domain.asset.service.AssetService
 import io.prizy.domain.auth.model.Roles
 import io.prizy.domain.contest.service.ContestService
 import io.prizy.domain.game.service.GameBoardService
 import io.prizy.domain.ranking.service.RankingService
+import io.prizy.graphql.context.request
 import io.prizy.graphql.directives.AuthorizedDirective
 import io.prizy.publicapi.application.properties.GameDescriptionProperties
 import io.prizy.publicapi.port.asset.dto.AssetDto
@@ -20,7 +22,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.springframework.beans.factory.annotation.Autowired
 import java.time.Instant
-import java.util.UUID
+import java.util.*
 
 /**
  *  @author Nidhal Dogga
@@ -61,9 +63,12 @@ data class ContestDto(
     assetService.get(coverAssetId).map(AssetDtoMapper::map).get()
   }
 
-  suspend fun rulesHTML(@GraphQLIgnore @Autowired contestService: ContestService): String =
+  suspend fun rulesHTML(
+    dfe: DataFetchingEnvironment,
+    @GraphQLIgnore @Autowired contestService: ContestService
+  ): String =
     withContext(Dispatchers.IO) {
-      contestService.contestRules(id)
+      contestService.contestRules(id, dfe.request().headers().firstHeader("User-Agent"))
     }
 
   suspend fun rankingTable(@GraphQLIgnore @Autowired rankingService: RankingService): RankingTableDto =

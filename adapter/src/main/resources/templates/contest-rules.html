@@ -270,11 +270,17 @@
 </head>
 <body class="c9">
 <div><p class="c6 c8"><span class="c0"></span></p></div>
-<p class="c7"><span class="c0">R&Egrave;GLEMENT DE JEU-CONCOURS PROMOTIONNEL :&nbsp;{{merchant.name}}</span></p>
+<p class="c7"><span class="c0">R&Egrave;GLEMENT DE JEU-CONCOURS :&nbsp;{{merchantName}}</span></p>
 <p class="c5"><span class="c0"></span></p>
 <p class="c10 c6"><span class="c0"></span></p>
-<p class="c10"><span class="c0">Les soci&eacute;t&eacute;s Apple et Google n&rsquo;agissent ni &agrave; titre de commanditaire, ni &agrave; titre de participant dans la pr&eacute;sente promotion.</span>
+{{#isIos}}
+<p class="c10"><span class="c0">La soci&eacute;t&eacute;s Apple n&rsquo;agit ni &agrave; titre de commanditaire, ni &agrave; titre de participant dans la pr&eacute;sente promotion.</span>
 </p>
+{{/isIos}}
+{{#isAndroid}}
+<p class="c10"><span class="c0">La soci&eacute;t&eacute;s Google n&rsquo;agit ni &agrave; titre de commanditaire, ni &agrave; titre de participant dans la pr&eacute;sente promotion.</span>
+</p>
+{{/isAndroid}}
 <p class="c1 c6"><span class="c0"></span></p>
 <p class="c1 c6"><span class="c0"></span></p>
 <p class="c1"><span class="c2">1. Organisateur et dates de l&rsquo;op&eacute;ration</span></p>
@@ -288,9 +294,9 @@
 </p>
 <p class="c1 c6"><span class="c0"></span></p>
 <p class="c1"><span class="c2">2. Entreprise Partenaire</span></p>
-<p class="c1"><span class="c0">Les pr&eacute;sents lots sont offerts par {{merchant.name}}, au capital de&nbsp;{{merchant.capital}}&euro;</span>
+<p class="c1"><span class="c0">Les pr&eacute;sents lots sont offerts par {{merchantName}}, au capital de&nbsp;{{merchantCapital}}&euro;</span>
 </p>
-<p class="c1"><span class="c0">SIREN :&nbsp;{{merchant.siren}}, domicili&eacute; :&nbsp;&nbsp;{{merchant.address}}&nbsp;d&eacute;sign&eacute; ci-apr&egrave;s &quot;l&rsquo;Entreprise Partenaire&quot;.</span>
+<p class="c1"><span class="c0">SIREN :&nbsp;{{merchantSiren}}, domicili&eacute; :&nbsp;&nbsp;{{merchantAddress}}&nbsp;d&eacute;sign&eacute; ci-apr&egrave;s &quot;l&rsquo;Entreprise Partenaire&quot;.</span>
 </p>
 <p class="c1 c6"><span class="c0"></span></p><a id="t.6130f64f3ccef1c1f412bec246a7e62ed9da64cb"></a><a id="t.0"></a>
 <table class="c14">
@@ -321,11 +327,11 @@
 </p>
 <p class="c1 c6"><span class="c0"></span></p>
 <p class="c1"><span class="c2">4. Modalit&eacute;s de participation</span></p>
-<p class="c1"><span class="c0">La participation au jeu-concours est ouverte &agrave; compter du {{fromDate}} &agrave; 6h00 au {{toDate}} &agrave; 09H00&nbsp;</span>
+<p class="c1"><span class="c0">La participation au jeu-concours est ouverte &agrave; compter du {{fromDate}} au {{toDate}}</span>
 </p>
 <p class="c1"><span class="c0">Chaque personne ne peut participer qu&#39;une seule fois.</span></p>
 <p class="c1"><span class="c0">Afin de participer au Jeu, chaque participant doit impe&#769;rativement :</span></p>
-<p class="c1"><span class="c0">Cliquer sur la brique concours accessible sur la page concours de l&rsquo;application mobile Chiro pour acc&eacute;der &agrave; l&rsquo;espace d&eacute;di&eacute; au jeu concours {{merchant.name}}</span>
+<p class="c1"><span class="c0">Cliquer sur la brique concours accessible sur la page concours de l&rsquo;application mobile Chiro pour acc&eacute;der &agrave; l&rsquo;espace d&eacute;di&eacute; au jeu concours {{merchantName}}</span>
 </p>
 <p class="c1"><span class="c0">S&rsquo;acquitter du droit d&rsquo;entr&eacute;e :&nbsp;3 cl&eacute;s</span></p>
 <p class="c1"><span class="c0">Jouer pour tenter de faire le meilleur score.</span></p>
@@ -395,7 +401,7 @@
 <p class="c1 c6"><span class="c0"></span></p>
 <p class="c1"><span class="c2">10.&nbsp;D&eacute;signation des gagnants</span></p>
 <p class="c1"><span class="c0">Les gagnants seront d&eacute;termin&eacute;s de la mani&egrave;re suivante :</span></p>
-<p class="c1"><span class="c0">A l&rsquo;issue du Jeu et apr&egrave;s avoir v&eacute;rifi&eacute; l&rsquo;&eacute;ligibilit&eacute; des participants et le respect du pr&eacute;sent r&egrave;glement, un classement sera effectu&eacute; pour d&eacute;signer&nbsp;les {{NombresGagnants}} gagnants du Jeu, &agrave; partir du&nbsp;{{toDate}}. Le gagnant sera personnellement averti par Chiro via une notification sur son t&eacute;l&eacute;phone&nbsp;au plus tard le {{DateNotificationRecompense}}. Le d&eacute;tail de sa r&eacute;compense sera disponible dans l&rsquo;onglet &ldquo;Activit&eacute;&rdquo;, volet &ldquo;R&eacute;compenses&rdquo;.</span>
+<p class="c1"><span class="c0">A l&rsquo;issue du Jeu et apr&egrave;s avoir v&eacute;rifi&eacute; l&rsquo;&eacute;ligibilit&eacute; des participants et le respect du pr&eacute;sent r&egrave;glement, un classement sera effectu&eacute; pour d&eacute;signer&nbsp;les {{winnerCount}} gagnants du Jeu, &agrave; partir du&nbsp;{{toDate}}. Le gagnant sera personnellement averti par Chiro via une notification sur son t&eacute;l&eacute;phone&nbsp;au plus tard le {{DateNotificationRecompense}}. Le d&eacute;tail de sa r&eacute;compense sera disponible dans l&rsquo;onglet &ldquo;Activit&eacute;&rdquo;, volet &ldquo;R&eacute;compenses&rdquo;.</span>
 </p>
 <p class="c1"><span class="c0">Le nom des gagnants sera disponible aupr&egrave;s de :</span></p>
 <p class="c1"><span class="c0">Prize&amp;Fun SAS</span></p>
@@ -427,7 +433,7 @@
 <p class="c1"><span class="c0">7 rue du colonel marchand, 94800, Villejuif</span></p>
 <p class="c1 c6"><span class="c0"></span></p>
 <p class="c1"><span class="c2">13. Communication du r&egrave;glement</span></p>
-<p class="c1"><span class="c0">Le pr&eacute;sent r&egrave;glement est mis &agrave; disposition de toute personne en faisant la demande. Il peut &ecirc;tre consult&eacute; pr&eacute;alablement &agrave; la participation au jeu-concours et ind&eacute;pendamment de tout achat dans l&rsquo;espace d&eacute;di&eacute; au jeu concours {{merchant.name}} participation au jeu-concours suppose l&#39;acceptation sans r&eacute;serve du pr&eacute;sent r&egrave;glement.</span>
+<p class="c1"><span class="c0">Le pr&eacute;sent r&egrave;glement est mis &agrave; disposition de toute personne en faisant la demande. Il peut &ecirc;tre consult&eacute; pr&eacute;alablement &agrave; la participation au jeu-concours et ind&eacute;pendamment de tout achat dans l&rsquo;espace d&eacute;di&eacute; au jeu concours {{merchantName}} participation au jeu-concours suppose l&#39;acceptation sans r&eacute;serve du pr&eacute;sent r&egrave;glement.</span>
 </p>
 <p class="c1 c6"><span class="c0"></span></p>
 <p class="c1"><span class="c2">14. Propri&eacute;t&eacute; intellectuelle</span></p>

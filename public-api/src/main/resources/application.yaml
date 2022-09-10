@@ -3,9 +3,11 @@ graphql.packages:
 
 management:
   endpoints.web.exposure.include: "*"
+  health.elasticsearch.enabled: false
 
 prizy:
   bootstrap.enable-runners: true
+  graphql.logging.enabled: true
 
   app.version:
     latest-app-version: 1.5.1

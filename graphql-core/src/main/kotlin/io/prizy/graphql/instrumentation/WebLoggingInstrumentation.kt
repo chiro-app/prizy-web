@@ -20,12 +20,14 @@ import java.time.Instant
 class WebLoggingInstrumentation(private val webLogger: GraphQLWebLogger) : SimpleInstrumentation() {
 
   override fun beginExecution(parameters: InstrumentationExecutionParameters): InstrumentationContext<ExecutionResult> {
-    val from = Instant.now()
-    return object : SimpleInstrumentationContext<ExecutionResult>() {
-      override fun onCompleted(result: ExecutionResult?, t: Throwable?) {
-        val to = Instant.now()
-        webLogger.logRequest(parameters, from, to, result, t)
+      val from = Instant.now()
+      return object : SimpleInstrumentationContext<ExecutionResult>() {
+        override fun onCompleted(result: ExecutionResult?, t: Throwable?) {
+          if (parameters.operation == null || !parameters.operation.equals("IntrospectionQuery")) {
+            val to = Instant.now()
+            webLogger.logRequest(parameters, from, to, result, t)
+          }
+        }
       }
-    }
   }
 }

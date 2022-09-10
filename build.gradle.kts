@@ -48,7 +48,6 @@ subprojects {
       val graphqlKotlinVersion: String by project
       val testContainersVersion: String by project
       val hibernateTypesVersion: String by project
-      val elasticsearchVersion: String by project
       val awaitilityVersion: String by project
       val mockserverVersion: String by project
       val greenmailVersion: String by project
@@ -91,8 +90,6 @@ subprojects {
       dependency("com.icegreen:greenmail-junit5:$greenmailVersion")
 
       dependency("io.minio:minio:$minioVersion")
-
-      dependency("co.elastic.clients:elasticsearch-java:$elasticsearchVersion")
 
       imports {
         mavenBom("org.springframework.boot:spring-boot-dependencies:$springBootVersion")

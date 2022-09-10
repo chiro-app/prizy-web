@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.Optional;
 import java.util.UUID;
 
+import com.blueconic.browscap.UserAgentParser;
 import io.prizy.domain.contest.model.Contest;
 import io.prizy.domain.contest.model.Pack;
 import io.prizy.domain.contest.ports.ContestRepository;
@@ -27,6 +28,8 @@ public class ContestService {
   private final ContestRepository contestRepository;
   private final PackRepository packRepository;
   private final ContestTemplateCompiler templateCompiler;
+
+  private final UserAgentParser userAgentParser;
 
   public Optional<Contest> byId(UUID id) {
     return contestRepository.byId(id);
@@ -60,11 +63,11 @@ public class ContestService {
     return packRepository.byId(id);
   }
 
-  public String contestRules(UUID contestId) {
+  public String contestRules(UUID contestId, String userAgent) {
     var contest = contestRepository
       .byId(contestId)
       .orElseThrow(() -> new IllegalArgumentException("Contest not found"));
-    return templateCompiler.rulesTemplate(contest);
+    return templateCompiler.rulesTemplate(contest, userAgentParser.parse(userAgent).getPlatform());
   }
 
 }

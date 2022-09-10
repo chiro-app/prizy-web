@@ -34,5 +34,5 @@ class GraphQLContextFactory : DefaultSpringGraphQLContextFactory() {
           )
         )
       }
-    }
+    } + mapOf(REQUEST_CONTEST_PATH to request)
 }

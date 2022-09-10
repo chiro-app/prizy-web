@@ -8,5 +8,5 @@ import io.prizy.domain.contest.model.Contest;
  */
 
 public interface ContestTemplateCompiler {
-  String rulesTemplate(Contest contest);
+  String rulesTemplate(Contest contest, String platform);
 }

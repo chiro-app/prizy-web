@@ -14,6 +14,8 @@ dependencies {
   implementation("commons-io:commons-io")
   implementation("org.apache.commons:commons-lang3")
 
+  implementation("com.blueconic:browscap-java:1.3.12")
+
   compileOnly("org.projectlombok:lombok")
   annotationProcessor("org.projectlombok:lombok")
 
