@@ -33,7 +33,15 @@ public class MustacheContestTemplateCompiler implements ContestTemplateCompiler 
         "merchantCapital", contest.merchant().capital(),
         "fromDate", contest.fromDate(),
         "toDate", contest.toDate(),
-        "packs", contest.packs(),
+        "packs", contest.packs().stream()
+          .map(pack -> {
+            if (pack instanceof Pack.Coupon coupon) {
+              return coupon.withLastWinnerPosition(coupon.lastWinnerPosition() - 1);
+            } else {
+              return ((Pack.Product) pack).withLastWinnerPosition(pack.lastWinnerPosition() - 1);
+            }
+          })
+          .toList(),
         "winnerCount", contest.packs().stream().mapToLong(Pack::lastWinnerPosition).sum(),
         "isIos", IOS_PLATFORM.equals(platform),
         "isAndroid", ANDROID_PLATFORM.equals(platform)

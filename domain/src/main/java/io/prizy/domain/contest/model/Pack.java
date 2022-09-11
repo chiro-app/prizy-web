@@ -4,6 +4,8 @@ import java.time.Instant;
 import java.util.UUID;
 
 import lombok.Builder;
+import lombok.With;
+
 
 public sealed interface Pack {
 
@@ -15,6 +17,7 @@ public sealed interface Pack {
 
   Integer firstWinnerPosition();
 
+  @With
   @Builder
   record Product(
     UUID id,
@@ -27,6 +30,7 @@ public sealed interface Pack {
   ) implements Pack {
   }
 
+  @With
   @Builder
   record Coupon(
     UUID id,

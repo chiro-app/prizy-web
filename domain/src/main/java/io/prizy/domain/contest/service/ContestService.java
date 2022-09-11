@@ -5,12 +5,13 @@ import java.util.Collection;
 import java.util.Optional;
 import java.util.UUID;
 
-import com.blueconic.browscap.UserAgentParser;
 import io.prizy.domain.contest.model.Contest;
 import io.prizy.domain.contest.model.Pack;
 import io.prizy.domain.contest.ports.ContestRepository;
 import io.prizy.domain.contest.ports.ContestTemplateCompiler;
 import io.prizy.domain.contest.ports.PackRepository;
+import io.prizy.toolbox.useragent.UserAgent;
+import io.prizy.toolbox.useragent.UserAgentParser;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.stereotype.Service;
@@ -28,8 +29,6 @@ public class ContestService {
   private final ContestRepository contestRepository;
   private final PackRepository packRepository;
   private final ContestTemplateCompiler templateCompiler;
-
-  private final UserAgentParser userAgentParser;
 
   public Optional<Contest> byId(UUID id) {
     return contestRepository.byId(id);
@@ -67,7 +66,8 @@ public class ContestService {
     var contest = contestRepository
       .byId(contestId)
       .orElseThrow(() -> new IllegalArgumentException("Contest not found"));
-    return templateCompiler.rulesTemplate(contest, userAgentParser.parse(userAgent).getPlatform());
+    var platform = UserAgentParser.parse(userAgent).map(UserAgent::platform).orElse("Unknown");
+    return templateCompiler.rulesTemplate(contest, platform);
   }
 
 }

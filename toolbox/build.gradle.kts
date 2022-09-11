@@ -8,6 +8,7 @@ dependencies {
   testCompileOnly("org.projectlombok:lombok")
   testAnnotationProcessor("org.projectlombok:lombok")
 
+  testImplementation("org.assertj:assertj-core")
   testImplementation("org.junit.jupiter:junit-jupiter")
 }
 
