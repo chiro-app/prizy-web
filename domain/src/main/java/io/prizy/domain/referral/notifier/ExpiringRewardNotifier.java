@@ -39,6 +39,10 @@ public class ExpiringRewardNotifier {
       .stream()
       .map(Reward::userId)
       .collect(Collectors.toSet());
+    if (usersToNotify.isEmpty()) {
+      log.info("No users to notify for expiring rewards between {} amd {}", fromExpiration, toExpiration);
+      return;
+    }
     var push = PushNotification.MultipleUsers.builder()
       .userIds(usersToNotify)
       .subject(PUSH_NOTIFICATION_SUBJECT)
